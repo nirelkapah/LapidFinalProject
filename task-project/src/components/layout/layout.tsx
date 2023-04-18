@@ -1,6 +1,6 @@
 
 import './layout.css'
-import Table from '../table/table'
+import TaskTable from '../table/table'
 import Search from '../search/search';
 import {Route, BrowserRouter } from "react-router-dom";
 
@@ -12,10 +12,14 @@ const Layout = () => {
     <section>
       <header>
         <h1>"This is Header"</h1>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        />
       </header>
       <main>
         <Search />
-        <Table />
+        <TaskTable />
       </main>
     </section>
   </BrowserRouter>
