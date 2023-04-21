@@ -1,14 +1,21 @@
-const Event = require('../../models/event')
+const Task = require('../../models/task')
+const ConversionUtils = require('../../utls/conversionUtils')
+
 
 
 module.exports = {
 
-    events: async () => { //what happens when i use query > events
+    tasks: async () => { 
         try {
-            const events = await Event.find()
-            return events
-            .map(event => {
-               return {...event._doc, _id: event.id, date: new Date(event._doc.date).toISOString() }}
+            const tasks = await Task.find()
+
+            if(tasks.untilDate){
+                tasks.untilDate = ConversionUtils.convertDateFromDB(task._doc.untilDate)
+            }
+
+            return tasks
+            .map(task => {
+               return {...task._doc, _id: task.id, untilDate: task.untilDate }}
            )
 
         }catch (err) {
@@ -16,20 +23,38 @@ module.exports = {
         }
     },
 
-    createEvent: async (args) => { //what happens when i use mutation > createEvents
+    createTask: async (args) => { //what happens when i use mutation > createEvents
             try {
-                const event = new Event({
-                    // _id: Math.random().toString(),
-                    title: args.eventInput.title,
-                    description: args.eventInput.description,
-                    price: +args.eventInput.price, 
-                    date: new Date(args.eventInput.date)
+
+                if(args.taskInput.untilDate){
+                    args.taskInput.untilDate = ConversionUtils.convertDateToDB(args.taskInput.untilDate)
+                }
+
+                if(args.taskInput.timeSpent){
+                    args.taskInput.untilDate = ConversionUtils.convertTimeSpentToDB(+args.taskInput.timeSpent)
+                }
+
+                const task = new Task({
+                    title: args.taskInput.title,
+                    description: args.taskInput.description,
+                    estimatedTime: Number.parseFloat(+args.taskInput.estimatedTime), 
+                    status: args.taskInput.status,
+                    priority: args.taskInput.priority,
+                    untilDate: args.taskInput.untilDate,
+                    review: args.taskInput.review,
+                    timeSpent: args.taskInput.timeSpent, 
+
                 });
-    
-                const result = await event.save();
-                
-                createdEvent = {...result._doc, _id: event.id, date: new Date(event._doc.date).toISOString()};
-                return createdEvent
+  
+                const result = await task.save();
+
+                if(task.untilDate){
+                    task.untilDate = ConversionUtils.convertDateFromDB(task._doc.untilDate)
+
+                }
+
+                createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate};
+                return createdTask
 
             } catch (err) {
                 throw err

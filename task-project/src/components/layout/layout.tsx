@@ -1,9 +1,8 @@
 
 import './layout.css'
-import TaskTable from '../table/table'
+import TaskTableContainer from '../taskTable/taskTableContainer'
 import Search from '../search/search';
 import {Route, BrowserRouter } from "react-router-dom";
-
 
 const Layout = () => {
   
@@ -19,7 +18,7 @@ const Layout = () => {
       </header>
       <main>
         <Search />
-        <TaskTable />
+        <TaskTableContainer />
       </main>
     </section>
   </BrowserRouter>

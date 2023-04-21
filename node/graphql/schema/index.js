@@ -1,27 +1,35 @@
 const { buildSchema } = require('graphql')
 
 module.exports = buildSchema(`
-type Event { 
+type Task { 
     _id: ID! 
     title :String! 
     description: String! 
-    price: Float! 
-    date: String! 
+    estimatedTime: Float! 
+    status: String! 
+    priority: String!
+    untilDate: String
+    review: String
+    timeSpent: Float
 }
 
-input EventInput {
-    title :String!
+input TaskInput {
+    title :String! 
     description: String! 
-    price: Float! 
-    date: String!
+    estimatedTime: Float! 
+    status: String! 
+    priority: String!
+    untilDate: String
+    review: String
+    timeSpent: Float
 }
 
 type RootQuery {
-    events: [Event!]!
+    tasks: [Task!]!
 }
 
 type RootMutation {
-    createEvent(eventInput: EventInput): Event
+    createTask(taskInput: TaskInput): Task
 }
 
 schema {

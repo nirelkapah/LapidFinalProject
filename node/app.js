@@ -14,9 +14,17 @@ const cors = require('cors');
 
 
 //Use Cors
-app.use(cors({ origin: "http://localhost:4200", credentials: true
-}));
+// app.use(cors({ origin: "http://localhost:4200", credentials: true
+// }));
 
+const corsOptions = {
+    origin: '*',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    accessControlAllowOrigin: '*',
+    accessControlAllowCredentials: true,
+}
+
+app.use(cors(corsOptions))
 
 //Parse Incoming JSON
 app.use(express.json());
