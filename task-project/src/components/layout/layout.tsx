@@ -3,6 +3,10 @@ import './layout.css'
 import TaskTableContainer from '../taskTable/taskTableContainer'
 import Search from '../search/search';
 import {Route, BrowserRouter } from "react-router-dom";
+import ActionsBar from '../actionsBar/actionsBar';
+import FormDialogBox from '../formDialogBox/formDialogBox';
+import AlertDialogBox from '../alertDialogBox/alertDialogBox';
+
 
 const Layout = () => {
   
@@ -18,7 +22,12 @@ const Layout = () => {
       </header>
       <main>
         <Search />
+        <ActionsBar />
         <TaskTableContainer />
+        <FormDialogBox />
+        <AlertDialogBox />
+
+
       </main>
     </section>
   </BrowserRouter>

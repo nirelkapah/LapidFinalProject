@@ -1,0 +1,6 @@
+.actionsBarContainer {
+    display: flex;
+    align-items: left;
+    text-align: left !important;
+    padding-bottom: 15px;
+}
