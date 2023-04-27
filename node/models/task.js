@@ -24,7 +24,7 @@ const taskSchema = new Schema({
         required: true
     },
     untilDate: {  //for Urgent & Closed Tasks
-        type: Date,
+        type: String,
         required: false
     },
     review: {   // for closed Tasks

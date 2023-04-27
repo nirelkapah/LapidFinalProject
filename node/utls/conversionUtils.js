@@ -5,7 +5,7 @@ const convertDateToDB = (stringUntilDate) => { //Converts to normal date
 }
 
 const convertDateFromDB = (docUntilDate) => { //converts to string
-    console.log(docUntilDate)
+    // console.log(docUntilDate)
     return docUntilDate = new Date(docUntilDate).toISOString()
 }
 

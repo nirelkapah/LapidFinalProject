@@ -30,6 +30,8 @@ type RootQuery {
 
 type RootMutation {
     createTask(taskInput: TaskInput): Task
+    deleteTask(_id: String!): Task
+
 }
 
 schema {
