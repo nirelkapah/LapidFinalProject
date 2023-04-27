@@ -1,13 +1,13 @@
 
 export interface Task {
 
-    _id: string,
+    _id?: string,
     title: string,
     description: string,
     estimatedTime: number,
-    status: string,
+    status: string, //
     priority: string,
-    untilDate: string,
-    review: string,
-    timeSpent: number,
+    untilDate?: string,
+    review?: string,
+    timeSpent?: number,
 }

@@ -6,12 +6,14 @@ import type { RootState, AppDispatch } from '../store'
 
 // Defines Global State
 export interface TasksState {
-  tasksArray: Task[]
+  tasksArray: Task[],
+  taskToDelete: string
 }
 
 // Define the initial state using that type
 const initialState: TasksState = {
   tasksArray: [] ,
+  taskToDelete: ''
 }
 
 export const tasksSlice = createSlice({
@@ -24,9 +26,23 @@ export const tasksSlice = createSlice({
       state.tasksArray = action.payload;
 
     },
+
+    addTaskToArray: (state, action: PayloadAction<Task>) => {
+      state.tasksArray.push(action.payload) 
+    },
+
+    deleteTaskFromArray: (state, action: PayloadAction<string>) => {
+      let removeIndex = state.tasksArray.map(task => task._id).indexOf(action.payload);
+      ~removeIndex && state.tasksArray.splice(removeIndex, 1)
+    },
+
+    updateTaskToDelete: (state, action: PayloadAction<string>) => {
+      state.taskToDelete = action.payload
+    },
+
   },
 })
 
-export const { updateAlltasks } = tasksSlice.actions
+export const { updateAlltasks, addTaskToArray, updateTaskToDelete, deleteTaskFromArray} = tasksSlice.actions
 
 export default tasksSlice.reducer

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TaskTable from './taskTable';
 import {useQuery} from '@apollo/react-hooks'
-import {QUERY_TASKS_LIST} from './tasksQuery'
+import {QUERY_TASKS_LIST} from '../../graphql/tasksQuery'
 import type { RootState } from '../../redux/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateAlltasks } from '../../redux/tasks/tasksSlice'

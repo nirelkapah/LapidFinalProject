@@ -10,45 +10,67 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOpenAlertDialogBox } from '../../redux/web/webSelectors';
 import { closeAlertDialogBox, openAlertDialogBox } from '../../redux/web/webSlice'
-
+import { selectTaskToDelete } from '../../redux/tasks/tasksSelectors';
+import { useMutation } from '@apollo/react-hooks';
+import { DELETE_TASK } from '../../graphql/tasksQuery';
+import { deleteTaskFromArray } from '../../redux/tasks/tasksSlice';
 
 
 const AlertDialogBox = () => {
 
-    const openFormState = useSelector(selectOpenAlertDialogBox);
+    const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
+    const taskToDeleteId = useSelector(selectTaskToDelete);
     const dispatch = useDispatch()
 
-    // const handleClickOpen = () => {
-    //   dispatch(openAlertDialogBox());
-      
-    // };
+
+    const onClickYes = () => {
+      deleteTask();
+    };
 
     const handleClose = () => {
       dispatch(closeAlertDialogBox());   
- 
-    };
+
+    }
+
+    const deleteTask = async () => {
+
+      try{
+        await deleteTaskMutation();
+        dispatch(deleteTaskFromArray(taskToDeleteId))
+        handleClose();
+      }
+      catch{
+        console.log('Catched')
+      }
+    }
+
+    const [deleteTaskMutation] = useMutation(DELETE_TASK, {
+      variables: {
+        id: taskToDeleteId
+      },
+    });
+
 
     return (
       <div>
         <Dialog
-          open={openFormState}
+          open={openDialogBoxState}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">
-            {"Use Google's location service?"}
-          </DialogTitle>
+          {/* <DialogTitle id="alert-dialog-title">
+            {"Hi"}
+          </DialogTitle> */}
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Let Google help apps determine location. This means sending anonymous
-              location data to Google, even when no apps are running.
+              Are You Sure You Would Like To Delete This Task?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={handleClose} autoFocus>
-              Agree
+            <Button onClick={handleClose}>No</Button>
+            <Button onClick={onClickYes} autoFocus>
+              Yes
             </Button>
           </DialogActions>
         </Dialog>
