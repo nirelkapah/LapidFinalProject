@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './formDialogBox.css'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -18,7 +18,7 @@ import Box from '@mui/material/Box';
 import { Task } from '../../model/task';
 import { FormGroup } from '@mui/material';
 import { gql, useMutation } from '@apollo/client';
-import { CREATE_TASK, SEND_NEW_TASK } from '../../graphql/tasksQuery';
+import { CREATE_TASK, UPDATE_TASK } from '../../graphql/tasksQuery';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -28,7 +28,8 @@ import moment from 'moment';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import utc from 'dayjs/plugin/utc';
 import { AddTask } from '@mui/icons-material';
-import { addTaskToArray } from '../../redux/tasks/tasksSlice';
+import { addTaskToArray, replaceTaskToNewTask, updateTaskToDeleteId, updateTaskToEditId } from '../../redux/tasks/tasksSlice';
+import { TaskIsEdited, selectTaskToEdit, selectTaskToEditId } from '../../redux/tasks/tasksSelectors';
 
 
 
@@ -37,67 +38,145 @@ const FormDialogBox = () => {
   
     //global state
     const openFormState = useSelector(selectOpenFormDialogBox);
+    const taskToEdit = useSelector(selectTaskToEdit)
+    const taskIsEdited = useSelector(TaskIsEdited)
     const dispatch = useDispatch()
     dayjs.extend(utc);
 
-    //local state
-    const [status, setStatus] = React.useState('');
+    // console.log("THIS TO EDIT")
+    // console.log(taskToEdit)
+    // console.log('Task Is Edited:' + taskIsEdited)
+
+    //Local Component State
+    const [status, setStatus] = React.useState('Open' );
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [estTime, setEstTime] = React.useState(0);
     const [priority, setPriority] = React.useState('');
     const [review, setReview] = React.useState('');
     const [timeSpent, setTimeSpent] = React.useState(0);
-    const [untilDate, setUntilDate] = React.useState<Dayjs | null>(dayjs.utc('2022-04-17'));
+    const [untilDate, setUntilDate] = React.useState<Dayjs | null>(dayjs.utc(new Date()));
 
+    const [currentlyUrgentTask, setUrgentTask] = React.useState(false);
+    const [currentlyClosedTask, setClosedTask] = React.useState(false);
+
+    //Checks If Task Is Edited
+
+    useEffect(() => {
+      if(taskToEdit){
+        console.log('ENTERED TASK TO EDIT')
+        setStatus(taskToEdit.status);
+        setTitle(taskToEdit.title)
+        setDescription(taskToEdit.description)
+        setEstTime(taskToEdit.estimatedTime)
+        setPriority(taskToEdit.priority)
+        setReview(taskToEdit?.review as string)
+        setTimeSpent(taskToEdit?.timeSpent as number)
+        setUntilDate(dayjs.utc(taskToEdit.untilDate))
+      }
+      else{
+        setStatus('Open');
+        setTitle('')
+        setDescription('')
+        setEstTime(0)
+        setPriority('')
+        setReview('')
+        setTimeSpent(0)
+        setUntilDate(dayjs.utc(new Date()))
+      }
+    }, [taskIsEdited])
+    
+    useEffect(() => {
+
+      if(status == 'Open'){
+        setUrgentTask(false)
+        setClosedTask(false)
+        setUntilDate(dayjs.utc(new Date()));
+        setReview('')
+        setTimeSpent(0)
+      }
+
+      if(status == 'Urgent'){
+        setUrgentTask(true)
+        setClosedTask(false)
+        setReview('')
+        setTimeSpent(0)
+
+      }
+
+      if(status == 'Closed'){
+        setUrgentTask(true)
+        setClosedTask(true)
+      }
+    }, [status])
 
 
     const onClickSendTask = () => {
+      
       sendTask()
     };
 
     const sendTask = async () => {
+      let result;
+
       try{
-        let result = await addTaskMutation(); 
-        dispatch(addTaskToArray(result.data.createTask));  
+        if(taskIsEdited){
+          result = await updateTaskMutation()
+          console.log('Sending edited Task')
+          let task = result.data.updateTask;
+          console.log(task);
+          dispatch(replaceTaskToNewTask(task))
+        }
+        else{
+          result = await createTaskMutation(); 
+          dispatch(addTaskToArray(result.data.createTask));  
+          console.log('Sending New Task')
+
+
+        }
         handleClose();
 
       }
-      catch{
-        console.log('Catched')
+      catch(err){
+        console.log(err);
+        
       }
     }
 
-    const [addTaskMutation] = useMutation(CREATE_TASK, {
+    const [updateTaskMutation] = useMutation(UPDATE_TASK, {
+      variables: {
+        id: taskToEdit?._id,
+        status: status,
+        title: title,
+        description: description,
+        estimatedTime: estTime,
+        priority: priority,
+        review: currentlyClosedTask ? review : null,
+        timeSpent: currentlyClosedTask ? timeSpent : null ,
+        untilDate:  currentlyUrgentTask|| currentlyClosedTask ? untilDate?.toISOString() : null
+      },
+      
+    });
+
+    const [createTaskMutation] = useMutation(CREATE_TASK, {
       variables: {
         status: status,
         title: title,
         description: description,
         estimatedTime: estTime,
         priority: priority,
-        review: review,
-        timeSpent: timeSpent,
-        untilDate: untilDate?.toISOString()
+        review: currentlyClosedTask ? review : null,
+        timeSpent: currentlyClosedTask ? timeSpent : null ,
+        untilDate:  currentlyUrgentTask|| currentlyClosedTask ? untilDate?.toISOString() : null
       },
+      
     });
-    
-    // if (data) { 
-    //   console.log (data);
-    // }
-    // if (loading) {console.log(loading) }
-    // if (error) {console.log(error.message)}
-   
 
     const handleClose = () => {
-      dispatch(closeFormDialogBox());   
+      dispatch(closeFormDialogBox());
+      dispatch(updateTaskToEditId(''))   
  
     };
-
-    // const onChangeUntilDate = ({ target: React.ChangeEvent<HTMLInputElement> }) => {
-    //   const newDate = moment(target.value.timeStamp).format('YYYY-MM-DD');
-    //   setUntilDate(newDate);
-    //   console.log(newDate); //always log "1970-01-01"
-    // };
 
     const onChangeStatus = (event: SelectChangeEvent) => {
       setStatus(event.target.value);
@@ -157,7 +236,7 @@ const FormDialogBox = () => {
                   required
                   id="standard-required"
                   label="Title"
-                  defaultValue= {title}
+                  value= {title}
                   variant="standard"
 
               />  
@@ -167,7 +246,7 @@ const FormDialogBox = () => {
                   required
                   id="standard-required"
                   label="Description"
-                  defaultValue= {description}
+                  value= {description}
                   variant="standard"
                 />
 
@@ -178,7 +257,7 @@ const FormDialogBox = () => {
                     type='number'
                     id="standard-required"
                     label="Estimated Time (hours)"
-                    defaultValue= {estTime}
+                    value= {estTime}
                     variant="standard"
                   />
                 <br></br>
@@ -197,7 +276,9 @@ const FormDialogBox = () => {
                   <MenuItem value={"Minor"}>Minor</MenuItem>
                 </Select>
                 </FormControl>
+                <br></br>
 
+                {currentlyUrgentTask && 
                 <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs.utc}>
                   <DemoContainer components={['DateCalendar', 'DateCalendar']}>
                   <DemoItem label="Until Date">
@@ -205,25 +286,31 @@ const FormDialogBox = () => {
                   </DemoItem>
                   </DemoContainer>
                 </LocalizationProvider>
+                }
 
+                {currentlyClosedTask && 
                 <TextField onChange={onChangeReview}
                   id="standard-required"
                   label="Review"
-                  defaultValue= {dayjs('2017-03-10')}
+                  value= {review}
                   variant="standard"
                 />
+                }
 
                 <br></br>
-
+                
+                {currentlyClosedTask && 
                 <TextField onChange={onChangeTimeSpent}
                     type='number'
                     id="standard-required"
                     label="Time Spent (hours)"
-                    defaultValue= {timeSpent}
+                    value= {timeSpent}
                     variant="standard"
                   />
+                }
                 <br></br>
                 </FormGroup>
+                  
 
               <br></br>
 

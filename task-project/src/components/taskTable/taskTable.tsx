@@ -1,4 +1,5 @@
 import './taskTable.css'
+import React from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,69 +10,75 @@ import Paper from '@mui/material/Paper';
 import {Task} from '../../model/task';
 import { useSelector, useDispatch} from 'react-redux';
 import {useEffect} from 'react';
-import { selectTasks } from '../../redux/tasks/tasksSelectors';
+import { selectFilterByOpenStatus, selectFilterByTopPriority, selectTasks } from '../../redux/tasks/tasksSelectors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {openAlertDialogBox } from '../../redux/web/webSlice';
+import {openAlertDialogBox, openFormDialogBox } from '../../redux/web/webSlice';
 import { gql, useMutation } from '@apollo/client';
 import { DELETE_TASK } from '../../graphql/tasksQuery';
-import React from 'react'
 import { forwardRef, useImperativeHandle } from "react";
-import { updateTaskToDelete } from '../../redux/tasks/tasksSlice';
+import { updateTaskToDeleteId, updateTaskToDeleteTitle, updateTaskToEditId } from '../../redux/tasks/tasksSlice';
+import { updateAlltasks } from '../../redux/tasks/tasksSlice'
 
 
 
+interface Props {
+  tasks: Task[]
+}
 
 
 
-const TaskTable = () => {
+const TaskTable = (props: Props) => {
 
-      const [deletedTaskId, setDeletedTaskId] = React.useState('');
+      const topPriorityFilterPressed = useSelector(selectFilterByTopPriority)
+      const openFilterPressed = useSelector(selectFilterByOpenStatus)
 
       const tasksState = useSelector(selectTasks);  
-      const dispatch = useDispatch()
 
-      const onClickDeleteTask = async (taskId: string) => {
+      const dispatch = useDispatch()
+      
+      useEffect(() => {
+        dispatch(updateAlltasks(props.tasks))
+      }, []);
+
+      const onClickDeleteTask = (taskId: string, taskTitle: string) => {
         console.log(taskId);
-        setDeletedTaskId(taskId)
-        dispatch(updateTaskToDelete(taskId));
+        // setTaskToDeleteId(taskId)
+        dispatch(updateTaskToDeleteId(taskId));
+        dispatch(updateTaskToDeleteTitle(taskTitle))
         dispatch(openAlertDialogBox());
       
       };
 
-        const deleteTask = async () => {
+      const onClickEditTask = (taskId: string) => {
+        dispatch(updateTaskToEditId(taskId));
+        dispatch(openFormDialogBox());
 
-        try{
-          await deleteTaskMutation();
-        }
-        catch{
+      };
 
+      const filterBy = (tasksArray: Task[]) => {
+
+        if (openFilterPressed == true){
+          return tasksArray.filter(
+            (task: Task) => task.status == "Open")
         }
+        if (topPriorityFilterPressed == true){
+          return tasksArray.filter(
+            (task: Task) => task.priority == "Top")
+        }
+        else{
+          return tasksArray
+        }
+
       }
 
-      // useEffect(() => {
-      //   console.log('EFEECT Took Effect')
-      //   onClickDeleteTask();
+      const filteredTasks = filterBy(tasksState.tasksArray)
 
-      // }, [deletedTaskId]);
-
-
-      const [deleteTaskMutation, { data, loading, error }] = useMutation(DELETE_TASK, {
-        variables: {
-          id: deletedTaskId
-        },
-      });
-      
-      // if (data) {console.log(data)}
-      // if (loading) {console.log(loading) }
-      // if (error) {console.log(error.message)}
-      
-     
   
 
       return (
         <div className='tableContainer'>
-
+        <h5 className='ResultsCount'> There Are Currently: {filteredTasks.length} Results</h5>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table" className='table'
 
@@ -99,7 +106,7 @@ const TaskTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tasksState.tasksArray.map((task: Task) => (
+              {filteredTasks.map((task: Task) => (
                 <TableRow
                   key={task._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -116,9 +123,9 @@ const TaskTable = () => {
                   <TableCell align="center">{task.review}</TableCell>
                   <TableCell align="center">{task.timeSpent}</TableCell>
                   <TableCell align="center">
-                    <EditIcon className='icon'/>
+                    <EditIcon className='icon'onClick={() =>  onClickEditTask(task._id as string)}/>
                     &nbsp;
-                    <DeleteIcon className='icon' onClick={() =>  onClickDeleteTask(task._id as string)}/>
+                    <DeleteIcon className='icon' onClick={() =>  onClickDeleteTask(task._id as string, task.title as string)}/>
 
                   </TableCell>
     

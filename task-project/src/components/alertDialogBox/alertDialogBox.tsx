@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOpenAlertDialogBox } from '../../redux/web/webSelectors';
 import { closeAlertDialogBox, openAlertDialogBox } from '../../redux/web/webSlice'
-import { selectTaskToDelete } from '../../redux/tasks/tasksSelectors';
+import { selectTaskToDeleteId, selectTaskToDeleteTitle } from '../../redux/tasks/tasksSelectors';
 import { useMutation } from '@apollo/react-hooks';
 import { DELETE_TASK } from '../../graphql/tasksQuery';
 import { deleteTaskFromArray } from '../../redux/tasks/tasksSlice';
@@ -19,7 +19,9 @@ import { deleteTaskFromArray } from '../../redux/tasks/tasksSlice';
 const AlertDialogBox = () => {
 
     const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
-    const taskToDeleteId = useSelector(selectTaskToDelete);
+    const taskToDeleteId = useSelector(selectTaskToDeleteId);
+    const taskToDeleteTitle = useSelector(selectTaskToDeleteTitle);
+
     const dispatch = useDispatch()
 
 
@@ -64,7 +66,7 @@ const AlertDialogBox = () => {
           </DialogTitle> */}
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are You Sure You Would Like To Delete This Task?
+              Are You Sure You Would Like To Delete '{taskToDeleteTitle}'?
             </DialogContentText>
           </DialogContent>
           <DialogActions>

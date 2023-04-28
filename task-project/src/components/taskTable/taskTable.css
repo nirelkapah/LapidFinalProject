@@ -28,3 +28,8 @@
     position: static !important; 
     left:80px !important;
 }
+
+.ResultsCount{
+    align-self: left;
+    text-align: left;
+}

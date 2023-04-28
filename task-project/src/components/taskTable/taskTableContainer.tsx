@@ -25,9 +25,9 @@ const TaskTableContainer = () => {
   // console.log("This Is The Global State Without Update");
   // console.log(tasks);
 
-  dispatch(updateAlltasks(data.tasks))
+  // dispatch(updateAlltasks(data.tasks))
 
-  return <TaskTable />;
+  return <TaskTable tasks={data.tasks} />;
 };
 
 export default TaskTableContainer;
