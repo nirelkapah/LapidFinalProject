@@ -6,7 +6,6 @@ const { graphqlHTTP } = require('express-graphql');
 const config = require('./config.json');
 const graphQlSchema = require('./graphql/schema/index')
 const graphQlResolvers = require('./graphql/resolvers/index')
-const errorHandler = require("./errors/error-handler");
 const cors = require('cors');
 
 
@@ -31,7 +30,6 @@ app.use(express.json());
 
 //===============================Graphql Data =============================//
 
-app.use(errorHandler);
 
 app.use('/graphql' , graphqlHTTP({
     schema: graphQlSchema, 

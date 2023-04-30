@@ -4,8 +4,10 @@ import TaskTableContainer from '../taskTable/taskTableContainer'
 import Search from '../search/search';
 import {Route, BrowserRouter } from "react-router-dom";
 import ActionsBar from '../actionsBar/actionsBar';
-import FormDialogBox from '../formDialogBox/formDialogBox';
-import AlertDialogBox from '../alertDialogBox/alertDialogBox';
+import FormDialogBox from '../dialogBox/formDialogBox/formDialogBox';
+import VerifyDialogBox from '../dialogBox/verifyDialogBox/verifyDialogBox';
+import Alerts from '../alerts/alerts';
+
 
 
 const Layout = () => {
@@ -19,13 +21,15 @@ const Layout = () => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.min.js'></script>
       </header>
       <main>
         <Search />
         <ActionsBar />
         <TaskTableContainer />
         <FormDialogBox />
-        <AlertDialogBox />
+        <VerifyDialogBox />
+        <Alerts />
 
 
       </main>

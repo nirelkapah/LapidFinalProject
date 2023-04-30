@@ -1,7 +1,7 @@
 const tasksCollection = require('../../models/task')
 const Task = require('../../models/task')
 const ConversionUtils = require('../../utls/conversionUtils')
-const {openTaskAuthSchema, urgentTaskAuthSchema, closedTaskAuthSchema} = require('../../utls/TaskValidation')
+const {openTaskAuthSchema, urgentTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} = require('../../utls/TaskValidation')
 
 
 
@@ -57,7 +57,7 @@ module.exports = {
                     await openTaskAuthSchema.validateAsync(args.taskInput);
                 }
                 else if(args.taskInput.status == 'Urgent'){
-                    await urgentTaskAuthSchema.validateAsync(args.taskInput);
+                    await UrgentTaskAuthSchema.validateAsync(args.taskInput);
                 }
                 else if(args.taskInput.status == 'Closed'){
                     await closedTaskAuthSchema.validateAsync(args.taskInput);
@@ -121,12 +121,12 @@ module.exports = {
 },
     updateTask: async (args) => { 
         try {
-            
+
             if(args.taskInput.status == 'Open'){
                 await openTaskAuthSchema.validateAsync(args.taskInput);
             }
             else if(args.taskInput.status == 'Urgent'){
-                await urgentTaskAuthSchema.validateAsync(args.taskInput);
+                await UrgentTaskAuthSchema.validateAsync(args.taskInput);
             }
             else if(args.taskInput.status == 'Closed'){
                 await closedTaskAuthSchema.validateAsync(args.taskInput);

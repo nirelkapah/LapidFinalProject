@@ -8,17 +8,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectOpenFormDialogBox } from '../../redux/web/webSelectors';
-import { closeFormDialogBox, openFormDialogBox } from '../../redux/web/webSlice'
+import { selectOpenFormDialogBox } from '../../../redux/web/webSelectors';
+import { closeFormDialogBox, openFormDialogBox, updateSuccessAlertMessage } from '../../../redux/web/webSlice'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import { Task } from '../../model/task';
+import { Task } from '../../../model/task';
 import { FormGroup } from '@mui/material';
 import { gql, useMutation } from '@apollo/client';
-import { CREATE_TASK, UPDATE_TASK } from '../../graphql/tasksQuery';
+import { CREATE_TASK, UPDATE_TASK } from '../../../graphql/tasksQuery';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -28,8 +28,8 @@ import moment from 'moment';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import utc from 'dayjs/plugin/utc';
 import { AddTask } from '@mui/icons-material';
-import { addTaskToArray, replaceTaskToNewTask, updateTaskToDeleteId, updateTaskToEditId } from '../../redux/tasks/tasksSlice';
-import { TaskIsEdited, selectTaskToEdit, selectTaskToEditId } from '../../redux/tasks/tasksSelectors';
+import { addTaskToArray, replaceTaskToNewTask, updateTaskToDeleteId, updateTaskToEditId } from '../../../redux/tasks/tasksSlice';
+import { TaskIsEdited, selectTaskToEdit, selectTaskToEditId } from '../../../redux/tasks/tasksSelectors';
 
 
 
@@ -43,10 +43,6 @@ const FormDialogBox = () => {
     const dispatch = useDispatch()
     dayjs.extend(utc);
 
-    // console.log("THIS TO EDIT")
-    // console.log(taskToEdit)
-    // console.log('Task Is Edited:' + taskIsEdited)
-
     //Local Component State
     const [status, setStatus] = React.useState('Open' );
     const [title, setTitle] = React.useState('');
@@ -59,6 +55,8 @@ const FormDialogBox = () => {
 
     const [currentlyUrgentTask, setUrgentTask] = React.useState(false);
     const [currentlyClosedTask, setClosedTask] = React.useState(false);
+
+    const [FormError, setFormError] = React.useState('');
 
     //Checks If Task Is Edited
 
@@ -124,22 +122,23 @@ const FormDialogBox = () => {
           result = await updateTaskMutation()
           console.log('Sending edited Task')
           let task = result.data.updateTask;
-          console.log(task);
           dispatch(replaceTaskToNewTask(task))
+          dispatch(updateSuccessAlertMessage('Task Updated Succesfuly'))
         }
         else{
           result = await createTaskMutation(); 
           dispatch(addTaskToArray(result.data.createTask));  
-          console.log('Sending New Task')
-
 
         }
+
         handleClose();
 
       }
       catch(err){
-        console.log(err);
-        
+        let errorMessage = (err as Error).message;
+        console.log(err)
+        setFormError(errorMessage);
+
       }
     }
 
@@ -308,7 +307,10 @@ const FormDialogBox = () => {
                     variant="standard"
                   />
                 }
-                <br></br>
+
+                {FormError && 
+                <span className='formError'>{FormError} </span>
+                }
                 </FormGroup>
                   
 

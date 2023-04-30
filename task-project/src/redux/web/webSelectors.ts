@@ -6,4 +6,10 @@ export const selectOpenFormDialogBox = (state: RootState) => {
     return state.webState.openFormDialogBox};
 
 export const selectOpenAlertDialogBox = (state: RootState) => {
-    return state.webState.openAlertDialogBox};
+    return state.webState.openVerifyDialogBox};
+
+export const selectErrorAlertMessage = (state: RootState) => {
+    return state.webState.errorAlertMessage};
+
+export const selectSuccessAlertMessage = (state: RootState) => {
+    return state.webState.successAlertMessage};

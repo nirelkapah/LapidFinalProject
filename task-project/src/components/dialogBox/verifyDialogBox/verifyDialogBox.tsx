@@ -1,22 +1,20 @@
 import React from 'react'
-import './alertDialogBox.css'
+import './verifyDialogBox.css'
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectOpenAlertDialogBox } from '../../redux/web/webSelectors';
-import { closeAlertDialogBox, openAlertDialogBox } from '../../redux/web/webSlice'
-import { selectTaskToDeleteId, selectTaskToDeleteTitle } from '../../redux/tasks/tasksSelectors';
+import { selectOpenAlertDialogBox } from '../../../redux/web/webSelectors';
+import { closeAlertDialogBox, openAlertDialogBox } from '../../../redux/web/webSlice'
+import { selectTaskToDeleteId, selectTaskToDeleteTitle } from '../../../redux/tasks/tasksSelectors';
 import { useMutation } from '@apollo/react-hooks';
-import { DELETE_TASK } from '../../graphql/tasksQuery';
-import { deleteTaskFromArray } from '../../redux/tasks/tasksSlice';
+import { DELETE_TASK } from '../../../graphql/tasksQuery';
+import { deleteTaskFromArray } from '../../../redux/tasks/tasksSlice';
 
 
-const AlertDialogBox = () => {
+const VerifyDialogBox = () => {
 
     const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
     const taskToDeleteId = useSelector(selectTaskToDeleteId);
@@ -61,9 +59,6 @@ const AlertDialogBox = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          {/* <DialogTitle id="alert-dialog-title">
-            {"Hi"}
-          </DialogTitle> */}
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Are You Sure You Would Like To Delete '{taskToDeleteTitle}'?
@@ -80,4 +75,4 @@ const AlertDialogBox = () => {
     );
   };
 
-export default AlertDialogBox;
+export default VerifyDialogBox;
