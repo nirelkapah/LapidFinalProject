@@ -8,6 +8,10 @@ import { openFormDialogBox } from '../../redux/web/webSlice'
 import { toggleFilterByOpenStatus , toggleFilterByPriority } from '../../redux/tasks/tasksSlice';
 import { selectFilterByOpenStatus, selectFilterByTopPriority } from '../../redux/tasks/tasksSelectors';
 // import { filterTaskByOpen, filterTasksByTop } from '../../redux/tasks/tasksSlice';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+
+
 
 const ActionsBar = () => {
   const dispatch = useDispatch()
@@ -40,20 +44,24 @@ const ActionsBar = () => {
 
     
     return (
-    <div className='actionsBarContainer'>
-        <Button variant="outlined" onClick={onClickOpenForm}>
-        Add Task &nbsp;
-        <AddBoxIcon />
+    <div className='actionsBarContainer animate__animated animate__fadeInUp'>
+        <Button variant="text" onClick={onClickOpenForm} className='actionBarButtons'>
+        <span className='actionBarText'> Add Task</span> &nbsp;
+        <AddBoxIcon id='addTaskIcon' />
         </Button>
         &nbsp;&nbsp;
-        Quick Filters:
+        <br></br>
+        <span className='actionBarSubText'>QUICK FILTERS:</span>
         &nbsp;&nbsp;
-        <Button variant="outlined"  onClick={onClickTopPriority} >
-        Only Top Priority
+        <Button variant="text" className='actionBarButtons'  onClick={onClickTopPriority} >
+          <span className='actionBarText'>Only Top Priority</span>
+          <KeyboardDoubleArrowUpIcon id='topPriorityIcon'/>
         </Button>
         &nbsp;&nbsp;
-        <Button variant="outlined" onClick={onClickOnlyOpen}>
-        Only Open
+        <Button variant="text" className='actionBarButtons' onClick={onClickOnlyOpen}>
+          <span className='actionBarText'> Only Open</span>
+          &nbsp;
+          <NoteAddIcon id='openTaskIcon'/>
         </Button>
     </div>
     );

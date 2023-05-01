@@ -1,7 +1,7 @@
 const tasksCollection = require('../../models/task')
 const Task = require('../../models/task')
 const ConversionUtils = require('../../utls/conversionUtils')
-const {openTaskAuthSchema, urgentTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} = require('../../utls/TaskValidation')
+const {openTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} = require('../../utls/TaskValidation')
 
 
 

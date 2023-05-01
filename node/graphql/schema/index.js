@@ -29,7 +29,7 @@ type Task {
 
 type RootQuery {
     tasks: [Task!]!
-    tasksByKeyword(keyword: String!): [Task!]! 
+    tasksByKeyword(keyword: String): [Task!]! 
 }
 
 type RootMutation {

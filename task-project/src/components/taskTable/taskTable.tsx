@@ -19,6 +19,13 @@ import { DELETE_TASK } from '../../graphql/tasksQuery';
 import { forwardRef, useImperativeHandle } from "react";
 import { updateTaskToDeleteId, updateTaskToDeleteTitle, updateTaskToEditId } from '../../redux/tasks/tasksSlice';
 import { updateAlltasks } from '../../redux/tasks/tasksSlice'
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import PlagiarismIcon from '@mui/icons-material/Plagiarism';
+import TaskIcon from '@mui/icons-material/Task';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Button } from '@mui/material';
 
 
 
@@ -30,8 +37,9 @@ interface Props {
 
 const TaskTable = (props: Props) => {
 
-      const topPriorityFilterPressed = useSelector(selectFilterByTopPriority)
-      const openFilterPressed = useSelector(selectFilterByOpenStatus)
+      const topPriorityFilterPressed = useSelector(selectFilterByTopPriority);
+      const openFilterPressed = useSelector(selectFilterByOpenStatus);
+
 
       const tasksState = useSelector(selectTasks);  
 
@@ -89,20 +97,9 @@ const TaskTable = (props: Props) => {
                 <TableCell className='hyperTableCell'>Priority</TableCell>
                 <TableCell className='hyperTableCell'>Title</TableCell>
                 <TableCell className='hyperTableCell'>Description</TableCell>
-                <TableCell className='hyperTableCell' colSpan={5}>Other</TableCell>
+                <TableCell className='hyperTableCell'>Status</TableCell>
+                <TableCell className='hyperTableCell'>Estimated Time</TableCell>
                 <TableCell className='hyperTableCell'>Actions</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell className='tableCell'>Status</TableCell>
-                <TableCell className='tableCell'>Estimated Time</TableCell>
-                <TableCell className='tableCell'>Until Date</TableCell>
-                <TableCell className='tableCell'>Review</TableCell>
-                <TableCell className='tableCell'>Time Spent</TableCell>
-                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -110,22 +107,45 @@ const TaskTable = (props: Props) => {
                 <TableRow
                   key={task._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  className='tableRow'
                 >
                   <TableCell component="th" scope="row">
-                    Here will be icons by status
+
+                    {task.status==='Open' && 
+                    <NoteAddIcon className='icon' id='openIcon'/> }
+
+                    {task.status==='Urgent' && 
+                    <PlagiarismIcon className='icon' id='urgentIcon'/>}
+
+                    {task.status==='Closed' && 
+                    <TaskIcon className='icon' id='closedIcon'/>}
+
                   </TableCell>
-                  <TableCell align="center">{task.priority}</TableCell>
+                  <TableCell align="center">
+
+                    {task.priority ==='Top' && 
+                    <KeyboardDoubleArrowUpIcon className='icon' id='priorityTop'/> }
+
+                    {task.priority ==='Regular' && 
+                    <KeyboardArrowUpIcon className='icon' id='priorityRegular'/>}
+
+                    {task.priority ==='Minor' && 
+                    <KeyboardArrowDownIcon className='icon' id='priorityMinor'/>}
+                  
+                  </TableCell>
                   <TableCell align="center">{task.title}</TableCell>
                   <TableCell align="center">{task.description}</TableCell>
                   <TableCell align="center">{task.status}</TableCell>
                   <TableCell align="center">{task.estimatedTime}</TableCell>
-                  <TableCell align="center">{task.untilDate}</TableCell>
-                  <TableCell align="center">{task.review}</TableCell>
-                  <TableCell align="center">{task.timeSpent}</TableCell>
                   <TableCell align="center">
-                    <EditIcon className='icon'onClick={() =>  onClickEditTask(task._id as string)}/>
-                    &nbsp;
-                    <DeleteIcon className='icon' onClick={() =>  onClickDeleteTask(task._id as string, task.title as string)}/>
+
+                  <Button variant="text" onClick={() =>  onClickEditTask(task._id as string)}>
+                    <EditIcon className='icon'/>
+                  </Button>
+
+                  <Button variant="text" onClick={() =>  onClickDeleteTask(task._id as string, task.title as string)}>
+                    <DeleteIcon className='icon'/>
+                  </Button>
 
                   </TableCell>
     

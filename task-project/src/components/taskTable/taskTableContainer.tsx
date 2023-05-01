@@ -1,3 +1,4 @@
+import './taskTable.css'
 import * as React from 'react';
 import TaskTable from './taskTable';
 import {useQuery} from '@apollo/react-hooks'
@@ -9,12 +10,12 @@ import { Task } from '../../model/task';
 
 const TaskTableContainer = () => {
   
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
   }
 
   if (error || !data) {

@@ -7,6 +7,8 @@ import ActionsBar from '../actionsBar/actionsBar';
 import FormDialogBox from '../dialogBox/formDialogBox/formDialogBox';
 import VerifyDialogBox from '../dialogBox/verifyDialogBox/verifyDialogBox';
 import Alerts from '../alerts/alerts';
+import Header from '../header/header';
+
 
 
 
@@ -16,14 +18,18 @@ const Layout = () => {
     <BrowserRouter>
     <section>
       <header>
-        <h1>"This is Header"</h1>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
         <script src='https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.min.js'></script>
       </header>
       <main>
+        <Header />
         <Search />
         <ActionsBar />
         <TaskTableContainer />
