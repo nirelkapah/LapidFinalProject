@@ -1,18 +1,22 @@
-
-import type { RootState, AppDispatch } from '../store'
+import type { RootState, AppDispatch } from "../store";
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectOpenFormDialogBox = (state: RootState) => {
-    return state.webState.openFormDialogBox};
+  return state.webState.openFormDialogBox;
+};
 
 export const selectOpenAlertDialogBox = (state: RootState) => {
-    return state.webState.openVerifyDialogBox};
+  return state.webState.openVerifyDialogBox;
+};
 
 export const selectOpenReadDialogBox = (state: RootState) => {
-    return state.webState.openReadDialogBox};
+  return state.webState.openReadDialogBox;
+};
 
 export const selectErrorAlertMessage = (state: RootState) => {
-    return state.webState.errorAlertMessage};
+  return state.webState.errorAlertMessage;
+};
 
 export const selectSuccessAlertMessage = (state: RootState) => {
-    return state.webState.successAlertMessage};
+  return state.webState.successAlertMessage;
+};

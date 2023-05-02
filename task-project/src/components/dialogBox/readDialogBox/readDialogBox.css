@@ -1,15 +1,15 @@
-.closeIcon{
-    color: gray !important;
+.closeIcon {
+  color: gray !important;
 }
 
-.deleteTaskIcon{
-    color: red !important;
+.deleteTaskIcon {
+  color: red !important;
 }
 
-.taskContainer{
-    min-width: 300px !important;
+.taskContainer {
+  min-width: 300px !important;
 }
 
-.description{
-    overflow-wrap: break-word;
+.description {
+  overflow-wrap: break-word;
 }

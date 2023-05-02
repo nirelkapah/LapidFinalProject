@@ -1,28 +1,32 @@
-{"tasks":
-[
-    {"id": "1",
-    "title": "title 1",
-    "description": "description1",
-    "estimatedTime": "3Days",
-    "status": "Open",
-    "priority": "Top",
-    "untilDate":"2020-12-31T23:59:00.045z"
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "title 1",
+      "description": "description1",
+      "estimatedTime": "3Days",
+      "status": "Open",
+      "priority": "Top",
+      "untilDate": "2020-12-31T23:59:00.045z"
     },
-    {"id": "2",
-    "title": "title 2",
-    "description": "description2",
-    "estimatedTime": "5Days",
-    "status": "Open",
-    "priority": "Top"
+    {
+      "id": "2",
+      "title": "title 2",
+      "description": "description2",
+      "estimatedTime": "5Days",
+      "status": "Open",
+      "priority": "Top"
     },
-    {"id": "1",
-    "title": "title 1",
-    "description": "description1",
-    "estimatedTime": "3Days",
-    "status": "Open",
-    "priority": "Top",
-    "review": "this is the best review",
-    "timeSpent": "this is the time spent",
-    "untilDate":"2020-12-31T23:59:00.045z"
+    {
+      "id": "1",
+      "title": "title 1",
+      "description": "description1",
+      "estimatedTime": "3Days",
+      "status": "Open",
+      "priority": "Top",
+      "review": "this is the best review",
+      "timeSpent": "this is the time spent",
+      "untilDate": "2020-12-31T23:59:00.045z"
     }
-]}
+  ]
+}

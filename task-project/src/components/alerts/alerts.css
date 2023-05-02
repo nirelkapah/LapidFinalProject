@@ -1,14 +1,13 @@
-.alertsContainer{
-    position: fixed;
-    align-items: center;
-    top: 5%;
-    /* left: auto; */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.9;
+.alertsContainer {
+  position: fixed;
+  align-items: center;
+  top: 5%;
+  /* left: auto; */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.9;
 
-
-    /* height: 40px;
+  /* height: 40px;
     line-height: 40px;
     width: 60%;
     text-align: center;

@@ -1,10 +1,9 @@
-#searchContainer{
-    display: flex;
-    align-items: center;
-    justify-content: center!important;
-    margin: auto;
-    padding-bottom: 20px;
-
+#searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+  margin: auto;
+  padding-bottom: 20px;
 }
 
 /* #searchPaper{

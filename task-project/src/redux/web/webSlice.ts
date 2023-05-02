@@ -1,31 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState, AppDispatch } from '../store'
-
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { RootState, AppDispatch } from "../store";
 
 // Defines Global State
 export interface WebState {
-  openFormDialogBox: boolean,
-  openVerifyDialogBox: boolean,
-  openReadDialogBox: boolean,
-  errorAlertMessage: string,
-  successAlertMessage: string
+  openFormDialogBox: boolean;
+  openVerifyDialogBox: boolean;
+  openReadDialogBox: boolean;
+  errorAlertMessage: string;
+  successAlertMessage: string;
 }
 
 // Define the initial state using that type
 const initialState: WebState = {
-  openFormDialogBox: false ,
+  openFormDialogBox: false,
   openReadDialogBox: false,
   openVerifyDialogBox: false,
-  errorAlertMessage: '',
-  successAlertMessage: ''
-}
+  errorAlertMessage: "",
+  successAlertMessage: "",
+};
 
 export const webSlice = createSlice({
-  name: 'web',
+  name: "web",
   initialState,
   reducers: {
-
     // Use the PayloadAction type to declare the contents of `action.payload`
     closeFormDialogBox: (state) => {
       state.openFormDialogBox = false;
@@ -56,19 +54,19 @@ export const webSlice = createSlice({
     },
     updateSuccessAlertMessage: (state, action: PayloadAction<string>) => {
       state.successAlertMessage = action.payload;
-    }
-}})
+    },
+  },
+});
 
-
-export const { 
-  closeFormDialogBox, 
-  openFormDialogBox, 
-  openAlertDialogBox, 
+export const {
+  closeFormDialogBox,
+  openFormDialogBox,
+  openAlertDialogBox,
   closeAlertDialogBox,
   openReadDialogBox,
   closeReadDialogBox,
   updateErrorAlertMessage,
-  updateSuccessAlertMessage} = webSlice.actions
+  updateSuccessAlertMessage,
+} = webSlice.actions;
 
-
-export default webSlice.reducer
+export default webSlice.reducer;

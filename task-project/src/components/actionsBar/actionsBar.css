@@ -1,46 +1,44 @@
 .actionsBarContainer {
-    /* display: flex; */
-    align-items: left;
-    text-align: center !important;
-    padding-bottom: 15px;
-    color: white;
-    vertical-align: center !important;
-
+  /* display: flex; */
+  align-items: left;
+  text-align: center !important;
+  padding-bottom: 15px;
+  color: white;
+  vertical-align: center !important;
 }
 
-.actionBarButtons{
-    color: white;
-    border-color: white;
+.actionBarButtons {
+  color: white;
+  border-color: white;
 }
 
-.actionBarButtons:hover{
-    background-color: #6d45ab !important;
-    /* border-color: lightgray !important; */
+.actionBarButtons:hover {
+  background-color: #6d45ab !important;
+  /* border-color: lightgray !important; */
 }
 
-.actionBarText{
-    color: white;
-    font-weight: lighter;
-    align-items: center;
-    vertical-align: center;
+.actionBarText {
+  color: white;
+  font-weight: lighter;
+  align-items: center;
+  vertical-align: center;
 }
 
-.actionBarSubText{
-    color: white;
-    font-weight: lighter !important;
-    align-items: center;
-    vertical-align: center;
+.actionBarSubText {
+  color: white;
+  font-weight: lighter !important;
+  align-items: center;
+  vertical-align: center;
 }
 /* 
 .actionBarText:hover{
     color: black;
 } */
 
-#addTaskIcon{
-    color: white;
-    font-weight: lighter;
-    height: 20px;
-
+#addTaskIcon {
+  color: white;
+  font-weight: lighter;
+  height: 20px;
 }
 /* 
 #addTaskIcon:hover{
@@ -48,13 +46,12 @@
     font-weight: lighter;
 } */
 
-#topPriorityIcon{
-    color: white;
-    height: 20px;
+#topPriorityIcon {
+  color: white;
+  height: 20px;
 }
 
-#openTaskIcon{
-    color: white;
-    height: 20px;
-
+#openTaskIcon {
+  color: white;
+  height: 20px;
 }

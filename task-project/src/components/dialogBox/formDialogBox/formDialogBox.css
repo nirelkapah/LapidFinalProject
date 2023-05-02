@@ -1,12 +1,12 @@
-.formError{
-    padding-top: 15px;
-    color: red;
+.formError {
+  padding-top: 15px;
+  color: red;
 }
 
-.closeIcon{
-    color: gray !important;
+.closeIcon {
+  color: gray !important;
 }
 
-.sendIcon{
-    color: #6945ac !important;
+.sendIcon {
+  color: #6945ac !important;
 }
