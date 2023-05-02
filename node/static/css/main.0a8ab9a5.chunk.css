@@ -1,2 +1,1133 @@
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}code{font-family:source-code-pro,Menlo,Monaco,Consolas,"Courier New",monospace}.header{display:grid;grid-template-columns:auto auto;grid-template-areas:"left right";min-width:280px;position:fixed;width:100%;background-image:url(/images/header/header.png);background-position:50%;background-size:cover;background-blend-mode:overlay;font-family:"Lucida Sans","Lucida Sans Regular","Lucida Grande","Lucida Sans Unicode",Geneva,Verdana,sans-serif;font-style:normal;z-index:99!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif}#left{grid-area:left}#left,#right{display:flex;width:100%}#right{flex-direction:row;grid-area:right;align-self:right;justify-content:right;align-items:right;text-align:right}#logo{justify-content:center;text-align:center;width:250px;margin:10px}#loginSpan,.login{justify-content:right;text-align:right;margin-right:40px;font-size:25px;font-weight:lighter}#loginSpan{position:absolute;bottom:10px;right:0}#name{margin-right:20px;font-size:25px;font-weight:lighter}#loginDiv,#name{justify-content:right;text-align:right}#loginDiv{position:absolute;bottom:10px;right:0}@media only screen and (max-width:460px){#name{margin-right:10px}#name,.login{font-size:15px}.login{margin-right:3px}#logo{justify-content:center;text-align:center;width:100px;margin:10px}}@media only screen and (max-width:600px)and (min-width:460px){#logo{justify-content:center;text-align:center;width:150px;margin:10px}.login{margin-right:5px}#name{margin-right:15px}}#logoButton{background-color:transparent;border:transparent}.loginDiv{text-align:center;justify-content:center;font-weight:300;box-shadow:0 0 1rem 0 rgba(0,0,0,.8);border-radius:5px;position:relative;z-index:1;overflow:hidden;padding-left:10px;padding-right:10px;min-width:250px;margin-top:30px}.loginDiv,.loginDiv:before{background-color:#fff;background:inherit}.loginDiv:before{content:"";position:absolute;z-index:-1;top:0;left:0;right:0;bottom:0;box-shadow:inset 0 0 2000px hsla(0,0%,100%,.5);-webkit-filter:blur(20px);filter:blur(20px);margin:-20px;opacity:.2}.loginDiv>h1{font-weight:300;font-weight:lighter;font-size:50px;font-family:"Staatliches",cursive}.loginDiv>div{display:flex;justify-content:center}.loginDiv>div>div{text-align:left;width:auto}.loginDiv>div>div>label{font-size:20px;font-weight:lighter}.loginDiv>div>div>input{font-size:30px;margin:10px;text-align:left;font-weight:lighter;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif}.loginDiv>button{font-size:25px;width:270px;font-weight:lighter;background-color:#04bfee!important}.loginDiv>h3{font-weight:800;font-size:30px;font-family:"Staatliches",cursive;font-weight:lighter}.errorMessage{-webkit-text-stroke:1px #000}.registerDiv{text-align:center;justify-content:center;font-weight:300;box-shadow:0 0 1rem 0 rgba(0,0,0,.8);border-radius:5px;position:relative;z-index:1;overflow:hidden;padding-left:10px;padding-right:10px;min-width:250px;margin-top:30px}.registerDiv,.registerDiv:before{background-color:#fff;background:inherit}.registerDiv:before{content:"";position:absolute;z-index:-1;top:0;left:0;right:0;bottom:0;box-shadow:inset 0 0 2000px hsla(0,0%,100%,.5);-webkit-filter:blur(20px);filter:blur(20px);margin:-20px;opacity:.2}.registerDiv>h1{font-weight:800;font-weight:lighter;font-size:50px;font-family:"Staatliches",cursive}.registerDiv>div{display:flex;justify-content:center}.registerDiv>div>div{text-align:left;width:auto}.registerDiv>div>div>label{font-size:20px;font-weight:200}.registerDiv>div>div>input{font-size:20px;font-size:30px;font-weight:lighter;margin:10px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif}.registerDiv>button{font-size:25px;width:270px;font-weight:lighter;background-color:#04bfee!important}@media only screen and (max-width:300px){.registerDiv>button{width:90%}}.registerDiv>h3{font-weight:800;font-size:30px;font-family:"Staatliches",cursive;font-weight:lighter}.errorMessage{color:#000}.layout{display:flex;flex-direction:column;justify-content:center;width:100%;height:100%}.layout>main{height:100%;text-align:center;align-items:center;background-blend-mode:overlay;background-attachment:fixed;padding-top:100px}@media only screen and (max-width:600px)and (min-width:460px){.layout>main{padding-top:66px}}@media only screen and (max-width:460px){.layout>main{padding-top:50px}}.vacationsMain{background-image:url(/images/vacations/family.jpg);background-attachment:fixed;background-position:50%;background-repeat:no-repeat;background-size:cover;flex-direction:column;min-height:100%!important;min-width:280px}.tables,.vacationsMain{display:flex;background-color:transparent}.tables{flex-wrap:wrap;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif}.tables>div{margin:10px;width:250px;border:2px solid transparent;border-radius:10px;text-align:center;justify-content:center;box-shadow:0 2px 3px 0 rgba(0,0,0,.8);border-radius:5px;position:relative;z-index:1;overflow:hidden;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}.tables>div,.tables>div:before{background-color:#fff;background:inherit}.tables>div:before{content:"";position:absolute;z-index:-1;top:0;left:0;right:0;bottom:0;box-shadow:inset 0 0 2000px hsla(0,0%,100%,.5);-webkit-filter:blur(20px);filter:blur(20px);margin:-20px;opacity:.3}.tables>div>h1{font-size:30px;margin:3px}.description{margin-bottom:10px!important}.tables>div>h3{font-size:20px}.tables>div>h3,.tables>div>h3>span{margin:3px;font-weight:lighter}.heartBackground{width:50px;height:50px;background-position:0 -4px;left:50%}@media only screen and (max-width:560px)and (min-width:380px){.tables>div{margin:5px;width:170px}.tables>div>h1{font-size:23px;margin:0}.tables>div>h3{font-size:15px;font-weight:lighter;margin:3px}.tables>div>h3>span{font-size:20px;font-weight:lighter;margin:3px}.description{font-size:13px;font-weight:600;margin:3px}.vacationImg{width:auto;max-width:250px;height:150px;width:100%;border-radius:10px 10px 0 0}}@media only screen and (max-width:380px){.tables>div{margin:5px;width:120px}.tables>div>h1{font-size:23px;margin:0}.tables>div>h3{font-size:15px;font-weight:lighter;margin:3px}.tables>div>h3>span{font-size:15px;font-weight:bolder;margin:3px}.description{font-size:13px;font-weight:600;margin:3px}.vacationImg{width:auto;width:120px;height:100px;width:100%;border-radius:10px 10px 0 0}.backgroundImg{width:120px;height:100px}}.heartbox{position:absolute;right:-25px;top:-30px;justify-content:right}svg{cursor:pointer;overflow:visible;width:60px;margin:20px}svg #heart{transform-origin:center;-webkit-animation:animateHeartOut .3s linear forwards;animation:animateHeartOut .3s linear forwards}svg #main-circ{transform-origin:29.5px 29.5px}.checkbox{display:none}.checkbox:checked+label svg #heart{transform:scale(.2);fill:#e2264d;-webkit-animation:animateHeart .3s linear .25s forwards;animation:animateHeart .3s linear .25s forwards}.checkbox:checked+label svg #main-circ{transition:all 2s;-webkit-animation:animateCircle .3s linear forwards;animation:animateCircle .3s linear forwards;opacity:1}.checkbox:checked+label svg #heartgroup1{opacity:1;transition:all .1s .3s}.checkbox:checked+label svg #heartgroup1 #heart1{transform:scale(0) translateY(-30px);transform-origin:0 0 0;transition:transform .5s .3s}.checkbox:checked+label svg #heartgroup1 #heart2{transform:scale(0) translate(10px,-50px);transform-origin:0 0 0;transition:transform 1.5s .3s}.checkbox:checked+label svg #heartgroup2{transition:all .1s .3s}.checkbox:checked+label svg #heartgroup2 #heart1{transform:scale(0) translate(30px,-15px);transform-origin:0 0 0;transition:transform .5s .3s}.checkbox:checked+label svg #heartgroup2 #heart2{transform:scale(0) translate(60px,-15px);transform-origin:0 0 0;transition:transform 1.5s .3s}.checkbox:checked+label svg #heartgroup3{transition:all .1s .3s}.checkbox:checked+label svg #heartgroup3 #heart1{transform:scale(0) translate(30px);transform-origin:0 0 0;transition:transform .5s .3s}.checkbox:checked+label svg #heartgroup3 #heart2{transform:scale(0) translate(60px,10px);transform-origin:0 0 0;transition:transform 1.5s .3s}.checkbox:checked+label svg #heartgroup4{transition:all .1s .3s}.checkbox:checked+label svg #heartgroup4 #heart1{transform:scale(0) translate(30px,15px);transform-origin:0 0 0;transition:transform .5s .3s}.checkbox:checked+label svg #heartgroup4 #heart2{transform:scale(0) translate(40px,50px);transform-origin:0 0 0;transition:transform 1.5s .3s}.checkbox:checked+label svg #heartgroup5{transition:all .1s .3s}.checkbox:checked+label svg #heartgroup5 #heart1{transform:scale(0) translate(-10px,20px);transform-origin:0 0 0;transition:transform .5s .3s}.checkbox:checked+label svg #heartgroup5 #heart2{transform:scale(0) translate(-60px,30px);transform-origin:0 0 0;transition:transform 1.5s .3s}.checkbox:checked+label svg #heartgroup6{transition:all .1s .3s}.checkbox:checked+label svg #heartgroup6 #heart1{transform:scale(0) translate(-30px);transform-origin:0 0 0;transition:transform .5s .3s}.checkbox:checked+label svg #heartgroup6 #heart2{transform:scale(0) translate(-60px,-5px);transform-origin:0 0 0;transition:transform 1.5s .3s}.checkbox:checked+label svg #heartgroup7{transition:all .1s .3s}.checkbox:checked+label svg #heartgroup7 #heart1{transform:scale(0) translate(-30px,-15px);transform-origin:0 0 0;transition:transform .5s .3s}.checkbox:checked+label svg #heartgroup7 #heart2{transform:scale(0) translate(-55px,-30px);transform-origin:0 0 0;transition:transform 1.5s .3s}.checkbox:checked+label svg #heartgroup2,.checkbox:checked+label svg #heartgroup3,.checkbox:checked+label svg #heartgroup4,.checkbox:checked+label svg #heartgroup5,.checkbox:checked+label svg #heartgroup6,.checkbox:checked+label svg #heartgroup7{opacity:1;transition:opacity .1s .3s}@-webkit-keyframes animateCircle{40%{transform:scale(10);opacity:1;fill:#dd4688}55%{transform:scale(11);opacity:1;fill:#d46abf}65%{transform:scale(12);opacity:1;fill:#cc8ef5}75%{transform:scale(13);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:.5}85%{transform:scale(17);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:.2}95%{transform:scale(18);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:.1}to{transform:scale(19);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:0}}@keyframes animateCircle{40%{transform:scale(10);opacity:1;fill:#dd4688}55%{transform:scale(11);opacity:1;fill:#d46abf}65%{transform:scale(12);opacity:1;fill:#cc8ef5}75%{transform:scale(13);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:.5}85%{transform:scale(17);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:.2}95%{transform:scale(18);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:.1}to{transform:scale(19);opacity:1;fill:transparent;stroke:#cc8ef5;stroke-width:0}}@-webkit-keyframes animateHeart{0%{transform:scale(.2)}40%{transform:scale(1.2)}to{transform:scale(1)}}@keyframes animateHeart{0%{transform:scale(.2)}40%{transform:scale(1.2)}to{transform:scale(1)}}@-webkit-keyframes animateHeartOut{0%{transform:scale(1.4)}to{transform:scale(1)}}@keyframes animateHeartOut{0%{transform:scale(1.4)}to{transform:scale(1)}}#graphButton{background-color:#fff;justify-content:center;width:100%;font-size:40px;border:.3px solid #d3d3d3;color:#000}#graphNavLinkButton :hover{transition:.5s;transform:scale(.98)}#plusSign{background-image:url(/images/admin/plusSignNew.png);opacity:1!important;-webkit-filter:blur(0)!important;filter:blur(0)!important;content:none;min-height:100px}#errorPage,#plusSign{background-position:50%;background-repeat:no-repeat;background-size:cover}#errorPage{background-image:url(/images/error/pageNotFound.png);width:100%;height:100%;position:fixed;display:flex;justify-content:center;z-index:99!important}#mainDiv{background-image:url(/images/admin/admin.jpg);background:linear-gradient(hsla(0,0%,100%,.5),hsla(0,0%,100%,.5)),url(/images/admin/admin.jpg);background-position:50%;background-repeat:no-repeat;background-size:cover;background-attachment:fixed;min-height:100%!important;min-width:280px}.vacationsMainDiv{display:flex;flex-wrap:wrap;overflow:hidden;justify-content:center;background-color:transparent;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif}.vacationsMainDiv>div{margin:10px;width:250px;border:2px solid transparent;background-color:#fff;border-radius:10px;text-align:center;justify-content:center;box-shadow:0 2px 3px 0 rgba(0,0,0,.8);border-radius:5px;position:relative;z-index:1;background:inherit;overflow:hidden;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}.vacationsMainDiv>div:before{content:"";position:absolute;z-index:-1;top:0;left:0;right:0;bottom:0;box-shadow:inset 0 0 2000px hsla(0,0%,100%,.5);-webkit-filter:blur(20px);filter:blur(20px);margin:-20px;background-color:#fff;opacity:.3}.vacationsMainDiv>div>h1{font-size:30px;margin:3px}.vacationsMainDiv>div>h3{font-size:20px;margin:3px}.vacationsMainDiv>div>h3>span{font-weight:lighter;margin:3px}.backgroundImg,.vacationImg{width:auto;max-width:250px;height:150px;width:100%;border-radius:10px 10px 0 0}.backgroundImg{background-image:url(/images/error/lostManNew.png);display:flex;background-position:50%;background-repeat:no-repeat;background-size:cover;text-align:center;justify-content:center}#descriptionField{width:100%;border-radius:0;border:transparent;background-color:transparent;padding-left:10px}#description{font-weight:lighter;margin-bottom:10px}#blockBackgroundDiv{background-color:#000;opacity:.5;position:fixed;width:100%;height:100%;z-index:98!important;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}@media only screen and (max-width:560px)and (min-width:380px){.vacationsMainDiv>div{margin:5px;width:170px}.vacationsMainDiv>div>h1{font-size:23px;margin:0}.vacationsMainDiv>div>h3{font-size:15px;font-weight:lighter;margin:3px}.vacationsMainDiv>div>h3>span{font-size:20px;font-weight:lighter;margin:3px}#description{font-size:13px;font-weight:600;margin:3px;font-weight:lighter}.vacationImg{width:auto;max-width:250px;height:150px;width:100%;border-radius:10px 10px 0 0}}@media only screen and (max-width:380px){.vacationsMainDiv>div{margin:5px;width:120px}.vacationsMainDiv>div>h1{font-size:23px;margin:0}.vacationsMainDiv>div>h3{font-size:15px;font-weight:lighter;margin:3px}.vacationsMainDiv>div>h3>span{font-size:15px;font-weight:bolder;margin:3px}#description{font-size:13px;font-weight:600;margin:3px;font-weight:lighter}.vacationImg{width:auto;width:120px;height:100px;width:100%;border-radius:10px 10px 0 0}.backgroundImg{width:120px;height:100px}}.roundButtons{border-radius:50%;height:20px;border-color:transparent;background-color:transparent;margin-top:15px}#adminButtons :hover{color:#f8f9fa}#adminButtons :focus{background-color:transparent!important}#adminButtons{position:absolute;font-size:26px;top:0;right:0;color:#d3d3d3;-webkit-text-stroke-width:.3px;-webkit-text-stroke-color:#000}#adminButtons,.editVacationDiv{display:flex;flex-direction:column}.editVacationDiv{text-align:center;background-color:#f8f9fa;position:fixed;max-height:80%;padding-left:20px;padding-right:20px;left:50%;transform:translateX(-50%);width:100%;top:10%;justify-content:center;border-radius:20px;z-index:99!important;min-width:260px;border:3px solid #000;background:linear-gradient(#fff,hsla(0,0%,100%,.8)),url(/images/admin/addVacation.jpg)}@media only screen and (min-width:600px){.editVacationDiv{width:80%}}.editVacationDiv>div{display:flex;justify-content:center;overflow-y:scroll;width:100%}.editVacationDiv>div>div{text-align:left;width:auto;height:100%}.addVacationDiv>div>div>label{font-size:25px!important}.editVacationDiv>div>div>input{font-size:20px;margin:10px;text-align:left}.airplaneImg{display:inline-flex;width:30px;height:30px;padding-right:6px}.editVacationDiv>div>button{font-size:25px}.editVacationDiv>div>button :hover{text-decoration:none}#editButtonsDiv{padding:10px}#editButtonsDiv,.errorMessage{text-align:center}.heartBackground{background-image:url(/images/admin/heart.webp);width:40px;height:40px;max-width:250px;background-repeat:no-repeat;background-size:cover;position:absolute;left:0;top:0}.addVacationDiv{background:linear-gradient(#fff,hsla(0,0%,100%,.8)),url(/images/admin/addVacation.jpg);background-position:50%;background-repeat:no-repeat;background-size:cover;text-align:center;justify-content:center;font-family:"Trebuchet MS","Lucida Sans Unicode","Lucida Grande","Lucida Sans",Arial,sans-serif;box-shadow:0 0 1rem 0 rgba(0,0,0,.8)}.addVacationDiv:before{content:"";position:absolute;background:inherit;z-index:-1;top:0;left:0;right:0;bottom:0;box-shadow:inset 0 0 2000px hsla(0,0%,100%,.5);-webkit-filter:blur(20px);filter:blur(20px);margin:-20px;opacity:.5;min-width:250px}.addVacationDiv>div{margin-left:10px;margin-right:10px;display:flex;justify-content:center}.addVacationDiv>div>div{text-align:left;width:auto}.addVacationDiv>div>div>label{font-size:20px}.addVacationDiv>div>div>input{font-size:20px;margin:10px;text-align:left}.addVacationDiv>div>button{font-size:25px}.addVacationDiv>div>button :hover{text-decoration:none}.errorMessage{margin-top:5px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;font-size:15px;color:red}#previewImg{width:100%;max-width:350px}.subText{font-size:15px}.buttonSpace{margin-left:10px;margin-bottom:20px}#cancelButton{color:#fff}#saveButton{background-color:#04bfee!important}#title{color:#04bfee;font-family:"Staatliches",cursive}#graphBody{background-color:#fff}.mainDiv{position:relative;top:100px;padding-left:5px;padding-right:5px;min-width:250px;background-color:transparent}#homeButton{background-color:#fff;justify-content:center;width:100%;font-size:40px;border:.3px solid #d3d3d3;color:#000}#homeNavLinkButton :hover{transition:.5s;transform:scale(.98)}#addVacationCard,.grow,.grow:hover{border-radius:10px 10px 0 0;margin-left:10px;margin-top:10px}.grow{transition:all .2s ease-in-out}.grow:hover{transform:scale(1.03)}.growGraph{transition:all .2s ease-in-out}.growGraph:hover{transform:scale(1.1)}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.header {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-areas: "left right";
+  min-width: 280px;
+  position: fixed;
+  width: 100%;
+  background-image: url(/images/header/header.png);
+  background-position: 50%;
+  background-size: cover;
+  background-blend-mode: overlay;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-style: normal;
+  z-index: 99 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+#left {
+  grid-area: left;
+}
+#left,
+#right {
+  display: flex;
+  width: 100%;
+}
+#right {
+  flex-direction: row;
+  grid-area: right;
+  align-self: right;
+  justify-content: right;
+  align-items: right;
+  text-align: right;
+}
+#logo {
+  justify-content: center;
+  text-align: center;
+  width: 250px;
+  margin: 10px;
+}
+#loginSpan,
+.login {
+  justify-content: right;
+  text-align: right;
+  margin-right: 40px;
+  font-size: 25px;
+  font-weight: lighter;
+}
+#loginSpan {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+}
+#name {
+  margin-right: 20px;
+  font-size: 25px;
+  font-weight: lighter;
+}
+#loginDiv,
+#name {
+  justify-content: right;
+  text-align: right;
+}
+#loginDiv {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+}
+@media only screen and (max-width: 460px) {
+  #name {
+    margin-right: 10px;
+  }
+  #name,
+  .login {
+    font-size: 15px;
+  }
+  .login {
+    margin-right: 3px;
+  }
+  #logo {
+    justify-content: center;
+    text-align: center;
+    width: 100px;
+    margin: 10px;
+  }
+}
+@media only screen and (max-width: 600px) and (min-width: 460px) {
+  #logo {
+    justify-content: center;
+    text-align: center;
+    width: 150px;
+    margin: 10px;
+  }
+  .login {
+    margin-right: 5px;
+  }
+  #name {
+    margin-right: 15px;
+  }
+}
+#logoButton {
+  background-color: transparent;
+  border: transparent;
+}
+.loginDiv {
+  text-align: center;
+  justify-content: center;
+  font-weight: 300;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width: 250px;
+  margin-top: 30px;
+}
+.loginDiv,
+.loginDiv:before {
+  background-color: #fff;
+  background: inherit;
+}
+.loginDiv:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px hsla(0, 0%, 100%, 0.5);
+  -webkit-filter: blur(20px);
+  filter: blur(20px);
+  margin: -20px;
+  opacity: 0.2;
+}
+.loginDiv > h1 {
+  font-weight: 300;
+  font-weight: lighter;
+  font-size: 50px;
+  font-family: "Staatliches", cursive;
+}
+.loginDiv > div {
+  display: flex;
+  justify-content: center;
+}
+.loginDiv > div > div {
+  text-align: left;
+  width: auto;
+}
+.loginDiv > div > div > label {
+  font-size: 20px;
+  font-weight: lighter;
+}
+.loginDiv > div > div > input {
+  font-size: 30px;
+  margin: 10px;
+  text-align: left;
+  font-weight: lighter;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.loginDiv > button {
+  font-size: 25px;
+  width: 270px;
+  font-weight: lighter;
+  background-color: #04bfee !important;
+}
+.loginDiv > h3 {
+  font-weight: 800;
+  font-size: 30px;
+  font-family: "Staatliches", cursive;
+  font-weight: lighter;
+}
+.errorMessage {
+  -webkit-text-stroke: 1px #000;
+}
+.registerDiv {
+  text-align: center;
+  justify-content: center;
+  font-weight: 300;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width: 250px;
+  margin-top: 30px;
+}
+.registerDiv,
+.registerDiv:before {
+  background-color: #fff;
+  background: inherit;
+}
+.registerDiv:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px hsla(0, 0%, 100%, 0.5);
+  -webkit-filter: blur(20px);
+  filter: blur(20px);
+  margin: -20px;
+  opacity: 0.2;
+}
+.registerDiv > h1 {
+  font-weight: 800;
+  font-weight: lighter;
+  font-size: 50px;
+  font-family: "Staatliches", cursive;
+}
+.registerDiv > div {
+  display: flex;
+  justify-content: center;
+}
+.registerDiv > div > div {
+  text-align: left;
+  width: auto;
+}
+.registerDiv > div > div > label {
+  font-size: 20px;
+  font-weight: 200;
+}
+.registerDiv > div > div > input {
+  font-size: 20px;
+  font-size: 30px;
+  font-weight: lighter;
+  margin: 10px;
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.registerDiv > button {
+  font-size: 25px;
+  width: 270px;
+  font-weight: lighter;
+  background-color: #04bfee !important;
+}
+@media only screen and (max-width: 300px) {
+  .registerDiv > button {
+    width: 90%;
+  }
+}
+.registerDiv > h3 {
+  font-weight: 800;
+  font-size: 30px;
+  font-family: "Staatliches", cursive;
+  font-weight: lighter;
+}
+.errorMessage {
+  color: #000;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.layout > main {
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  background-blend-mode: overlay;
+  background-attachment: fixed;
+  padding-top: 100px;
+}
+@media only screen and (max-width: 600px) and (min-width: 460px) {
+  .layout > main {
+    padding-top: 66px;
+  }
+}
+@media only screen and (max-width: 460px) {
+  .layout > main {
+    padding-top: 50px;
+  }
+}
+.vacationsMain {
+  background-image: url(/images/vacations/family.jpg);
+  background-attachment: fixed;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-direction: column;
+  min-height: 100% !important;
+  min-width: 280px;
+}
+.tables,
+.vacationsMain {
+  display: flex;
+  background-color: transparent;
+}
+.tables {
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.tables > div {
+  margin: 10px;
+  width: 250px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  text-align: center;
+  justify-content: center;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.tables > div,
+.tables > div:before {
+  background-color: #fff;
+  background: inherit;
+}
+.tables > div:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px hsla(0, 0%, 100%, 0.5);
+  -webkit-filter: blur(20px);
+  filter: blur(20px);
+  margin: -20px;
+  opacity: 0.3;
+}
+.tables > div > h1 {
+  font-size: 30px;
+  margin: 3px;
+}
+.description {
+  margin-bottom: 10px !important;
+}
+.tables > div > h3 {
+  font-size: 20px;
+}
+.tables > div > h3,
+.tables > div > h3 > span {
+  margin: 3px;
+  font-weight: lighter;
+}
+.heartBackground {
+  width: 50px;
+  height: 50px;
+  background-position: 0 -4px;
+  left: 50%;
+}
+@media only screen and (max-width: 560px) and (min-width: 380px) {
+  .tables > div {
+    margin: 5px;
+    width: 170px;
+  }
+  .tables > div > h1 {
+    font-size: 23px;
+    margin: 0;
+  }
+  .tables > div > h3 {
+    font-size: 15px;
+    font-weight: lighter;
+    margin: 3px;
+  }
+  .tables > div > h3 > span {
+    font-size: 20px;
+    font-weight: lighter;
+    margin: 3px;
+  }
+  .description {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 3px;
+  }
+  .vacationImg {
+    width: auto;
+    max-width: 250px;
+    height: 150px;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+}
+@media only screen and (max-width: 380px) {
+  .tables > div {
+    margin: 5px;
+    width: 120px;
+  }
+  .tables > div > h1 {
+    font-size: 23px;
+    margin: 0;
+  }
+  .tables > div > h3 {
+    font-size: 15px;
+    font-weight: lighter;
+    margin: 3px;
+  }
+  .tables > div > h3 > span {
+    font-size: 15px;
+    font-weight: bolder;
+    margin: 3px;
+  }
+  .description {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 3px;
+  }
+  .vacationImg {
+    width: auto;
+    width: 120px;
+    height: 100px;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+  .backgroundImg {
+    width: 120px;
+    height: 100px;
+  }
+}
+.heartbox {
+  position: absolute;
+  right: -25px;
+  top: -30px;
+  justify-content: right;
+}
+svg {
+  cursor: pointer;
+  overflow: visible;
+  width: 60px;
+  margin: 20px;
+}
+svg #heart {
+  transform-origin: center;
+  -webkit-animation: animateHeartOut 0.3s linear forwards;
+  animation: animateHeartOut 0.3s linear forwards;
+}
+svg #main-circ {
+  transform-origin: 29.5px 29.5px;
+}
+.checkbox {
+  display: none;
+}
+.checkbox:checked + label svg #heart {
+  transform: scale(0.2);
+  fill: #e2264d;
+  -webkit-animation: animateHeart 0.3s linear 0.25s forwards;
+  animation: animateHeart 0.3s linear 0.25s forwards;
+}
+.checkbox:checked + label svg #main-circ {
+  transition: all 2s;
+  -webkit-animation: animateCircle 0.3s linear forwards;
+  animation: animateCircle 0.3s linear forwards;
+  opacity: 1;
+}
+.checkbox:checked + label svg #heartgroup1 {
+  opacity: 1;
+  transition: all 0.1s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup1 #heart1 {
+  transform: scale(0) translateY(-30px);
+  transform-origin: 0 0 0;
+  transition: transform 0.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup1 #heart2 {
+  transform: scale(0) translate(10px, -50px);
+  transform-origin: 0 0 0;
+  transition: transform 1.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup2 {
+  transition: all 0.1s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup2 #heart1 {
+  transform: scale(0) translate(30px, -15px);
+  transform-origin: 0 0 0;
+  transition: transform 0.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup2 #heart2 {
+  transform: scale(0) translate(60px, -15px);
+  transform-origin: 0 0 0;
+  transition: transform 1.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup3 {
+  transition: all 0.1s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup3 #heart1 {
+  transform: scale(0) translate(30px);
+  transform-origin: 0 0 0;
+  transition: transform 0.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup3 #heart2 {
+  transform: scale(0) translate(60px, 10px);
+  transform-origin: 0 0 0;
+  transition: transform 1.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup4 {
+  transition: all 0.1s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup4 #heart1 {
+  transform: scale(0) translate(30px, 15px);
+  transform-origin: 0 0 0;
+  transition: transform 0.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup4 #heart2 {
+  transform: scale(0) translate(40px, 50px);
+  transform-origin: 0 0 0;
+  transition: transform 1.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup5 {
+  transition: all 0.1s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup5 #heart1 {
+  transform: scale(0) translate(-10px, 20px);
+  transform-origin: 0 0 0;
+  transition: transform 0.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup5 #heart2 {
+  transform: scale(0) translate(-60px, 30px);
+  transform-origin: 0 0 0;
+  transition: transform 1.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup6 {
+  transition: all 0.1s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup6 #heart1 {
+  transform: scale(0) translate(-30px);
+  transform-origin: 0 0 0;
+  transition: transform 0.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup6 #heart2 {
+  transform: scale(0) translate(-60px, -5px);
+  transform-origin: 0 0 0;
+  transition: transform 1.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup7 {
+  transition: all 0.1s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup7 #heart1 {
+  transform: scale(0) translate(-30px, -15px);
+  transform-origin: 0 0 0;
+  transition: transform 0.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup7 #heart2 {
+  transform: scale(0) translate(-55px, -30px);
+  transform-origin: 0 0 0;
+  transition: transform 1.5s 0.3s;
+}
+.checkbox:checked + label svg #heartgroup2,
+.checkbox:checked + label svg #heartgroup3,
+.checkbox:checked + label svg #heartgroup4,
+.checkbox:checked + label svg #heartgroup5,
+.checkbox:checked + label svg #heartgroup6,
+.checkbox:checked + label svg #heartgroup7 {
+  opacity: 1;
+  transition: opacity 0.1s 0.3s;
+}
+@-webkit-keyframes animateCircle {
+  40% {
+    transform: scale(10);
+    opacity: 1;
+    fill: #dd4688;
+  }
+  55% {
+    transform: scale(11);
+    opacity: 1;
+    fill: #d46abf;
+  }
+  65% {
+    transform: scale(12);
+    opacity: 1;
+    fill: #cc8ef5;
+  }
+  75% {
+    transform: scale(13);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.5;
+  }
+  85% {
+    transform: scale(17);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.2;
+  }
+  95% {
+    transform: scale(18);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.1;
+  }
+  to {
+    transform: scale(19);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0;
+  }
+}
+@keyframes animateCircle {
+  40% {
+    transform: scale(10);
+    opacity: 1;
+    fill: #dd4688;
+  }
+  55% {
+    transform: scale(11);
+    opacity: 1;
+    fill: #d46abf;
+  }
+  65% {
+    transform: scale(12);
+    opacity: 1;
+    fill: #cc8ef5;
+  }
+  75% {
+    transform: scale(13);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.5;
+  }
+  85% {
+    transform: scale(17);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.2;
+  }
+  95% {
+    transform: scale(18);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.1;
+  }
+  to {
+    transform: scale(19);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0;
+  }
+}
+@-webkit-keyframes animateHeart {
+  0% {
+    transform: scale(0.2);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes animateHeart {
+  0% {
+    transform: scale(0.2);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes animateHeartOut {
+  0% {
+    transform: scale(1.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes animateHeartOut {
+  0% {
+    transform: scale(1.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+#graphButton {
+  background-color: #fff;
+  justify-content: center;
+  width: 100%;
+  font-size: 40px;
+  border: 0.3px solid #d3d3d3;
+  color: #000;
+}
+#graphNavLinkButton :hover {
+  transition: 0.5s;
+  transform: scale(0.98);
+}
+#plusSign {
+  background-image: url(/images/admin/plusSignNew.png);
+  opacity: 1 !important;
+  -webkit-filter: blur(0) !important;
+  filter: blur(0) !important;
+  content: none;
+  min-height: 100px;
+}
+#errorPage,
+#plusSign {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#errorPage {
+  background-image: url(/images/error/pageNotFound.png);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  z-index: 99 !important;
+}
+#mainDiv {
+  background-image: url(/images/admin/admin.jpg);
+  background: linear-gradient(hsla(0, 0%, 100%, 0.5), hsla(0, 0%, 100%, 0.5)),
+    url(/images/admin/admin.jpg);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100% !important;
+  min-width: 280px;
+}
+.vacationsMainDiv {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  justify-content: center;
+  background-color: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.vacationsMainDiv > div {
+  margin: 10px;
+  width: 250px;
+  border: 2px solid transparent;
+  background-color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  justify-content: center;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  background: inherit;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.vacationsMainDiv > div:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px hsla(0, 0%, 100%, 0.5);
+  -webkit-filter: blur(20px);
+  filter: blur(20px);
+  margin: -20px;
+  background-color: #fff;
+  opacity: 0.3;
+}
+.vacationsMainDiv > div > h1 {
+  font-size: 30px;
+  margin: 3px;
+}
+.vacationsMainDiv > div > h3 {
+  font-size: 20px;
+  margin: 3px;
+}
+.vacationsMainDiv > div > h3 > span {
+  font-weight: lighter;
+  margin: 3px;
+}
+.backgroundImg,
+.vacationImg {
+  width: auto;
+  max-width: 250px;
+  height: 150px;
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+.backgroundImg {
+  background-image: url(/images/error/lostManNew.png);
+  display: flex;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  justify-content: center;
+}
+#descriptionField {
+  width: 100%;
+  border-radius: 0;
+  border: transparent;
+  background-color: transparent;
+  padding-left: 10px;
+}
+#description {
+  font-weight: lighter;
+  margin-bottom: 10px;
+}
+#blockBackgroundDiv {
+  background-color: #000;
+  opacity: 0.5;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 98 !important;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+@media only screen and (max-width: 560px) and (min-width: 380px) {
+  .vacationsMainDiv > div {
+    margin: 5px;
+    width: 170px;
+  }
+  .vacationsMainDiv > div > h1 {
+    font-size: 23px;
+    margin: 0;
+  }
+  .vacationsMainDiv > div > h3 {
+    font-size: 15px;
+    font-weight: lighter;
+    margin: 3px;
+  }
+  .vacationsMainDiv > div > h3 > span {
+    font-size: 20px;
+    font-weight: lighter;
+    margin: 3px;
+  }
+  #description {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 3px;
+    font-weight: lighter;
+  }
+  .vacationImg {
+    width: auto;
+    max-width: 250px;
+    height: 150px;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+}
+@media only screen and (max-width: 380px) {
+  .vacationsMainDiv > div {
+    margin: 5px;
+    width: 120px;
+  }
+  .vacationsMainDiv > div > h1 {
+    font-size: 23px;
+    margin: 0;
+  }
+  .vacationsMainDiv > div > h3 {
+    font-size: 15px;
+    font-weight: lighter;
+    margin: 3px;
+  }
+  .vacationsMainDiv > div > h3 > span {
+    font-size: 15px;
+    font-weight: bolder;
+    margin: 3px;
+  }
+  #description {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 3px;
+    font-weight: lighter;
+  }
+  .vacationImg {
+    width: auto;
+    width: 120px;
+    height: 100px;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+  .backgroundImg {
+    width: 120px;
+    height: 100px;
+  }
+}
+.roundButtons {
+  border-radius: 50%;
+  height: 20px;
+  border-color: transparent;
+  background-color: transparent;
+  margin-top: 15px;
+}
+#adminButtons :hover {
+  color: #f8f9fa;
+}
+#adminButtons :focus {
+  background-color: transparent !important;
+}
+#adminButtons {
+  position: absolute;
+  font-size: 26px;
+  top: 0;
+  right: 0;
+  color: #d3d3d3;
+  -webkit-text-stroke-width: 0.3px;
+  -webkit-text-stroke-color: #000;
+}
+#adminButtons,
+.editVacationDiv {
+  display: flex;
+  flex-direction: column;
+}
+.editVacationDiv {
+  text-align: center;
+  background-color: #f8f9fa;
+  position: fixed;
+  max-height: 80%;
+  padding-left: 20px;
+  padding-right: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  top: 10%;
+  justify-content: center;
+  border-radius: 20px;
+  z-index: 99 !important;
+  min-width: 260px;
+  border: 3px solid #000;
+  background: linear-gradient(#fff, hsla(0, 0%, 100%, 0.8)),
+    url(/images/admin/addVacation.jpg);
+}
+@media only screen and (min-width: 600px) {
+  .editVacationDiv {
+    width: 80%;
+  }
+}
+.editVacationDiv > div {
+  display: flex;
+  justify-content: center;
+  overflow-y: scroll;
+  width: 100%;
+}
+.editVacationDiv > div > div {
+  text-align: left;
+  width: auto;
+  height: 100%;
+}
+.addVacationDiv > div > div > label {
+  font-size: 25px !important;
+}
+.editVacationDiv > div > div > input {
+  font-size: 20px;
+  margin: 10px;
+  text-align: left;
+}
+.airplaneImg {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  padding-right: 6px;
+}
+.editVacationDiv > div > button {
+  font-size: 25px;
+}
+.editVacationDiv > div > button :hover {
+  text-decoration: none;
+}
+#editButtonsDiv {
+  padding: 10px;
+}
+#editButtonsDiv,
+.errorMessage {
+  text-align: center;
+}
+.heartBackground {
+  background-image: url(/images/admin/heart.webp);
+  width: 40px;
+  height: 40px;
+  max-width: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.addVacationDiv {
+  background: linear-gradient(#fff, hsla(0, 0%, 100%, 0.8)),
+    url(/images/admin/addVacation.jpg);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  justify-content: center;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.8);
+}
+.addVacationDiv:before {
+  content: "";
+  position: absolute;
+  background: inherit;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px hsla(0, 0%, 100%, 0.5);
+  -webkit-filter: blur(20px);
+  filter: blur(20px);
+  margin: -20px;
+  opacity: 0.5;
+  min-width: 250px;
+}
+.addVacationDiv > div {
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+}
+.addVacationDiv > div > div {
+  text-align: left;
+  width: auto;
+}
+.addVacationDiv > div > div > label {
+  font-size: 20px;
+}
+.addVacationDiv > div > div > input {
+  font-size: 20px;
+  margin: 10px;
+  text-align: left;
+}
+.addVacationDiv > div > button {
+  font-size: 25px;
+}
+.addVacationDiv > div > button :hover {
+  text-decoration: none;
+}
+.errorMessage {
+  margin-top: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  color: red;
+}
+#previewImg {
+  width: 100%;
+  max-width: 350px;
+}
+.subText {
+  font-size: 15px;
+}
+.buttonSpace {
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+#cancelButton {
+  color: #fff;
+}
+#saveButton {
+  background-color: #04bfee !important;
+}
+#title {
+  color: #04bfee;
+  font-family: "Staatliches", cursive;
+}
+#graphBody {
+  background-color: #fff;
+}
+.mainDiv {
+  position: relative;
+  top: 100px;
+  padding-left: 5px;
+  padding-right: 5px;
+  min-width: 250px;
+  background-color: transparent;
+}
+#homeButton {
+  background-color: #fff;
+  justify-content: center;
+  width: 100%;
+  font-size: 40px;
+  border: 0.3px solid #d3d3d3;
+  color: #000;
+}
+#homeNavLinkButton :hover {
+  transition: 0.5s;
+  transform: scale(0.98);
+}
+#addVacationCard,
+.grow,
+.grow:hover {
+  border-radius: 10px 10px 0 0;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.03);
+}
+.growGraph {
+  transition: all 0.2s ease-in-out;
+}
+.growGraph:hover {
+  transform: scale(1.1);
+}
 /*# sourceMappingURL=main.0a8ab9a5.chunk.css.map */
