@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOpenAlertDialogBox } from '../../../redux/web/webSelectors';
-import { closeAlertDialogBox, openAlertDialogBox } from '../../../redux/web/webSlice'
+import { closeAlertDialogBox, openAlertDialogBox, updateErrorAlertMessage, updateSuccessAlertMessage } from '../../../redux/web/webSlice'
 import { selectTaskToDeleteId, selectTaskToDeleteTitle } from '../../../redux/tasks/tasksSelectors';
 import { useMutation } from '@apollo/react-hooks';
 import { DELETE_TASK } from '../../../graphql/tasksQuery';
@@ -38,10 +38,12 @@ const VerifyDialogBox = () => {
         await deleteTaskMutation();
         dispatch(deleteTaskFromArray(taskToDeleteId))
         handleClose();
+        dispatch(updateSuccessAlertMessage('Task Deleted Succesfuly'))
+
       }
-      catch{
-        console.log('Catched')
-      }
+      catch(err){
+        let errorMessage = (err as Error).message;
+        dispatch(updateErrorAlertMessage(errorMessage))      }
     }
 
     const [deleteTaskMutation] = useMutation(DELETE_TASK, {
@@ -65,8 +67,8 @@ const VerifyDialogBox = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>No</Button>
-            <Button onClick={onClickYes} autoFocus>
+            <Button onClick={handleClose} className='closeIcon'>No</Button>
+            <Button onClick={onClickYes} autoFocus className='deleteTaskIcon'>
               Yes
             </Button>
           </DialogActions>

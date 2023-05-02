@@ -13,11 +13,11 @@ import {useEffect} from 'react';
 import { selectFilterByOpenStatus, selectFilterByTopPriority, selectTasks } from '../../redux/tasks/tasksSelectors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {openAlertDialogBox, openFormDialogBox } from '../../redux/web/webSlice';
+import {openAlertDialogBox, openFormDialogBox, openReadDialogBox } from '../../redux/web/webSlice';
 import { gql, useMutation } from '@apollo/client';
 import { DELETE_TASK } from '../../graphql/tasksQuery';
 import { forwardRef, useImperativeHandle } from "react";
-import { updateTaskToDeleteId, updateTaskToDeleteTitle, updateTaskToEditId } from '../../redux/tasks/tasksSlice';
+import { updateCurrentTaskId, updateTaskToDeleteId, updateTaskToDeleteTitle, updateTaskToEditId } from '../../redux/tasks/tasksSlice';
 import { updateAlltasks } from '../../redux/tasks/tasksSlice'
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
@@ -26,6 +26,8 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Button } from '@mui/material';
+import DescriptionIcon from '@mui/icons-material/Description';
+import ReadDialogBox from '../dialogBox/readDialogBox/readDialogBox';
 
 
 
@@ -64,6 +66,13 @@ const TaskTable = (props: Props) => {
 
       };
 
+      const onClickShowTask = (taskId: string) => {
+        dispatch(updateCurrentTaskId(taskId));
+        dispatch(openReadDialogBox());
+
+
+      }
+
       const filterBy = (tasksArray: Task[]) => {
 
         if (openFilterPressed == true){
@@ -86,8 +95,10 @@ const TaskTable = (props: Props) => {
 
       return (
         <div className='tableContainer'>
+        
         <h5 className='ResultsCount'> There Are Currently: {filteredTasks.length} Results</h5>
-        <TableContainer component={Paper}>
+        {filteredTasks.length > 0 &&
+          <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table" className='table'
 
 >
@@ -139,12 +150,16 @@ const TaskTable = (props: Props) => {
                   <TableCell align="center">{task.estimatedTime}</TableCell>
                   <TableCell align="center">
 
+                  <Button variant="text" onClick={() =>  onClickShowTask(task._id as string)}>
+                    <DescriptionIcon className='icon descriptionIcon'/>
+                  </Button>
+
                   <Button variant="text" onClick={() =>  onClickEditTask(task._id as string)}>
-                    <EditIcon className='icon'/>
+                    <EditIcon className='icon editIcon'/>
                   </Button>
 
                   <Button variant="text" onClick={() =>  onClickDeleteTask(task._id as string, task.title as string)}>
-                    <DeleteIcon className='icon'/>
+                    <DeleteIcon className='icon trashIcon'/>
                   </Button>
 
                   </TableCell>
@@ -154,8 +169,13 @@ const TaskTable = (props: Props) => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
+        </TableContainer>}
+
+        {filteredTasks.length == 0 && 
+        <h1 className='sorrySign'>Sorry , No Tasks Match Your Search</h1>
+        }
         </div>
+        
         );
   };
   

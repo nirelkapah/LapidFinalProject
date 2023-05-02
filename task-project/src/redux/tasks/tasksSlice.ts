@@ -11,7 +11,8 @@ export interface TasksState {
   taskToDeleteTitle: string,
   taskToEditId: string,
   filterTaskByTopPriority: boolean,
-  filterTaskByOpenStatus: boolean
+  filterTaskByOpenStatus: boolean,
+  currentTaskId: string
 
 }
 
@@ -22,7 +23,8 @@ const initialState: TasksState = {
   taskToDeleteTitle: '',
   taskToEditId: '',
   filterTaskByTopPriority: false,
-  filterTaskByOpenStatus: false
+  filterTaskByOpenStatus: false,
+  currentTaskId: ''
 
 
 }
@@ -99,6 +101,10 @@ export const tasksSlice = createSlice({
 
     },
 
+    updateCurrentTaskId: (state, action: PayloadAction<string>) => {
+      state.currentTaskId = action.payload
+    },
+
   },
 })
 
@@ -111,7 +117,8 @@ export const {
   updateTaskToEditId, 
   replaceTaskToNewTask,
   toggleFilterByPriority,
-  toggleFilterByOpenStatus
+  toggleFilterByOpenStatus,
+  updateCurrentTaskId
   } = tasksSlice.actions
 
 export default tasksSlice.reducer

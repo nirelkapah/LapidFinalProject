@@ -7,6 +7,7 @@ import type { RootState, AppDispatch } from '../store'
 export interface WebState {
   openFormDialogBox: boolean,
   openVerifyDialogBox: boolean,
+  openReadDialogBox: boolean,
   errorAlertMessage: string,
   successAlertMessage: string
 }
@@ -14,6 +15,7 @@ export interface WebState {
 // Define the initial state using that type
 const initialState: WebState = {
   openFormDialogBox: false ,
+  openReadDialogBox: false,
   openVerifyDialogBox: false,
   errorAlertMessage: '',
   successAlertMessage: ''
@@ -40,6 +42,15 @@ export const webSlice = createSlice({
     openAlertDialogBox: (state) => {
       state.openVerifyDialogBox = true;
     },
+
+    closeReadDialogBox: (state) => {
+      state.openReadDialogBox = false;
+    },
+
+    openReadDialogBox: (state) => {
+      state.openReadDialogBox = true;
+    },
+
     updateErrorAlertMessage: (state, action: PayloadAction<string>) => {
       state.errorAlertMessage = action.payload;
     },
@@ -54,6 +65,8 @@ export const {
   openFormDialogBox, 
   openAlertDialogBox, 
   closeAlertDialogBox,
+  openReadDialogBox,
+  closeReadDialogBox,
   updateErrorAlertMessage,
   updateSuccessAlertMessage} = webSlice.actions
 

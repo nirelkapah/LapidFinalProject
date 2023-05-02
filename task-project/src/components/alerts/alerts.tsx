@@ -17,7 +17,7 @@ const Alerts = () => {
 
     useEffect(() => {
         
-            setTimeout(deleteAlert, 3000);
+            setTimeout(deleteAlert, 2000);
         
       }, [successAlertMessage,errorAlertMessage ])
 

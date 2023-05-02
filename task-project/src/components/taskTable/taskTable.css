@@ -7,7 +7,7 @@
     animation-fill-mode: forwards;
     border-collapse: collapse;
 	box-sizing: border-box;
-    overflow: hidden
+    overflow: hidden;
 
 }
  
@@ -33,23 +33,38 @@
     padding-top: 1px !important;
     padding-bottom: 1px !important;
     /* color: gray !important; */
+    color: white !important;
+
 
 }
 
 .icon {
     padding-left: 5px !important;
+    color: black;
+}
+
+.trashIcon{
+    color: #e54fb3;
+}
+
+.editIcon{
+    color: #a84bb0;
+}
+
+.descriptionIcon{
+    color: #7046ac;
 }
 
 #openIcon{
-    color: green !important;
+    color: #00f5d4 !important;
 }
 
 #urgentIcon{
-    color: orange !important;
+    color: #fee440 !important;
 }
 
 #closedIcon{
-    color: gray !important; 
+    color: #00bbf9 !important; 
 }
 
 .addTaskIcon{
@@ -66,19 +81,24 @@
 }
 
 #priorityTop{
-    color: red;
+    color: #ef476f;
 }
 
 #priorityRegular{
-    color: lightgreen;
+    color: #f8961e;
 }
 
 #priorityMinor{
-    color: gray;
+    color: #FFDEB9;
 }
 
 .tableRow{
-    overflow: hidden
+    overflow: hidden;
+
+}
+
+.sorrySign{
+    color: white;
 }
 
 

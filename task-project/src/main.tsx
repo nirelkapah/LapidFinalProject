@@ -5,6 +5,8 @@ import Layout from './components/layout/layout'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
+import Header from './components/header/header';
+
 
 
 

@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOpenFormDialogBox } from '../../../redux/web/webSelectors';
-import { closeFormDialogBox, openFormDialogBox, updateSuccessAlertMessage } from '../../../redux/web/webSlice'
+import { closeFormDialogBox, openFormDialogBox, updateErrorAlertMessage, updateSuccessAlertMessage } from '../../../redux/web/webSlice'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -57,6 +57,7 @@ const FormDialogBox = () => {
     const [currentlyClosedTask, setClosedTask] = React.useState(false);
 
     const [FormError, setFormError] = React.useState('');
+
 
     //Checks If Task Is Edited
 
@@ -128,7 +129,7 @@ const FormDialogBox = () => {
         else{
           result = await createTaskMutation(); 
           dispatch(addTaskToArray(result.data.createTask));  
-
+          dispatch(updateSuccessAlertMessage('Task Added Succesfuly'))
         }
 
         handleClose();
@@ -136,8 +137,9 @@ const FormDialogBox = () => {
       }
       catch(err){
         let errorMessage = (err as Error).message;
-        console.log(err)
         setFormError(errorMessage);
+        // dispatch(updateErrorAlertMessage(errorMessage))
+
 
       }
     }
@@ -173,7 +175,8 @@ const FormDialogBox = () => {
 
     const handleClose = () => {
       dispatch(closeFormDialogBox());
-      dispatch(updateTaskToEditId(''))   
+      dispatch(updateTaskToEditId(''))  
+      setFormError('') 
  
     };
 
@@ -210,14 +213,15 @@ const FormDialogBox = () => {
       <div>
         <Dialog open={openFormState} onClose={handleClose} >
           <DialogTitle>Create Or Modify Task</DialogTitle>
+          
           <DialogContent>
 
             <FormGroup sx={{ m: 1, minWidth: 400 }}>
-
-            
             <FormControl variant="standard" >
               <InputLabel id="statusLabel">Status</InputLabel>
               <Select
+                error={FormError.includes('Status')}
+                required
                 labelId="statusLabel"
                 id="statusSelect"
                 value={status}
@@ -232,6 +236,7 @@ const FormDialogBox = () => {
 
 
               <TextField onChange={onChangeTitle}
+                  error={FormError.includes('Title')}
                   required
                   id="standard-required"
                   label="Title"
@@ -242,6 +247,7 @@ const FormDialogBox = () => {
               <br></br>
 
               <TextField onChange={onChangeDescription}
+                  error={FormError.includes('Description')}
                   required
                   id="standard-required"
                   label="Description"
@@ -252,6 +258,7 @@ const FormDialogBox = () => {
                 <br></br>
 
                 <TextField onChange={onChangeEstTime}
+                    error={FormError.includes('Estimated')}
                     required
                     type='number'
                     id="standard-required"
@@ -264,6 +271,8 @@ const FormDialogBox = () => {
                 <FormControl variant="standard">
                 <InputLabel id="priorityLabel">Priority</InputLabel>
                 <Select
+                  error={FormError.includes('Priority')}
+                  required
                   labelId="priorityLabel"
                   id="prioritySelect"
                   value={priority}
@@ -278,10 +287,14 @@ const FormDialogBox = () => {
                 <br></br>
 
                 {currentlyUrgentTask && 
-                <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs.utc}>
-                  <DemoContainer components={['DateCalendar', 'DateCalendar']}>
-                  <DemoItem label="Until Date">
-                  <DateCalendar value={dayjs.utc(untilDate)} onChange={(newValue) => setUntilDate(newValue)} />
+                <LocalizationProvider 
+                dateAdapter={AdapterDayjs} 
+                dateLibInstance={dayjs.utc} 
+                error={FormError.includes('Date')}
+                >
+                  <DemoContainer components={['DateCalendar', 'DateCalendar']} >
+                  <DemoItem label="Until Date" >
+                  <DateCalendar value={dayjs.utc(untilDate)} onChange={(newValue) => setUntilDate(newValue)}  />
                   </DemoItem>
                   </DemoContainer>
                 </LocalizationProvider>
@@ -289,6 +302,7 @@ const FormDialogBox = () => {
 
                 {currentlyClosedTask && 
                 <TextField onChange={onChangeReview}
+                  error={FormError.includes('Review')}
                   id="standard-required"
                   label="Review"
                   value= {review}
@@ -300,6 +314,7 @@ const FormDialogBox = () => {
                 
                 {currentlyClosedTask && 
                 <TextField onChange={onChangeTimeSpent}
+                    error={FormError.includes('Spent')}
                     type='number'
                     id="standard-required"
                     label="Time Spent (hours)"
@@ -311,6 +326,7 @@ const FormDialogBox = () => {
                 {FormError && 
                 <span className='formError'>{FormError} </span>
                 }
+
                 </FormGroup>
                   
 
@@ -321,8 +337,8 @@ const FormDialogBox = () => {
             
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={onClickSendTask}>Send</Button>
+            <Button onClick={handleClose} className='closeIcon'>Cancel</Button>
+            <Button onClick={onClickSendTask} className='sendIcon'>Send</Button>
           </DialogActions>
         </Dialog>
       </div>

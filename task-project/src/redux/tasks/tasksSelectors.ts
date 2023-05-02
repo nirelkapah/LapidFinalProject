@@ -14,9 +14,17 @@ export const selectTaskToDeleteTitle = (state: RootState) => {
 export const selectTaskToEditId = (state: RootState) => {
     return state.tasksState.taskToEditId};
 
+export const selectCurrentTaskId = (state: RootState) => {
+    return state.tasksState.currentTaskId};
+
 export const selectTaskToEdit = (state: RootState) => {
         return state.tasksState.tasksArray.find(task => task._id == state.tasksState.taskToEditId)   
 };
+
+export const selectCurrentTask = (state: RootState) => {
+    return state.tasksState.tasksArray.find(task => task._id == state.tasksState.currentTaskId)   
+};
+
 export const TaskIsEdited = (state: RootState) => {
     if(state.tasksState.taskToEditId != ""){
         return true

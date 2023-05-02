@@ -5,3 +5,7 @@
 .deleteTaskIcon{
     color: red !important;
 }
+
+.taskContainer{
+    min-width: 300px !important;
+}
