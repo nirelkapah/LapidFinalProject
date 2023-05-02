@@ -63,7 +63,6 @@ const FormDialogBox = () => {
 
     useEffect(() => {
       if(taskToEdit){
-        console.log('ENTERED TASK TO EDIT')
         setStatus(taskToEdit.status);
         setTitle(taskToEdit.title)
         setDescription(taskToEdit.description)
@@ -121,7 +120,6 @@ const FormDialogBox = () => {
       try{
         if(taskIsEdited){
           result = await updateTaskMutation()
-          console.log('Sending edited Task')
           let task = result.data.updateTask;
           dispatch(replaceTaskToNewTask(task))
           dispatch(updateSuccessAlertMessage('Task Updated Succesfuly'))
@@ -138,8 +136,6 @@ const FormDialogBox = () => {
       catch(err){
         let errorMessage = (err as Error).message;
         setFormError(errorMessage);
-        // dispatch(updateErrorAlertMessage(errorMessage))
-
 
       }
     }
@@ -175,8 +171,18 @@ const FormDialogBox = () => {
 
     const handleClose = () => {
       dispatch(closeFormDialogBox());
-      dispatch(updateTaskToEditId(''))  
-      setFormError('') 
+      dispatch(updateTaskToEditId('')); 
+
+      setStatus('Open');
+      setTitle('')
+      setDescription('')
+      setEstTime(0)
+      setPriority('')
+      setReview('')
+      setTimeSpent(0)
+      setUntilDate(dayjs.utc(new Date()))
+
+      setFormError('') ;
  
     };
 
@@ -193,7 +199,9 @@ const FormDialogBox = () => {
     };
 
     const onChangeEstTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setEstTime(event.target.valueAsNumber);
+      if(event.target.valueAsNumber || event.target.valueAsNumber> 0){
+        setEstTime(event.target.valueAsNumber);
+      }
     };
 
     const onChangePriority = (event: SelectChangeEvent) => {
@@ -205,7 +213,9 @@ const FormDialogBox = () => {
     };
 
     const onChangeTimeSpent = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if(event.target.valueAsNumber || event.target.valueAsNumber> 0 ){
       setTimeSpent(event.target.valueAsNumber);
+      }
     };
 
 
@@ -290,10 +300,9 @@ const FormDialogBox = () => {
                 <LocalizationProvider 
                 dateAdapter={AdapterDayjs} 
                 dateLibInstance={dayjs.utc} 
-                error={FormError.includes('Date')}
                 >
-                  <DemoContainer components={['DateCalendar', 'DateCalendar']} >
-                  <DemoItem label="Until Date" >
+                  <DemoContainer components={['DateCalendar', 'DateCalendar']}>
+                  <DemoItem label="Until Date">
                   <DateCalendar value={dayjs.utc(untilDate)} onChange={(newValue) => setUntilDate(newValue)}  />
                   </DemoItem>
                   </DemoContainer>

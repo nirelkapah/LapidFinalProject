@@ -13,6 +13,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { DELETE_TASK } from '../../../graphql/tasksQuery';
 import { deleteTaskFromArray } from '../../../redux/tasks/tasksSlice';
 import {Task} from '../../../model/task'
+import dayjs from 'dayjs';
 
 
 const ReadDialogBox = () => {
@@ -47,8 +48,8 @@ const ReadDialogBox = () => {
             <DialogContentText>
               
             </DialogContentText>
-            <DialogContentText>
-              Title: {task.description}
+            <DialogContentText className='description'>
+              Description: {task.description}
             </DialogContentText>
             <DialogContentText>
               Estimated Time: {task.estimatedTime} Hours
@@ -62,7 +63,7 @@ const ReadDialogBox = () => {
             
             {task.untilDate &&
               <DialogContentText>
-              Until: {task.untilDate}
+              Until: {dayjs.utc(task.untilDate).format('MMMM D, YYYY')}
             </DialogContentText>
             }
 

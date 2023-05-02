@@ -7,11 +7,11 @@ import type { RootState } from '../../redux/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateAlltasks } from '../../redux/tasks/tasksSlice'
 import { Task } from '../../model/task';
+import { updateErrorAlertMessage } from '../../redux/web/webSlice';
 
 const TaskTableContainer = () => {
   
-  // const dispatch = useDispatch()
-
+  const dispatch = useDispatch()
   const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
 
   if (loading) {
@@ -19,6 +19,9 @@ const TaskTableContainer = () => {
   }
 
   if (error || !data) {
+    let errorMessage = (error as Error).message;
+    dispatch(updateErrorAlertMessage(errorMessage))
+
     return <div>ERROR</div>;
   }
 

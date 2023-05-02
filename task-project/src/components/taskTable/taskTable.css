@@ -99,15 +99,18 @@
 
 .sorrySign{
     color: white;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2em;
 }
 
+.descriptionCell{
+    max-width: 400px !important;
+    overflow-wrap: break-word;
+}
 
-
-
-
-
-
-
+.actionsCell{
+    min-width: 200px !important;
+}
 
 
 

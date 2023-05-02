@@ -9,3 +9,7 @@
 .taskContainer{
     min-width: 300px !important;
 }
+
+.description{
+    overflow-wrap: break-word;
+}

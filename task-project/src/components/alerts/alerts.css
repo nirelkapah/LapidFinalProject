@@ -5,6 +5,7 @@
     /* left: auto; */
     left: 50%;
     transform: translate(-50%, -50%);
+    opacity: 0.9;
 
 
     /* height: 40px;

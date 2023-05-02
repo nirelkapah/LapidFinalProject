@@ -23,6 +23,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <ApolloProvider client={client}>
         <Layout />
         </ApolloProvider>
-      </Provider>,
-  </React.StrictMode>,
+      </Provider>
+  </React.StrictMode>
 )

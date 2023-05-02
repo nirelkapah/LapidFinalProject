@@ -145,10 +145,11 @@ const TaskTable = (props: Props) => {
                   
                   </TableCell>
                   <TableCell align="center">{task.title}</TableCell>
-                  <TableCell align="center">{task.description}</TableCell>
+                  <TableCell align="center" className='descriptionCell'>{task.description}</TableCell>
                   <TableCell align="center">{task.status}</TableCell>
-                  <TableCell align="center">{task.estimatedTime}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center">{task.estimatedTime} {task.estimatedTime>1 ? 'hours' : 'hour'}</TableCell>
+
+                  <TableCell align="center" className='actionsCell'>
 
                   <Button variant="text" onClick={() =>  onClickShowTask(task._id as string)}>
                     <DescriptionIcon className='icon descriptionIcon'/>
