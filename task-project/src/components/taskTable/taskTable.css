@@ -52,11 +52,11 @@
 }
 
 #openIcon {
-  color: #00f5d4 !important;
+  color: #00c0a6 !important;
 }
 
 #urgentIcon {
-  color: #fee440 !important;
+  color: #efcf00 !important;
 }
 
 #closedIcon {
@@ -105,6 +105,10 @@
 
 .actionsCell {
   min-width: 200px !important;
+}
+
+.errorAlert {
+  color: white;
 }
 
 .lds-roller {

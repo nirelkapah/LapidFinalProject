@@ -44,6 +44,12 @@ import {
   selectTaskToEdit,
   selectTaskToEditId,
 } from "../../../redux/tasks/tasksSelectors";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import PlagiarismIcon from "@mui/icons-material/Plagiarism";
+import TaskIcon from "@mui/icons-material/Task";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const FormDialogBox = () => {
   //global state
@@ -226,11 +232,15 @@ const FormDialogBox = () => {
   return (
     <div>
       <Dialog open={openFormState} onClose={handleClose}>
-        <DialogTitle>Create Or Modify Task</DialogTitle>
+        <DialogTitle className='dialogTitle'>
+        <NoteAddIcon /> &nbsp;
+          Create Or Modify Task 
+        </DialogTitle>
+
 
         <DialogContent>
           <FormGroup sx={{ m: 1, minWidth: 400 }}>
-            <FormControl variant="standard">
+            <FormControl variant="outlined">
               <InputLabel id="statusLabel">Status</InputLabel>
               <Select
                 error={FormError.includes("Status")}
@@ -241,11 +251,15 @@ const FormDialogBox = () => {
                 onChange={onChangeStatus}
                 label="status"
               >
-                <MenuItem value={"Open"}>Open</MenuItem>
+                <MenuItem value={"Open"}>Open
+                </MenuItem>
                 <MenuItem value={"Urgent"}>Urgent</MenuItem>
                 <MenuItem value={"Closed"}>Closed</MenuItem>
               </Select>
             </FormControl>
+            {FormError.includes('Status') && <span className="formError">{FormError} </span>}
+
+            <br></br>
 
             <TextField
               onChange={onChangeTitle}
@@ -254,8 +268,11 @@ const FormDialogBox = () => {
               id="standard-required"
               label="Title"
               value={title}
-              variant="standard"
+              variant="outlined"
+              
             />
+
+            {FormError.includes('Title') && <span className="formError">{FormError} </span>}
             <br></br>
 
             <TextField
@@ -265,8 +282,9 @@ const FormDialogBox = () => {
               id="standard-required"
               label="Description"
               value={description}
-              variant="standard"
+              variant="outlined"
             />
+            {FormError.includes('Description') && <span className="formError">{FormError} </span>}
 
             <br></br>
 
@@ -278,11 +296,13 @@ const FormDialogBox = () => {
               id="standard-required"
               label="Estimated Time (hours)"
               value={estTime}
-              variant="standard"
+              variant="outlined"
             />
+
+            {FormError.includes('Estimated') && <span className="formError">{FormError} </span>}
             <br></br>
 
-            <FormControl variant="standard">
+            <FormControl variant="outlined">
               <InputLabel id="priorityLabel">Priority</InputLabel>
               <Select
                 error={FormError.includes("Priority")}
@@ -298,6 +318,8 @@ const FormDialogBox = () => {
                 <MenuItem value={"Minor"}>Minor</MenuItem>
               </Select>
             </FormControl>
+            {FormError.includes('Priority') && <span className="formError">{FormError} </span>}
+
             <br></br>
 
             {currentlyUrgentTask && (
@@ -315,6 +337,7 @@ const FormDialogBox = () => {
                 </DemoContainer>
               </LocalizationProvider>
             )}
+            {FormError.includes('Date') && <span className="formError">{FormError} </span>}
 
             {currentlyClosedTask && (
               <TextField
@@ -323,9 +346,10 @@ const FormDialogBox = () => {
                 id="standard-required"
                 label="Review"
                 value={review}
-                variant="standard"
+                variant="outlined"
               />
             )}
+            {FormError.includes('Review') && <span className="formError">{FormError} </span>}
 
             <br></br>
 
@@ -337,11 +361,11 @@ const FormDialogBox = () => {
                 id="standard-required"
                 label="Time Spent (hours)"
                 value={timeSpent}
-                variant="standard"
+                variant="outlined"
               />
             )}
 
-            {FormError && <span className="formError">{FormError} </span>}
+            {FormError.includes('Spent') && <span className="formError">{FormError} </span>}
           </FormGroup>
 
           <br></br>

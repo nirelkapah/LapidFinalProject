@@ -42,36 +42,49 @@ const ActionsBar = () => {
 
   return (
     <div className="actionsBarContainer animate__animated animate__fadeInUp">
+
+      {/* <br></br> */}
+      <div className="filtersContainer">
+        <span className="actionBarSubText">QUICK FILTERS:</span>
+        &nbsp;&nbsp;&nbsp;
+        <Button
+          variant="outlined"
+          className={topPriorityFilterPressed ?"actionBarButtonsIsPressed" : "actionBarButtons"}
+          onClick={onClickTopPriority}
+          disableElevation={topPriorityFilterPressed}
+          
+
+        >
+          <span className="actionBarText">Only Top Priority</span>
+          <KeyboardDoubleArrowUpIcon id="topPriorityIcon" />
+        </Button>
+        &nbsp;&nbsp;
+        <Button
+          variant="outlined"
+          className={openFilterPressed ?"actionBarButtonsIsPressed" : "actionBarButtons"}
+          onClick={onClickOnlyOpen}
+        >
+
+          <span className="actionBarText"> Only Open</span>
+          &nbsp;
+          <NoteAddIcon id="openTaskIcon" />
+        </Button>
+      </div>
+
+
+      <div className="addTaskContainer">
       <Button
         variant="text"
         onClick={onClickOpenForm}
-        className="actionBarButtons"
+        id="addTaskButton"
       >
-        <span className="actionBarText"> Add Task</span> &nbsp;
-        <AddBoxIcon id="addTaskIcon" />
-      </Button>
-      &nbsp;&nbsp;
-      <br></br>
-      <span className="actionBarSubText">QUICK FILTERS:</span>
-      &nbsp;&nbsp;
-      <Button
-        variant="text"
-        className="actionBarButtons"
-        onClick={onClickTopPriority}
-      >
-        <span className="actionBarText">Only Top Priority</span>
-        <KeyboardDoubleArrowUpIcon id="topPriorityIcon" />
-      </Button>
-      &nbsp;&nbsp;
-      <Button
-        variant="text"
-        className="actionBarButtons"
-        onClick={onClickOnlyOpen}
-      >
-        <span className="actionBarText"> Only Open</span>
-        &nbsp;
-        <NoteAddIcon id="openTaskIcon" />
-      </Button>
+        <span className="actionBarText" > Add Task</span> &nbsp;
+          <AddBoxIcon id="addTaskIcon" />
+        </Button>
+        &nbsp;&nbsp;
+
+      </div>
+
     </div>
   );
 };

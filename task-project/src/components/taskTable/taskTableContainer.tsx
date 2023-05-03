@@ -32,7 +32,7 @@ const TaskTableContainer = () => {
     let errorMessage = (error as Error).message;
     dispatch(updateErrorAlertMessage(errorMessage));
 
-    return <div>Sorry, An Error Occured</div>;
+    return <div className="errorAlert">Sorry, An Error Occured, Please Check Your Internet Connection</div>;
   }
 
   // const tasks = useSelector((state: RootState) => state.tasker.tasks);

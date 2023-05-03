@@ -41,6 +41,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ReadDialogBox from "../dialogBox/readDialogBox/readDialogBox";
+import { DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams } from '@mui/x-data-grid';
 
 interface Props {
   tasks: Task[];
@@ -85,14 +86,138 @@ const TaskTable = (props: Props) => {
     }
   };
 
+  const columns: GridColDef[] = [
+    { field: 'type',
+     headerName: 'Type',
+     sortable: false,
+     renderCell: (params: GridRenderCellParams<Task>) => (
+      <div>
+      {params.row.status === "Open" && (
+        <NoteAddIcon className="icon" id="openIcon" />
+      )}
+
+      {params.row.status === "Urgent" && (
+        <PlagiarismIcon className="icon" id="urgentIcon" />
+      )}
+
+      {params.row.status === "Closed" && (
+        <TaskIcon className="icon" id="closedIcon" />
+      )}
+      </div>
+     ),
+    width: 70 },
+
+    { field: 'priority', 
+    headerName: 'Priority', 
+    sortable: false,
+    renderCell: (params: GridRenderCellParams<Task>) => (
+      <div>
+        {params.row.priority === "Top" && (
+                      <KeyboardDoubleArrowUpIcon
+                        className="icon"
+                        id="priorityTop"
+                      />
+                    )}
+
+        {params.row.priority === "Regular" && (
+          <KeyboardArrowUpIcon
+            className="icon"
+            id="priorityRegular"
+          />
+        )}
+
+        {params.row.priority === "Minor" && (
+          <KeyboardArrowDownIcon
+            className="icon"
+            id="priorityMinor"
+          />
+        )}
+
+      </div>
+    ),
+
+    width: 130 },
+    { field: 'title', headerName: 'Title', width: 150 },
+    { field: 'description', headerName: 'Description', width: 260 },
+    { field: 'status', headerName: 'Status', width: 130 },
+    {
+      field: 'estimatedTime',
+      headerName: 'Estimated Time',
+      type: 'number',
+      width: 90,
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: (params: GridRenderCellParams<Task>) => (
+      
+      <div>
+
+                <Button
+                      variant="text"
+                      onClick={() => onClickShowTask(params.row._id as string)}
+                    >
+                      <DescriptionIcon className="icon descriptionIcon" />
+                    </Button>
+
+                    <Button
+                      variant="text"
+                      onClick={() => onClickEditTask(params.row._id as string)}
+                    >
+                      <EditIcon className="icon editIcon" />
+                    </Button>
+
+                    <Button
+                      variant="text"
+                      onClick={() =>
+                        onClickDeleteTask(
+                          params.row._id as string,
+                          params.row.title as string
+                        )
+                      }
+                    >
+                      <DeleteIcon className="icon trashIcon" />
+
+                    </Button>
+      </div>
+      
+      ),
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 160,
+      // valueGetter: (params: GridValueGetterParams) => {
+      //   return(<KeyboardArrowDownIcon />)
+      // }
+        
+    },
+  ];
+
   const filteredTasks = filterBy(tasksState.tasksArray);
 
   return (
     <div className="tableContainer">
-      <h5 className="ResultsCount">
+      <p className="ResultsCount">
         {" "}
         There Are Currently: {filteredTasks.length} Results
-      </h5>
+      </p>
+      <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={filteredTasks}
+        getRowId={(filteredTasks) => filteredTasks._id}        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 },
+          },
+        }}
+        autoHeight
+        pageSizeOptions={[4, 8]}
+      />
+    </div>
+
+      <p className="ResultsCount">
+        {" "}
+        There Are Currently: {filteredTasks.length} Results
+      </p>
       {filteredTasks.length > 0 && (
         <TableContainer component={Paper}>
           <Table

@@ -1,18 +1,22 @@
 .actionsBarContainer {
   /* display: flex; */
-  align-items: left;
-  text-align: center !important;
-  padding-bottom: 15px;
+  /* align-items: left;
+  text-align: center !important; */
   color: white;
   vertical-align: center !important;
 }
 
 .actionBarButtons {
   color: white;
-  border-color: white;
+  border-color: white !important;
 }
 
 .actionBarButtons:hover {
+  background-color: #6d45ab !important;
+  /* border-color: lightgray !important; */
+}
+
+.actionBarButtonsIsPressed {
   background-color: #6d45ab !important;
   /* border-color: lightgray !important; */
 }
@@ -29,6 +33,16 @@
   font-weight: lighter !important;
   align-items: center;
   vertical-align: center;
+}
+
+#addTaskButton {
+  background-color: #c84db2 !important;
+  /* margin-bottom: 20px; */
+}
+
+.addTaskContainer {
+  text-align: left !important;
+  padding-top: 15px;
 }
 /* 
 .actionBarText:hover{
@@ -54,4 +68,10 @@
 #openTaskIcon {
   color: white;
   height: 20px;
+}
+
+.filtersContainer {
+  align-self: left !important;
+  justify-content: left !important;
+  align-items: left !important;
 }

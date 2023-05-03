@@ -80,9 +80,9 @@ const Search = () => {
           value={keyword}
           onChange={onChangeKeyword}
         />
-        {/* <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={onClickSearch}>
-                  <SearchIcon  />
-                </IconButton> */}
+        {/* <IconButton sx={{ p: '10px' }} aria-label="search"> */}
+          <SearchIcon sx={{ p: '10px' }} aria-label="search" className="searchIcon" />
+        {/* </IconButton> */}
       </Paper>
     </div>
   );

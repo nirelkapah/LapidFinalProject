@@ -3,10 +3,24 @@
   color: red;
 }
 
+.dialogTitle {
+  color: #6945ac !important;
+  display: flex;
+  align-items: center;
+}
+
 .closeIcon {
   color: gray !important;
 }
 
 .sendIcon {
   color: #6945ac !important;
+}
+
+.closeIcon:hover {
+  background-color: rgb(243, 243, 243) !important;
+}
+
+.sendIcon:hover {
+  background-color: rgb(243, 243, 243) !important;
 }
