@@ -1,8 +1,4 @@
-import * as React from "react";
 import "./header.css";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import KeyboardDoubleArrowDownSharpIcon from "@mui/icons-material/KeyboardDoubleArrowDownSharp";
 
 const Header = () => {
   return (

@@ -1,6 +1,5 @@
-/* .tableContainer {
-    position: relative !important;
-} */
+/* Table UI */
+
 .tableContainer {
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: 1;
@@ -19,32 +18,38 @@
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
-@keyframes fadeInAnimation {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .hyperTableCell {
   text-align: center !important;
   vertical-align: text-top;
 }
 
+.tableRow {
+  overflow: hidden;
+}
+
 .tableCell {
   text-align: center !important;
-  /* line-height: 12px !important; */
   font-size: smaller !important;
   padding-top: 1px !important;
   padding-bottom: 1px !important;
-  /* color: gray !important; */
   color: white !important;
 }
 
+.descriptionCellField {
+  max-width: 320px !important;
+  max-height: 100% !important;
+  inline-size: 320px !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+.actionsCell {
+  min-width: 200px !important;
+}
+
+/* Icons */
+
 .icon {
-  /* padding-left: 5px !important; */
   color: black;
   padding: 0 !important;
   margin: 0 !important;
@@ -52,7 +57,6 @@
 
 .trashIcon {
   color: #e54fb3;
-  /* margin-right: 30px !important; */
 }
 
 .editIcon {
@@ -81,13 +85,6 @@
   left: 80px !important;
 }
 
-.ResultsCount {
-  align-self: left;
-  text-align: left;
-  color: white;
-  font-weight: lighter;
-}
-
 #priorityTop {
   color: #ef476f;
 }
@@ -100,8 +97,13 @@
   color: #ffdeb9;
 }
 
-.tableRow {
-  overflow: hidden;
+/* Alerts */
+
+.ResultsCount {
+  align-self: left;
+  text-align: left;
+  color: white;
+  font-weight: lighter;
 }
 
 .sorrySign {
@@ -110,22 +112,22 @@
   font-size: 2em;
 }
 
-.descriptionCellField {
-  max-width: 320px !important;
-  max-height: 100% !important;
-  inline-size: 320px !important;
-  overflow-wrap: break-word !important;
-  white-space: normal !important;
-}
-
-.actionsCell {
-  min-width: 200px !important;
-}
-
 .errorAlert {
   color: white;
 }
 
+/* animations */
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Loading */
 .lds-roller {
   display: inline-block;
   position: relative;

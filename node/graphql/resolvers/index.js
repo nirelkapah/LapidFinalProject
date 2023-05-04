@@ -8,6 +8,8 @@ const {
 } = require("../../utls/TaskValidation");
 
 module.exports = {
+
+  //Get All Tasks
   tasks: async () => {
     try {
       const tasks = await tasksCollection.find();
@@ -15,11 +17,13 @@ module.exports = {
       return tasks.map((task) => {
         return { ...task._doc, _id: task.id };
       });
+
     } catch (err) {
       throw err;
     }
   },
 
+  //Get Tasks By Keyword (Search)
   tasksByKeyword: async (args) => {
     try {
       let reg = new RegExp(args.keyword, "i");
@@ -33,21 +37,25 @@ module.exports = {
           { review: reg },
         ],
       });
+
       return tasks.map((task) => {
         return { ...task._doc, _id: task.id };
       });
+
     } catch (err) {
       throw err;
     }
   },
 
+  //Create New Task
   createTask: async (args) => {
     try {
-      if (args.taskInput.status == "Open") {
+
+      if (args.taskInput.status === "Open") {
         await openTaskAuthSchema.validateAsync(args.taskInput);
-      } else if (args.taskInput.status == "Urgent") {
+      } else if (args.taskInput.status === "Urgent") {
         await UrgentTaskAuthSchema.validateAsync(args.taskInput);
-      } else if (args.taskInput.status == "Closed") {
+      } else if (args.taskInput.status === "Closed") {
         await closedTaskAuthSchema.validateAsync(args.taskInput);
       }
 
@@ -72,13 +80,16 @@ module.exports = {
 
       createdTask = { ...result._doc, _id: task.id, untilDate: task.untilDate };
       return createdTask;
+
     } catch (err) {
       throw err;
     }
   },
 
+  //Delete Task
   deleteTask: async (args) => {
     try {
+
       await tasksCollection.findOneAndRemove({ _id: args._id });
 
       return null;
@@ -87,13 +98,15 @@ module.exports = {
     }
   },
 
+  //Update Existing Task
   updateTask: async (args) => {
     try {
-      if (args.taskInput.status == "Open") {
+
+      if (args.taskInput.status === "Open") {
         await openTaskAuthSchema.validateAsync(args.taskInput);
-      } else if (args.taskInput.status == "Urgent") {
+      } else if (args.taskInput.status === "Urgent") {
         await UrgentTaskAuthSchema.validateAsync(args.taskInput);
-      } else if (args.taskInput.status == "Closed") {
+      } else if (args.taskInput.status === "Closed") {
         await closedTaskAuthSchema.validateAsync(args.taskInput);
       }
 
@@ -122,6 +135,7 @@ module.exports = {
 
       updatedTask = { ...result._doc, _id: args.taskInput.id };
       return result;
+
     } catch (err) {
       throw err;
     }

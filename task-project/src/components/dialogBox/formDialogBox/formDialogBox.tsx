@@ -5,61 +5,48 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOpenFormDialogBox } from "../../../redux/web/webSelectors";
 import {
   closeFormDialogBox,
-  openFormDialogBox,
-  updateErrorAlertMessage,
   updateSuccessAlertMessage,
 } from "../../../redux/web/webSlice";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Box from "@mui/material/Box";
-import { Task } from "../../../model/task";
 import { FormGroup } from "@mui/material";
-import { gql, useMutation } from "@apollo/client";
-import { CREATE_TASK, UPDATE_TASK } from "../../../graphql/tasksQuery";
+import { useMutation } from "@apollo/client";
+import { CREATE_TASK, UPDATE_TASK } from "../../../graphql/tasks";
 import dayjs, { Dayjs } from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import moment from "moment";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import utc from "dayjs/plugin/utc";
-import { AddTask } from "@mui/icons-material";
 import {
   addTaskToArray,
   replaceTaskToNewTask,
-  updateTaskToDeleteId,
   updateTaskToEditId,
 } from "../../../redux/tasks/tasksSlice";
 import {
   TaskIsEdited,
   selectTaskToEdit,
-  selectTaskToEditId,
 } from "../../../redux/tasks/tasksSelectors";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import PlagiarismIcon from "@mui/icons-material/Plagiarism";
-import TaskIcon from "@mui/icons-material/Task";
-import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
 
 const FormDialogBox = () => {
-  //global state
+
+  //Hooks
   const openFormState = useSelector(selectOpenFormDialogBox);
   const taskToEdit = useSelector(selectTaskToEdit);
   const taskIsEdited = useSelector(TaskIsEdited);
   const dispatch = useDispatch();
   dayjs.extend(utc);
 
-  //Local Component State
+  //Setting Local States
   const [status, setStatus] = React.useState("Open");
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -70,14 +57,11 @@ const FormDialogBox = () => {
   const [untilDate, setUntilDate] = React.useState<Dayjs | null>(
     dayjs.utc(new Date())
   );
-
   const [currentlyUrgentTask, setUrgentTask] = React.useState(false);
   const [currentlyClosedTask, setClosedTask] = React.useState(false);
-
   const [FormError, setFormError] = React.useState("");
 
-  //Checks If Task Is Edited
-
+  //If Task Is New - starts new form. If Edited - retrieves data
   useEffect(() => {
     if (taskToEdit) {
       setStatus(taskToEdit.status);
@@ -100,8 +84,9 @@ const FormDialogBox = () => {
     }
   }, [taskIsEdited]);
 
+  //Changes Form Stracture By Status
   useEffect(() => {
-    if (status == "Open") {
+    if (status === "Open") {
       setUrgentTask(false);
       setClosedTask(false);
       setUntilDate(dayjs.utc(new Date()));
@@ -109,23 +94,20 @@ const FormDialogBox = () => {
       setTimeSpent(0);
     }
 
-    if (status == "Urgent") {
+    if (status === "Urgent") {
       setUrgentTask(true);
       setClosedTask(false);
       setReview("");
       setTimeSpent(0);
     }
 
-    if (status == "Closed") {
+    if (status === "Closed") {
       setUrgentTask(true);
       setClosedTask(true);
     }
   }, [status]);
 
-  const onClickSendTask = () => {
-    sendTask();
-  };
-
+  //Request Functions
   const sendTask = async () => {
     let result;
 
@@ -181,6 +163,11 @@ const FormDialogBox = () => {
     },
   });
 
+  //Event Functions
+  const onClickSendTask = () => {
+    sendTask();
+  };
+
   const handleClose = () => {
     dispatch(closeFormDialogBox());
     dispatch(updateTaskToEditId(""));
@@ -210,7 +197,12 @@ const FormDialogBox = () => {
   };
 
   const onChangeEstTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.valueAsNumber || event.target.valueAsNumber > 0) {
+    let zeroWithNumber = "0"+event.target.valueAsNumber;
+    if (event.target.value == zeroWithNumber){
+      setEstTime(event.target.valueAsNumber);
+      event.target.value = event.target.valueAsNumber.toString();
+    }
+    if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
       setEstTime(event.target.valueAsNumber);
     }
   };
@@ -224,8 +216,25 @@ const FormDialogBox = () => {
   };
 
   const onChangeTimeSpent = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.valueAsNumber || event.target.valueAsNumber > 0) {
+    let zeroWithNumber = "0"+event.target.valueAsNumber;
+    if (event.target.value == zeroWithNumber){
       setTimeSpent(event.target.valueAsNumber);
+      event.target.value = event.target.valueAsNumber.toString();
+    }
+    if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
+      setTimeSpent(event.target.valueAsNumber);
+    }
+  };
+
+  const onKeyDownEstimatedTime = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Backspace' && estTime.toString().length === 1) {
+      setEstTime(0);
+    }
+  };
+
+  const onKeyDownTimeSpent = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Backspace' && timeSpent.toString().length === 1) {
+      setTimeSpent(0);
     }
   };
 
@@ -241,7 +250,7 @@ const FormDialogBox = () => {
         <DialogContent>
           <FormGroup sx={{ m: 1, minWidth: 400 }}>
             <FormControl variant="outlined">
-              <InputLabel id="statusLabel">Status</InputLabel>
+              <InputLabel id="statusLabel" required>Status</InputLabel>
               <Select
                 error={FormError.includes("Status")}
                 required
@@ -249,7 +258,7 @@ const FormDialogBox = () => {
                 id="statusSelect"
                 value={status}
                 onChange={onChangeStatus}
-                label="status"
+                label="status" 
               >
                 <MenuItem value={"Open"}>Open
                 </MenuItem>
@@ -269,6 +278,7 @@ const FormDialogBox = () => {
               label="Title"
               value={title}
               variant="outlined"
+              helperText='Title Must Be Between 6 to 30 letters'
               
             />
 
@@ -279,10 +289,13 @@ const FormDialogBox = () => {
               onChange={onChangeDescription}
               error={FormError.includes("Description")}
               required
+              multiline
               id="standard-required"
               label="Description"
               value={description}
               variant="outlined"
+              helperText='Description Must Be Between 10 to 120 letters'
+
             />
             {FormError.includes('Description') && <span className="formError">{FormError} </span>}
 
@@ -290,6 +303,7 @@ const FormDialogBox = () => {
 
             <TextField
               onChange={onChangeEstTime}
+              onKeyDown={onKeyDownEstimatedTime}
               error={FormError.includes("Estimated")}
               required
               type="number"
@@ -297,13 +311,15 @@ const FormDialogBox = () => {
               label="Estimated Time (hours)"
               value={estTime}
               variant="outlined"
+              InputProps={{ inputProps: { min: 0, max: 1000 } }}
+
             />
 
             {FormError.includes('Estimated') && <span className="formError">{FormError} </span>}
             <br></br>
 
             <FormControl variant="outlined">
-              <InputLabel id="priorityLabel">Priority</InputLabel>
+              <InputLabel id="priorityLabel" required>Priority</InputLabel>
               <Select
                 error={FormError.includes("Priority")}
                 required
@@ -356,12 +372,15 @@ const FormDialogBox = () => {
             {currentlyClosedTask && (
               <TextField
                 onChange={onChangeTimeSpent}
+                onKeyDown={onKeyDownTimeSpent}
                 error={FormError.includes("Spent")}
                 type="number"
                 id="standard-required"
                 label="Time Spent (hours)"
                 value={timeSpent}
                 variant="outlined"
+                InputProps={{ inputProps: { min: 0, max: 1000 } }}
+
               />
             )}
 

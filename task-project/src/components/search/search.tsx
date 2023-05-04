@@ -2,28 +2,26 @@ import "./search.css";
 import * as React from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import DirectionsIcon from "@mui/icons-material/Directions";
 import { useEffect } from "react";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery} from "@apollo/react-hooks";
 import {
   QUERY_TASKS_LIST,
   QUERY_TASKS_LIST_BY_KEYWORD,
-} from "../../graphql/tasksQuery";
+} from "../../graphql/tasks";
 import { useDispatch } from "react-redux";
 import { updateAlltasks } from "../../redux/tasks/tasksSlice";
 
 const Search = () => {
+
+  //Hooks 
   const [keyword, setSearchKeyword] = React.useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
     getMatchingTasks({ fetchPolicy: "no-cache" });
 
-    if (keyword == "") {
+    if (keyword === "") {
       getAllTasks();
       if (allTasksResult.data) {
         dispatch(updateAlltasks(allTasksResult.data.tasks));
@@ -31,15 +29,7 @@ const Search = () => {
     }
   }, [keyword]);
 
-  // const onClickSearch = () =>{
-  //   console.log
-  //   getMatchingTasks();
-  //   console.log(matchingTasksResult.data);
-  //   if(matchingTasksResult.data){;
-  //     dispatch(updateAlltasks(matchingTasksResult.data.tasksByKeyword));
-  //   }
-  // }
-
+  //Request Functions
   const [getMatchingTasks, matchingTasksResult] = useLazyQuery(
     QUERY_TASKS_LIST_BY_KEYWORD,
     { variables: { keyword: keyword } }
@@ -52,16 +42,7 @@ const Search = () => {
     }
   }, [matchingTasksResult]);
 
-  // const { loading, error, data , refetch } = useQuery(QUERY_TASKS_LIST_BY_KEYWORD, {
-  //   variables: {keyword : keyword},
-
-  // },);
-  // const { data, error, refetch } =
-  // useQuery(QUERY_TASKS_LIST_BY_KEYWORD,{
-  //   variables: {keyword: keyword},
-  //   defaultOptions: {enabled: false},
-  // })
-
+  //Event Functions
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
   };
@@ -80,9 +61,7 @@ const Search = () => {
           value={keyword}
           onChange={onChangeKeyword}
         />
-        {/* <IconButton sx={{ p: '10px' }} aria-label="search"> */}
           <SearchIcon sx={{ p: '10px' }} aria-label="search" className="searchIcon" />
-        {/* </IconButton> */}
       </Paper>
     </div>
   );

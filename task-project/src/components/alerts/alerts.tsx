@@ -1,4 +1,3 @@
-import * as React from "react";
 import "./alerts.css";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
@@ -14,6 +13,8 @@ import {
 } from "../../redux/web/webSlice";
 
 const Alerts = () => {
+
+  //Hooks
   const successAlertMessage = useSelector(selectSuccessAlertMessage);
   const errorAlertMessage = useSelector(selectErrorAlertMessage);
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Alerts = () => {
     setTimeout(deleteAlert, 2000);
   }, [successAlertMessage, errorAlertMessage]);
 
+  //Event Functions
   const deleteAlert = () => {
     dispatch(updateSuccessAlertMessage(""));
     dispatch(updateErrorAlertMessage(""));
@@ -42,9 +44,3 @@ const Alerts = () => {
   );
 };
 export default Alerts;
-function dispatch(arg0: {
-  payload: string;
-  type: "web/updateSuccessAlertMessage";
-}) {
-  throw new Error("Function not implemented.");
-}

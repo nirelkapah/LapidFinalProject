@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Task } from "../../model/task";
-
-// Defines Global State
 export interface TasksState {
   tasksArray: Task[];
   taskToDeleteId: string;
@@ -13,7 +11,6 @@ export interface TasksState {
   currentTaskId: string;
 }
 
-// Define the initial state using that type
 const initialState: TasksState = {
   tasksArray: [],
   taskToDeleteId: "",
@@ -67,12 +64,10 @@ export const tasksSlice = createSlice({
 
     toggleFilterByPriority: (state) => {
       state.filterTaskByTopPriority = !state.filterTaskByTopPriority;
-      console.log(state.filterTaskByTopPriority);
     },
 
     toggleFilterByOpenStatus: (state) => {
       state.filterTaskByOpenStatus = !state.filterTaskByOpenStatus;
-      console.log(state.filterTaskByOpenStatus);
     },
 
     updateCurrentTaskId: (state, action: PayloadAction<string>) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import "./verifyDialogBox.css";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -9,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectOpenAlertDialogBox } from "../../../redux/web/webSelectors";
 import {
   closeAlertDialogBox,
-  openAlertDialogBox,
   updateErrorAlertMessage,
   updateSuccessAlertMessage,
 } from "../../../redux/web/webSlice";
@@ -18,24 +16,26 @@ import {
   selectTaskToDeleteTitle,
 } from "../../../redux/tasks/tasksSelectors";
 import { useMutation } from "@apollo/react-hooks";
-import { DELETE_TASK } from "../../../graphql/tasksQuery";
+import { DELETE_TASK } from "../../../graphql/tasks";
 import { deleteTaskFromArray } from "../../../redux/tasks/tasksSlice";
 
 const VerifyDialogBox = () => {
+
+  //Hooks
   const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
   const taskToDeleteId = useSelector(selectTaskToDeleteId);
   const taskToDeleteTitle = useSelector(selectTaskToDeleteTitle);
-
   const dispatch = useDispatch();
 
+  //Event Functions
   const onClickYes = () => {
     deleteTask();
   };
-
   const handleClose = () => {
     dispatch(closeAlertDialogBox());
   };
 
+  //Request Functions
   const deleteTask = async () => {
     try {
       await deleteTaskMutation();

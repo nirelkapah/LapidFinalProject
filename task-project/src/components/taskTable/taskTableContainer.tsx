@@ -1,16 +1,16 @@
 import "./taskTable.css";
-import * as React from "react";
 import TaskTable from "./taskTable";
 import { useQuery } from "@apollo/react-hooks";
-import { QUERY_TASKS_LIST } from "../../graphql/tasksQuery";
-import type { RootState } from "../../redux/store";
-import { useSelector, useDispatch } from "react-redux";
-import { updateAlltasks } from "../../redux/tasks/tasksSlice";
-import { Task } from "../../model/task";
+import { QUERY_TASKS_LIST } from "../../graphql/tasks";
+import { useDispatch } from "react-redux";
 import { updateErrorAlertMessage } from "../../redux/web/webSlice";
 
 const TaskTableContainer = () => {
+
+  //Hooks
   const dispatch = useDispatch();
+
+  //Request Functions
   const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
 
   if (loading) {
@@ -31,17 +31,11 @@ const TaskTableContainer = () => {
   if (error || !data) {
     let errorMessage = (error as Error).message;
     dispatch(updateErrorAlertMessage(errorMessage));
-
     return <div className="errorAlert">Sorry, An Error Occured, Please Check Your Internet Connection</div>;
   }
 
-  // const tasks = useSelector((state: RootState) => state.tasker.tasks);
-  // console.log("This Is The Global State Without Update");
-  // console.log(tasks);
+  return <TaskTable tasks={data.tasks}/>;
 
-  // dispatch(updateAlltasks(data.tasks))
-
-  return <TaskTable tasks={data.tasks} />;
 };
 
 export default TaskTableContainer;

@@ -38,15 +38,21 @@ const Layout = () => {
           ></link>
         </header>
         <main>
+
+          {/* Main Components */}
+
           <Header />
           <Search />
           <ActionsBar />
           <TaskTableContainer />
 
+          {/* Prompted Components */}
+
           <FormDialogBox />
           <VerifyDialogBox />
           <ReadDialogBox />
           <Alerts />
+          
         </main>
       </section>
     </BrowserRouter>
