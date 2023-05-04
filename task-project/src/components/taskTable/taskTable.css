@@ -8,8 +8,10 @@
   border-collapse: collapse;
   box-sizing: border-box;
   overflow: hidden;
-
+  justify-content: center !important;
+  text-align: center !important;
   width: fit-content;
+  margin: auto;
 }
 
 .table {
@@ -50,7 +52,7 @@
 
 .trashIcon {
   color: #e54fb3;
-  margin-right: 30px !important;
+  /* margin-right: 30px !important; */
 }
 
 .editIcon {

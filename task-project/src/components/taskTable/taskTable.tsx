@@ -156,18 +156,16 @@ const TaskTable = (props: Props) => {
     { field: 'status', headerName: 'Status', width: 70 , headerAlign: 'center',align: 'center' },
     {
       field: 'estimatedTime',
-      headerName: 'Estimated Time',
+      headerName: 'Estimated Time (h)',
       headerAlign: 'center',
       align: 'center',
-      // type: 'number',
-      width: 120,
+      width: 140,
     },
     {
       field: 'actions',
       headerName: 'Actions',
-      // description: 'This column has a value getter and is not sortable.',
       sortable: false,
-      width: 180,
+      width: 200,
       headerAlign: 'center',
       align: 'center',
       renderCell: (params: GridRenderCellParams<Task>) => (
@@ -216,134 +214,29 @@ const TaskTable = (props: Props) => {
 
   return (
     <div className="tableContainer">
+      
+      {filteredTasks.length > 0 &&
       <p className="ResultsCount">
         {" "}
         There Are Currently: {filteredTasks.length} Results
-      </p>
+      </p>}
 
+      {filteredTasks.length > 0 &&
       <DataGrid
         className="table"
         rows={filteredTasks}
         getRowId={(filteredTasks) => filteredTasks._id}        columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 4 },
           },
         }}
         autoHeight
-        pageSizeOptions={[5, 10]}
-      />
-{/* 
-      <p className="ResultsCount">
-        {" "}
-        There Are Currently: {filteredTasks.length} Results
-      </p> */}
-      {/* {filteredTasks.length > 0 && (
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ minWidth: 650 }}
-            aria-label="simple table"
-            className="table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell className="hyperTableCell">Type</TableCell>
-                <TableCell className="hyperTableCell">Priority</TableCell>
-                <TableCell className="hyperTableCell">Title</TableCell>
-                <TableCell className="hyperTableCell">Description</TableCell>
-                <TableCell className="hyperTableCell">Status</TableCell>
-                <TableCell className="hyperTableCell">Estimated Time</TableCell>
-                <TableCell className="hyperTableCell">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredTasks.map((task: Task) => (
-                <TableRow
-                  key={task._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  className="tableRow"
-                >
-                  <TableCell component="th" scope="row">
-                    {task.status === "Open" && (
-                      <NoteAddIcon className="icon" id="openIcon" />
-                    )}
-
-                    {task.status === "Urgent" && (
-                      <PlagiarismIcon className="icon" id="urgentIcon" />
-                    )}
-
-                    {task.status === "Closed" && (
-                      <TaskIcon className="icon" id="closedIcon" />
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    {task.priority === "Top" && (
-                      <KeyboardDoubleArrowUpIcon
-                        className="icon"
-                        id="priorityTop"
-                      />
-                    )}
-
-                    {task.priority === "Regular" && (
-                      <KeyboardArrowUpIcon
-                        className="icon"
-                        id="priorityRegular"
-                      />
-                    )}
-
-                    {task.priority === "Minor" && (
-                      <KeyboardArrowDownIcon
-                        className="icon"
-                        id="priorityMinor"
-                      />
-                    )}
-                  </TableCell>
-                  <TableCell align="center">{task.title}</TableCell>
-                  <TableCell align="center" className="descriptionCell">
-                    {task.description}
-                  </TableCell>
-                  <TableCell align="center">{task.status}</TableCell>
-                  <TableCell align="center">
-                    {task.estimatedTime}{" "}
-                    {task.estimatedTime > 1 ? "hours" : "hour"}
-                  </TableCell>
-
-                  <TableCell align="center" className="actionsCell">
-                    <Button
-                      variant="text"
-                      onClick={() => onClickShowTask(task._id as string)}
-                    >
-                      <DescriptionIcon className="icon descriptionIcon" />
-                    </Button>
-
-                    <Button
-                      variant="text"
-                      onClick={() => onClickEditTask(task._id as string)}
-                    >
-                      <EditIcon className="icon editIcon" />
-                    </Button>
-
-                    <Button
-                      variant="text"
-                      onClick={() =>
-                        onClickDeleteTask(
-                          task._id as string,
-                          task.title as string
-                        )
-                      }
-                    >
-                      <DeleteIcon className="icon trashIcon" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )} */}
+        pageSizeOptions={[4, 8]}
+      />}
 
       {filteredTasks.length == 0 && (
-        <h1 className="sorrySign">Sorry , You Don't Have Tasks To Show</h1>
+        <h1 className="sorrySign">Sorry , No Tasks Found</h1>
       )}
     </div>
   );

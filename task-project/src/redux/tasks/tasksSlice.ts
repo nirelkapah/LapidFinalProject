@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Task } from "../../model/task";
-import type { RootState, AppDispatch } from "../store";
 
 // Defines Global State
 export interface TasksState {
@@ -29,30 +28,10 @@ export const tasksSlice = createSlice({
   name: "tasksArray",
   initialState,
   reducers: {
-    // Use the PayloadAction type to declare the contents of `action.payload`
+
     updateAlltasks: (state, action: PayloadAction<Task[]>) => {
       state.tasksArray = action.payload;
     },
-
-    // filterTasksByTop: (state, action: PayloadAction<boolean> ) => {
-    //   if(action.payload){
-    //     state.tasksArrayCache = state.tasksArray;
-    //     state.tasksArray = state.tasksArray.filter(task => task.priority == "Top")
-    //   }
-    //   else{
-    //     state.tasksArray = state.tasksArrayCache;
-    //   }
-    // },
-
-    // filterTaskByOpen: (state, action: PayloadAction<boolean> ) => {
-    //   if(action.payload){
-    //     state.tasksArrayCache = state.tasksArray;
-    //     state.tasksArray = state.tasksArray.filter(task => task.status == "Open")
-    //   }
-    //   else{
-    //     state.tasksArray = state.tasksArrayCache;
-    //   }
-    // },
 
     addTaskToArray: (state, action: PayloadAction<Task>) => {
       state.tasksArray.push(action.payload);
@@ -72,7 +51,6 @@ export const tasksSlice = createSlice({
         .map((task) => task._id)
         .indexOf(action.payload._id);
       ~removeIndex && state.tasksArray.splice(removeIndex, 1, action.payload);
-      // state.tasksArray.push(action.payload)
     },
 
     updateTaskToDeleteId: (state, action: PayloadAction<string>) => {
