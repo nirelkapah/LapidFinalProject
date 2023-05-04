@@ -8,6 +8,13 @@
   border-collapse: collapse;
   box-sizing: border-box;
   overflow: hidden;
+
+  width: fit-content;
+}
+
+.table {
+  background-color: white;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
 @keyframes fadeInAnimation {
@@ -35,12 +42,15 @@
 }
 
 .icon {
-  padding-left: 5px !important;
+  /* padding-left: 5px !important; */
   color: black;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .trashIcon {
   color: #e54fb3;
+  margin-right: 30px !important;
 }
 
 .editIcon {
@@ -98,9 +108,12 @@
   font-size: 2em;
 }
 
-.descriptionCell {
-  max-width: 400px !important;
-  overflow-wrap: break-word;
+.descriptionCellField {
+  max-width: 320px !important;
+  max-height: 100% !important;
+  inline-size: 320px !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
 }
 
 .actionsCell {

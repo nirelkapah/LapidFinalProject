@@ -38,10 +38,12 @@ import TaskIcon from "@mui/icons-material/Task";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ReadDialogBox from "../dialogBox/readDialogBox/readDialogBox";
 import { DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams } from '@mui/x-data-grid';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+
 
 interface Props {
   tasks: Task[];
@@ -89,7 +91,10 @@ const TaskTable = (props: Props) => {
   const columns: GridColDef[] = [
     { field: 'type',
      headerName: 'Type',
+     filterable: false,
      sortable: false,
+     headerAlign: 'center',
+     align: 'center',
      renderCell: (params: GridRenderCellParams<Task>) => (
       <div>
       {params.row.status === "Open" && (
@@ -109,7 +114,10 @@ const TaskTable = (props: Props) => {
 
     { field: 'priority', 
     headerName: 'Priority', 
+    filterable: false,
     sortable: false,
+    headerAlign: 'center',
+    align: 'center',
     renderCell: (params: GridRenderCellParams<Task>) => (
       <div>
         {params.row.priority === "Top" && (
@@ -135,59 +143,71 @@ const TaskTable = (props: Props) => {
 
       </div>
     ),
-
-    width: 130 },
-    { field: 'title', headerName: 'Title', width: 150 },
-    { field: 'description', headerName: 'Description', width: 260 },
-    { field: 'status', headerName: 'Status', width: 130 },
+    width: 70 },
+    { field: 'title', headerName: 'Title', width: 150, headerAlign: 'center',align: 'center', },
+    { field: 'description', 
+      headerName: 'Description', 
+      width: 320, 
+      headerAlign: 'center',
+      align: 'center',
+      renderCell: (params: GridRenderCellParams<Task>) => (
+        <p className="descriptionCellField">{params.row.description}</p>
+      ), },
+    { field: 'status', headerName: 'Status', width: 70 , headerAlign: 'center',align: 'center' },
     {
       field: 'estimatedTime',
       headerName: 'Estimated Time',
-      type: 'number',
-      width: 90,
+      headerAlign: 'center',
+      align: 'center',
+      // type: 'number',
+      width: 120,
     },
     {
       field: 'actions',
       headerName: 'Actions',
+      // description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 180,
+      headerAlign: 'center',
+      align: 'center',
       renderCell: (params: GridRenderCellParams<Task>) => (
       
-      <div>
+        <div>
+  
+                      <Button
+                        variant="text"
+                        onClick={() => onClickShowTask(params.row._id as string)}
+                      >
+                        <Tooltip title="Show Task" arrow>
+                        <DescriptionIcon className="icon descriptionIcon" />
+                        </Tooltip>
+                      </Button>
+  
+                      <Button
+                        variant="text"
+                        onClick={() => onClickEditTask(params.row._id as string)}
+                      >
+                        <Tooltip title="Edit Task" arrow>
+                        <EditIcon className="icon editIcon" />
+                        </Tooltip>
+                      </Button>
 
-                <Button
-                      variant="text"
-                      onClick={() => onClickShowTask(params.row._id as string)}
-                    >
-                      <DescriptionIcon className="icon descriptionIcon" />
-                    </Button>
-
-                    <Button
-                      variant="text"
-                      onClick={() => onClickEditTask(params.row._id as string)}
-                    >
-                      <EditIcon className="icon editIcon" />
-                    </Button>
-
-                    <Button
-                      variant="text"
-                      onClick={() =>
-                        onClickDeleteTask(
-                          params.row._id as string,
-                          params.row.title as string
-                        )
-                      }
-                    >
-                      <DeleteIcon className="icon trashIcon" />
-
-                    </Button>
-      </div>
-      
-      ),
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      // valueGetter: (params: GridValueGetterParams) => {
-      //   return(<KeyboardArrowDownIcon />)
-      // }
+                      <Button
+                        variant="text"
+                        onClick={() =>
+                          onClickDeleteTask(
+                            params.row._id as string,
+                            params.row.title as string
+                          )
+                        }
+                      >
+                        <Tooltip title="Delete Task" arrow>
+                        <DeleteIcon className="icon trashIcon" />
+                        </Tooltip>
+                      </Button>
+        </div>
+        
+        )
         
     },
   ];
@@ -200,8 +220,9 @@ const TaskTable = (props: Props) => {
         {" "}
         There Are Currently: {filteredTasks.length} Results
       </p>
-      <div style={{ height: 400, width: '100%' }}>
+
       <DataGrid
+        className="table"
         rows={filteredTasks}
         getRowId={(filteredTasks) => filteredTasks._id}        columns={columns}
         initialState={{
@@ -210,15 +231,14 @@ const TaskTable = (props: Props) => {
           },
         }}
         autoHeight
-        pageSizeOptions={[4, 8]}
+        pageSizeOptions={[5, 10]}
       />
-    </div>
-
+{/* 
       <p className="ResultsCount">
         {" "}
         There Are Currently: {filteredTasks.length} Results
-      </p>
-      {filteredTasks.length > 0 && (
+      </p> */}
+      {/* {filteredTasks.length > 0 && (
         <TableContainer component={Paper}>
           <Table
             sx={{ minWidth: 650 }}
@@ -320,7 +340,7 @@ const TaskTable = (props: Props) => {
             </TableBody>
           </Table>
         </TableContainer>
-      )}
+      )} */}
 
       {filteredTasks.length == 0 && (
         <h1 className="sorrySign">Sorry , You Don't Have Tasks To Show</h1>
