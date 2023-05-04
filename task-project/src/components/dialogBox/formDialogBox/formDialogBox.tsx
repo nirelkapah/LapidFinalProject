@@ -28,7 +28,7 @@ import utc from "dayjs/plugin/utc";
 import {
   addTaskToArray,
   replaceTaskToNewTask,
-  updateTaskToEditId,
+  updateCurrentTaskId,
 } from "../../../redux/tasks/tasksSlice";
 import {
   TaskIsEdited,
@@ -170,7 +170,7 @@ const FormDialogBox = () => {
 
   const handleClose = () => {
     dispatch(closeFormDialogBox());
-    dispatch(updateTaskToEditId(""));
+    dispatch(updateCurrentTaskId(""));
 
     setStatus("Open");
     setTitle("");

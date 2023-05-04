@@ -16,7 +16,6 @@ import {
 } from "../../redux/web/webSlice";
 import {
   updateCurrentTaskId,
-  updateTaskToDeleteId,
   updateTaskToDeleteTitle,
   updateTaskToEditId,
 } from "../../redux/tasks/tasksSlice";
@@ -50,13 +49,14 @@ const TaskTable = (props: Props) => {
 
   //Event Functions
   const onClickDeleteTask = (taskId: string, taskTitle: string) => {
-    dispatch(updateTaskToDeleteId(taskId));
+    dispatch(updateCurrentTaskId(taskId));
+    // dispatch(updateTaskToDeleteId(taskId));
     dispatch(updateTaskToDeleteTitle(taskTitle));
     dispatch(openAlertDialogBox());
   };
 
   const onClickEditTask = (taskId: string) => {
-    dispatch(updateTaskToEditId(taskId));
+    dispatch(updateCurrentTaskId(taskId));
     dispatch(openFormDialogBox());
   };
 

@@ -3,9 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { Task } from "../../model/task";
 export interface TasksState {
   tasksArray: Task[];
-  taskToDeleteId: string;
   taskToDeleteTitle: string;
-  taskToEditId: string;
   filterTaskByTopPriority: boolean;
   filterTaskByOpenStatus: boolean;
   currentTaskId: string;
@@ -13,9 +11,7 @@ export interface TasksState {
 
 const initialState: TasksState = {
   tasksArray: [],
-  taskToDeleteId: "",
   taskToDeleteTitle: "",
-  taskToEditId: "",
   filterTaskByTopPriority: false,
   filterTaskByOpenStatus: false,
   currentTaskId: "",
@@ -50,16 +46,8 @@ export const tasksSlice = createSlice({
       ~removeIndex && state.tasksArray.splice(removeIndex, 1, action.payload);
     },
 
-    updateTaskToDeleteId: (state, action: PayloadAction<string>) => {
-      state.taskToDeleteId = action.payload;
-    },
-
     updateTaskToDeleteTitle: (state, action: PayloadAction<string>) => {
       state.taskToDeleteTitle = action.payload;
-    },
-
-    updateTaskToEditId: (state, action: PayloadAction<string>) => {
-      state.taskToEditId = action.payload;
     },
 
     toggleFilterByPriority: (state) => {
@@ -79,10 +67,8 @@ export const tasksSlice = createSlice({
 export const {
   updateAlltasks,
   addTaskToArray,
-  updateTaskToDeleteId,
   deleteTaskFromArray,
   updateTaskToDeleteTitle,
-  updateTaskToEditId,
   replaceTaskToNewTask,
   toggleFilterByPriority,
   toggleFilterByOpenStatus,

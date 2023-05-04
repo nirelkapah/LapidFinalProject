@@ -12,18 +12,18 @@ import {
   updateSuccessAlertMessage,
 } from "../../../redux/web/webSlice";
 import {
-  selectTaskToDeleteId,
+  selectCurrentTaskId,
   selectTaskToDeleteTitle,
 } from "../../../redux/tasks/tasksSelectors";
 import { useMutation } from "@apollo/react-hooks";
 import { DELETE_TASK } from "../../../graphql/tasks";
-import { deleteTaskFromArray } from "../../../redux/tasks/tasksSlice";
+import { deleteTaskFromArray, updateCurrentTaskId } from "../../../redux/tasks/tasksSlice";
 
 const VerifyDialogBox = () => {
 
   //Hooks
   const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
-  const taskToDeleteId = useSelector(selectTaskToDeleteId);
+  const taskToDeleteId = useSelector(selectCurrentTaskId)
   const taskToDeleteTitle = useSelector(selectTaskToDeleteTitle);
   const dispatch = useDispatch();
 
@@ -33,6 +33,8 @@ const VerifyDialogBox = () => {
   };
   const handleClose = () => {
     dispatch(closeAlertDialogBox());
+    dispatch(updateCurrentTaskId(''));
+
   };
 
   //Request Functions
