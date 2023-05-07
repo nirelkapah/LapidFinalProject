@@ -17,7 +17,7 @@ Based on Node.js with express.js.
 Used Graphql To Communicate The Client , and Mongoose To Communicate The DB.
 Joi for Input Validations.
 
-To run the Server use node app.js over 'node' folder
+To run the Server use 'node app.js' over 'node' folder
 
 *DB:*
 
