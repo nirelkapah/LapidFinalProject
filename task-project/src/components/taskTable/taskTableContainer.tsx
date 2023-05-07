@@ -33,7 +33,7 @@ const TaskTableContainer = () => {
     dispatch(updateErrorAlertMessage(errorMessage));
     return <div className="errorAlert">Sorry, An Error Occured, Please Check Your Internet Connection</div>;
   }
-  console.log(data.tasks);
+  
   return <TaskTable tasks={data.tasks}/>;
 
 };

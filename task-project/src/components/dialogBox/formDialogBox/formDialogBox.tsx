@@ -186,16 +186,13 @@ const FormDialogBox = () => {
   };
 
   const onChangeStatus = (event: SelectChangeEvent) => {
-    setStatus(event.target.value);
-  };
+    setStatus(event.target.value);};
 
   const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+    setTitle(event.target.value);};
 
   const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-  };
+    setDescription(event.target.value);};
 
   const onChangeEstTime = (event: React.ChangeEvent<HTMLInputElement>) => {
     let zeroWithNumber = "0"+event.target.valueAsNumber;
@@ -205,16 +202,13 @@ const FormDialogBox = () => {
     }
     if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
       setEstTime(event.target.valueAsNumber);
-    }
-  };
+    }};
 
   const onChangePriority = (event: SelectChangeEvent) => {
-    setPriority(event.target.value);
-  };
+    setPriority(event.target.value);};
 
   const onChangeReview = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setReview(event.target.value);
-  };
+    setReview(event.target.value);};
 
   const onChangeTimeSpent = (event: React.ChangeEvent<HTMLInputElement>) => {
     let zeroWithNumber = "0"+event.target.valueAsNumber;
@@ -224,20 +218,17 @@ const FormDialogBox = () => {
     }
     if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
       setTimeSpent(event.target.valueAsNumber);
-    }
-  };
+    }};
 
   const onKeyDownEstimatedTime = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Backspace' && estTime.toString().length === 1) {
       setEstTime(0);
-    }
-  };
+    }};
 
   const onKeyDownTimeSpent = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Backspace' && timeSpent.toString().length === 1) {
       setTimeSpent(0);
-    }
-  };
+    }};
 
   return (
     <div>

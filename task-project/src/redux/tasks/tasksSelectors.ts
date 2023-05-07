@@ -14,13 +14,13 @@ export const selectCurrentTaskId = (state: RootState) => {
 
 export const selectTaskToEdit = (state: RootState) => {
   return state.tasksState.tasksArray.find(
-    (task) => task._id == state.tasksState.currentTaskId
+    (task) => task._id === state.tasksState.currentTaskId
   );
 };
 
 export const selectCurrentTask = (state: RootState) => {
   return state.tasksState.tasksArray.find(
-    (task) => task._id == state.tasksState.currentTaskId
+    (task) => task._id === state.tasksState.currentTaskId
   );
 };
 
