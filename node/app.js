@@ -10,10 +10,6 @@ const cors = require("cors");
 
 //===============================ON SERVER START =============================
 
-//Use Cors
-// app.use(cors({ origin: "http://localhost:4200", credentials: true
-// }));
-
 const corsOptions = {
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",

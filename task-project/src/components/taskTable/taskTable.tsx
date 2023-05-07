@@ -17,7 +17,6 @@ import {
 import {
   updateCurrentTaskId,
   updateTaskToDeleteTitle,
-  updateTaskToEditId,
 } from "../../redux/tasks/tasksSlice";
 import { updateAlltasks } from "../../redux/tasks/tasksSlice";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
@@ -215,6 +214,7 @@ const TaskTable = (props: Props) => {
       {filteredTasks.length > 0 &&
       <DataGrid
         className="table"
+        
         rows={filteredTasks}
         getRowId={(filteredTasks) => filteredTasks._id}        columns={columns}
         initialState={{

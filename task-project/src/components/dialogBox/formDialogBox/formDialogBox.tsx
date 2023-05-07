@@ -35,6 +35,7 @@ import {
   selectTaskToEdit,
 } from "../../../redux/tasks/tasksSelectors";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import { Task } from "../../../model/task";
 
 
 const FormDialogBox = () => {
@@ -44,9 +45,9 @@ const FormDialogBox = () => {
   const taskToEdit = useSelector(selectTaskToEdit);
   const taskIsEdited = useSelector(TaskIsEdited);
   const dispatch = useDispatch();
-  dayjs.extend(utc);
 
   //Setting Local States
+  dayjs.extend(utc);
   const [status, setStatus] = React.useState("Open");
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -69,9 +70,13 @@ const FormDialogBox = () => {
       setDescription(taskToEdit.description);
       setEstTime(taskToEdit.estimatedTime);
       setPriority(taskToEdit.priority);
-      setReview(taskToEdit?.review as string);
-      setTimeSpent(taskToEdit?.timeSpent as number);
-      setUntilDate(dayjs.utc(taskToEdit.untilDate));
+      if(taskToEdit.status === 'Urgent' || taskToEdit.status === 'Closed'){
+        setUntilDate(dayjs.utc(taskToEdit.untilDate));
+      }
+      if(taskToEdit.status === 'Closed'){
+        setReview(taskToEdit.review as string);
+        setTimeSpent(taskToEdit.timeSpent as number);
+      }
     } else {
       setStatus("Open");
       setTitle("");
@@ -114,8 +119,7 @@ const FormDialogBox = () => {
     try {
       if (taskIsEdited) {
         result = await updateTaskMutation();
-        let task = result.data.updateTask;
-        dispatch(replaceTaskToNewTask(task));
+        dispatch(replaceTaskToNewTask(result.data.updateTask));
         dispatch(updateSuccessAlertMessage("Task Updated Succesfuly"));
       } else {
         result = await createTaskMutation();
@@ -141,10 +145,7 @@ const FormDialogBox = () => {
       review: currentlyClosedTask ? review : null,
       timeSpent: currentlyClosedTask ? timeSpent : null,
       untilDate:
-        currentlyUrgentTask || currentlyClosedTask
-          ? untilDate?.toISOString()
-          : null,
-    },
+        currentlyUrgentTask || currentlyClosedTask ? untilDate : null},
   });
 
   const [createTaskMutation] = useMutation(CREATE_TASK, {
@@ -158,7 +159,7 @@ const FormDialogBox = () => {
       timeSpent: currentlyClosedTask ? timeSpent : null,
       untilDate:
         currentlyUrgentTask || currentlyClosedTask
-          ? untilDate?.toISOString()
+          ? untilDate
           : null,
     },
   });
