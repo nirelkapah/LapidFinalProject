@@ -42,14 +42,9 @@ const TaskTable = (props: Props) => {
   const tasksState = useSelector(selectTasks);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(updateAlltasks(props.tasks));
-  // }, []);
-
   //Event Functions
   const onClickDeleteTask = (taskId: string, taskTitle: string) => {
     dispatch(updateCurrentTaskId(taskId));
-    // dispatch(updateTaskToDeleteId(taskId));
     dispatch(updateTaskToDeleteTitle(taskTitle));
     dispatch(openAlertDialogBox());
   };

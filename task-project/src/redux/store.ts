@@ -6,8 +6,6 @@ export const store = configureStore({
   reducer: {
     tasksState: tasksReducer,
     webState: webReducer,
-    // comments: commentsReducer,
-    // users: usersReducer,
   },
 });
 
