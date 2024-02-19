@@ -4,6 +4,8 @@ import { useQuery } from "@apollo/react-hooks";
 import { QUERY_TASKS_LIST } from "../../graphql/tasks";
 import { useDispatch } from "react-redux";
 import { updateErrorAlertMessage } from "../../redux/web/webSlice";
+import { Task } from "../../model/task";
+import { useEffect } from "react";
 
 const TaskTableContainer = () => {
 
@@ -11,7 +13,13 @@ const TaskTableContainer = () => {
   const dispatch = useDispatch();
 
   //Request Functions
+
   const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
+  
+
+  useEffect(() => {
+    const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
+  }, []);
 
   if (loading) {
     return (
