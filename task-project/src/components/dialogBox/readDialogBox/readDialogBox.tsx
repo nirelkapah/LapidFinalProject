@@ -27,8 +27,6 @@ const ReadDialogBox = () => {
   const readDialogBoxIsOpen = useSelector(selectOpenReadDialogBox);
   const task = useSelector(selectCurrentTask);
 
-  useEffect(() => {}, [readDialogBoxIsOpen]);
-
   //Event Function
   const handleClose = () => {
     dispatch(closeReadDialogBox());
