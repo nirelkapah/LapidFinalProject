@@ -30,14 +30,14 @@ export const tasksSlice = createSlice({
       state.tasksArray.push(action.payload);
     },
 
-    deleteTaskFromArray: (state, action: PayloadAction<string>) => {
-      let tamporaryArray = state.tasksArray;
-      let removeIndex = tamporaryArray
-        .map((task) => task._id)
-        .indexOf(action.payload);
-      ~removeIndex && tamporaryArray.splice(removeIndex, 1);
-      state.tasksArray = tamporaryArray;
-    },
+    // deleteTaskFromArray: (state, action: PayloadAction<string>) => {
+    //   let tamporaryArray = state.tasksArray;
+    //   let removeIndex = tamporaryArray
+    //     .map((task) => task._id)
+    //     .indexOf(action.payload);
+    //   ~removeIndex && tamporaryArray.splice(removeIndex, 1);
+    //   state.tasksArray = tamporaryArray;
+    // },
 
     replaceTaskToNewTask: (state, action: PayloadAction<Task>) => {
       let removeIndex = state.tasksArray
@@ -67,7 +67,7 @@ export const tasksSlice = createSlice({
 export const {
   updateAlltasks,
   addTaskToArray,
-  deleteTaskFromArray,
+  // deleteTaskFromArray,
   updateTaskToDeleteTitle,
   replaceTaskToNewTask,
   toggleFilterByPriority,

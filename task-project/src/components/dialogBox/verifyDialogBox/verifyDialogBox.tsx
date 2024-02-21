@@ -17,7 +17,7 @@ import {
 } from "../../../redux/tasks/tasksSelectors";
 import { useMutation } from "@apollo/react-hooks";
 import { DELETE_TASK } from "../../../graphql/tasks";
-import { deleteTaskFromArray, updateCurrentTaskId } from "../../../redux/tasks/tasksSlice";
+import { updateCurrentTaskId } from "../../../redux/tasks/tasksSlice";
 
 const VerifyDialogBox = () => {
 
@@ -41,7 +41,7 @@ const VerifyDialogBox = () => {
   const deleteTask = async () => {
     try {
       await deleteTaskMutation();
-      dispatch(deleteTaskFromArray(taskToDeleteId));
+      // dispatch(deleteTaskFromArray(taskToDeleteId));
       handleClose();
       dispatch(updateSuccessAlertMessage("Task Deleted Succesfuly"));
     } catch (err) {

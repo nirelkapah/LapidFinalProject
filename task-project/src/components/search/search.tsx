@@ -18,23 +18,23 @@ const Search = () => {
   const [keyword, setSearchKeyword] = React.useState("");
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    getMatchingTasks({ fetchPolicy: "no-cache" });
+  // useEffect(() => {
+  //   getMatchingTasks({ fetchPolicy: "no-cache" });
 
-    if (keyword === "") {
-      getAllTasks();
-      if (allTasksResult.data) {
-        dispatch(updateAlltasks(allTasksResult.data.tasks));
-      }
-    }
-  }, [keyword]);
+  //   if (keyword === "") {
+  //     getAllTasks();
+  //     if (allTasksResult.data) {
+  //       dispatch(updateAlltasks(allTasksResult.data.tasks));
+  //     }
+  //   }
+  // }, [keyword]);
 
   //Request Functions
   const [getMatchingTasks, matchingTasksResult] = useLazyQuery(
     QUERY_TASKS_LIST_BY_KEYWORD,
     { variables: { keyword: keyword } }
   );
-  const [getAllTasks, allTasksResult] = useLazyQuery(QUERY_TASKS_LIST);
+  // const [getAllTasks, allTasksResult] = useLazyQuery(QUERY_TASKS_LIST);
 
   useEffect(() => {
     if (matchingTasksResult.data) {

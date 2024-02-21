@@ -70,7 +70,7 @@ const TaskTable = (props: Props) => {
       return tasksArray;
     }
   };
-  const filteredTasks = filterBy(tasksState.tasksArray);
+  const filteredTasks = filterBy(props.tasks);
 
 
   //Table Grid UI
@@ -200,13 +200,13 @@ const TaskTable = (props: Props) => {
   return (
     <div className="tableContainer">
       
-      {filteredTasks.length > 0 &&
+      
       <p className="ResultsCount">
         {" "}
-        There Are Currently: {filteredTasks.length} Results
-      </p>}
+        There Are Currently: {filteredTasks && filteredTasks.length} Results
+      </p>
 
-      {filteredTasks.length > 0 &&
+      
       <DataGrid
         className="table"
         
@@ -219,11 +219,11 @@ const TaskTable = (props: Props) => {
         }}
         autoHeight
         pageSizeOptions={[4, 8]}
-      />}
+      />
 
-      {filteredTasks.length === 0 && (
+      {/* {filteredTasks && filteredTasks.length === 0 && (
         <h1 className="sorrySign">Sorry , No Tasks Found</h1>
-      )}
+      )} */}
     </div>
   );
 };
