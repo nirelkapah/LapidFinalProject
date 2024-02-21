@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_TASKS_LIST = gql`
-  query {
+  query Query{
     tasks {
       _id
       title

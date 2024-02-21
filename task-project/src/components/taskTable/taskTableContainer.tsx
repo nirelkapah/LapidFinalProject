@@ -4,22 +4,19 @@ import { useQuery } from "@apollo/react-hooks";
 import { QUERY_TASKS_LIST } from "../../graphql/tasks";
 import { useDispatch } from "react-redux";
 import { updateErrorAlertMessage } from "../../redux/web/webSlice";
-import { Task } from "../../model/task";
-import { useEffect } from "react";
+import { useState } from "react";
 
 const TaskTableContainer = () => {
 
   //Hooks
   const dispatch = useDispatch();
+  const [tasks, setTasks] = useState([])
 
   //Request Functions
-
   const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
-  
 
-  useEffect(() => {
-    const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
-  }, []);
+  console.log(data);
+  setTasks(data);
 
   if (loading) {
     return (
@@ -42,7 +39,7 @@ const TaskTableContainer = () => {
     return <div className="errorAlert">Sorry, An Error Occured, Please Check Your Internet Connection</div>;
   }
   
-  return <TaskTable tasks={data.tasks}/>;
+  return <TaskTable tasks={tasks}/>;
 
 };
 
