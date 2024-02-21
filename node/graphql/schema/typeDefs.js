@@ -1,6 +1,7 @@
-const { buildSchema } = require("graphql");
+// const { buildSchema } = require("graphql");
+const {gql} = require('apollo-server');
 
-module.exports = buildSchema(`
+module.exports = gql`
 
 input TaskInput {
     _id :String
@@ -27,22 +28,20 @@ type Task {
 }
 
 
-type RootQuery {
+type Query {
     tasks: [Task!]!
     tasksByKeyword(keyword: String): [Task!]! 
 }
 
-type RootMutation {
+type Mutation {
     createTask(taskInput: TaskInput): Task
     deleteTask(_id: String!): Task
     updateTask(taskInput: TaskInput): Task
 
-
 }
 
-schema {
-    query: RootQuery
-    mutation: RootMutation
+type Subscription {
+    taskCreated: Task
 }
 
-`);
+`;

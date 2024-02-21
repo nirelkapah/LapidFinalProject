@@ -1,12 +1,16 @@
 //=====================import=====================//
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express();
 const { graphqlHTTP } = require("express-graphql");
 const config = require("./config.json");
-const graphQlSchema = require("./graphql/schema/index");
-const graphQlResolvers = require("./graphql/resolvers/index");
+const typeDefs = require("./graphql/schema/typeDefs");
+const resolvers = require("./graphql/resolvers/resolvers.js");
 const cors = require("cors");
+const { createServer } = require('http');
+const { ApolloServer } = require('apollo-server-express');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { execute, subscribe } = require('graphql');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 //===============================ON SERVER START =============================
 
@@ -17,24 +21,64 @@ const corsOptions = {
   accessControlAllowCredentials: true,
 };
 
-app.use(cors(corsOptions));
-
-//Parse Incoming JSON
-app.use(express.json());
-
 //===============================Graphql Data =============================//
 
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: graphQlSchema,
-    rootValue: graphQlResolvers,
-    graphiql: true,
-  })
-);
+// app.use(
+//   "/graphql",
+//   graphqlHTTP({
+//     schema: graphQlSchema,
+//     rootValue: graphQlResolvers,
+//     graphiql: true,
+//   })
+// );
 
-//===============================Connecting to DB =============================//
-mongoose
+( async () => {
+
+  const app = express();
+
+  app.use(cors(corsOptions));
+
+  //Parse Incoming JSON
+  app.use(express.json());
+
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+  const server = createServer(app);
+  
+  SubscriptionServer.create(
+    {
+      schema,
+      execute,
+      subscribe,
+    },
+    {
+      server,
+      path: '/graphql',
+    }
+  );
+  
+  
+  const apolloServer = new ApolloServer({
+    schema,
+    plugins: [
+      {
+         async serverWillStart(){
+          return{
+            async drainsServer() {
+              await SubscriptionServer.close()
+            }
+          }
+         }
+      }
+    ]
+  });
+
+  await apolloServer.start();
+  apolloServer.applyMiddleware({ app });
+
+
+
+  mongoose
   .connect(
     `mongodb+srv://${config.mongo.MONGO_USER}:${config.mongo.MONGO_PASSWORD}@cluster0.pj7djsr.mongodb.net/${config.mongo.MONGO_DB}`
   )
@@ -45,4 +89,11 @@ mongoose
 
 //Listen On Specific Port
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log("Listening on " + PORT));
+server.listen(PORT, () => console.log("Listening on " + PORT));
+
+})();
+
+
+//===============================Connecting to DB =============================//
+
+
