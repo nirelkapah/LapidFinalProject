@@ -8,6 +8,9 @@ import { useEffect, useState } from "react";
 import { Task } from '../../model/task';
 import {useSubscription} from '@apollo/client';
 import { TASK_CREATED, TASK_UPDATED, TASK_DELETED } from "../../graphql/subscriptions";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import Button from "@mui/material/Button";
+import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
 
 
 const TaskTableContainer = () => {
@@ -17,6 +20,7 @@ const TaskTableContainer = () => {
 
   //Request Functions
   const [tasksList, setTasksList] = useState<Task[]>([]);
+  const [isFormDialogBoxOpen, setIsFormDialogBoxOpen] = useState<boolean>(false);
   
   const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
 
@@ -60,9 +64,33 @@ const TaskTableContainer = () => {
       }
     }
   )
+
+    //Event Functions
+    const onClickOpenForm = () => {
+      // dispatch(openFormDialogBox());
+      setIsFormDialogBoxOpen(true);
+    };
   
   return(
     <div>
+      <FormDialogBox 
+        isOpenForm = {isFormDialogBoxOpen}
+        setIsOpenForm={setIsFormDialogBoxOpen}
+      />
+
+    
+      <div className="addTaskContainer">
+        <Button
+        variant="text"
+        onClick={onClickOpenForm}
+        id="addTaskButton">
+        <span className="actionBarText" > Add Task</span> &nbsp;
+          <AddBoxIcon id="addTaskIcon" />
+        </Button>
+        
+        &nbsp;&nbsp;
+
+      </div>
 
     {error && (
           <div className="errorAlert">Sorry, An Error Occured, Please Check Your Internet Connection</div>

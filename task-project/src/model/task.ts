@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface Task {
   _id?: string;
   title: string;
@@ -5,7 +7,8 @@ export interface Task {
   estimatedTime: number;
   status: string; //
   priority: string;
-  untilDate?: string;
+  untilDate?: string | Dayjs;
   review?: string;
   timeSpent?: number;
 }
+

@@ -21,10 +21,10 @@ const ActionsBar = () => {
   const topPriorityFilterPressed = useSelector(selectFilterByTopPriority);
   const openFilterPressed = useSelector(selectFilterByOpenStatus);
 
-  //Event Functions
-  const onClickOpenForm = () => {
-    dispatch(openFormDialogBox());
-  };
+  // //Event Functions
+  // const onClickOpenForm = () => {
+  //   dispatch(openFormDialogBox());
+  // };
 
   const onClickTopPriority = () => {
     if (openFilterPressed) {
@@ -71,7 +71,7 @@ const ActionsBar = () => {
           <NoteAddIcon id="openTaskIcon" />
         </Button>
       </div>
-
+{/* 
       <div className="addTaskContainer">
       <Button
         variant="text"
@@ -83,7 +83,7 @@ const ActionsBar = () => {
         
         &nbsp;&nbsp;
 
-      </div>
+      </div> */}
 
     </div>
   );

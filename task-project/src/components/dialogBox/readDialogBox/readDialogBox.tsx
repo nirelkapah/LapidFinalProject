@@ -19,8 +19,13 @@ import {
   updateCurrentTaskId,
 } from "../../../redux/tasks/tasksSlice";
 import dayjs from "dayjs";
+import { Task } from "../../../model/task";
 
-const ReadDialogBox = () => {
+interface Props {
+  task: Task
+}
+
+const ReadDialogBox = (props: Props) => {
 
   //Hooks
   const dispatch = useDispatch();
