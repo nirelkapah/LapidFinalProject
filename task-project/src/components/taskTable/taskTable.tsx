@@ -30,6 +30,8 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import { DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams } from '@mui/x-data-grid';
 import Tooltip from '@mui/material/Tooltip';
 import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
+import VerifyDialogBox from "../dialogBox/verifyDialogBox/verifyDialogBox";
+import ReadDialogBox from "../dialogBox/readDialogBox/readDialogBox";
 
 interface Props {
   tasks: Task[];
@@ -37,18 +39,22 @@ interface Props {
 
 const TaskTable = (props: Props) => {
   const [isEditFormOpen, setIsEditFormOpen] = useState<boolean>(false);
+  const [isReadDialogOpen, setIsReadDialogOpen] = useState<boolean>(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [currentTask, setCurrentTask] = useState<Task>();
   //Hooks
   const topPriorityFilterPressed = useSelector(selectFilterByTopPriority);
   const openFilterPressed = useSelector(selectFilterByOpenStatus);
   // const tasksState = useSelector(selectTasks);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   //Event Functions
   const onClickDeleteTask = (task: Task) => {
     // dispatch(updateCurrentTaskId(taskId));
     // dispatch(updateTaskToDeleteTitle(taskTitle));
-    dispatch(openAlertDialogBox());
+    setCurrentTask(task);
+    setIsDeleteDialogOpen(true);
+    // dispatch(openAlertDialogBox());
   };
 
   const onClickEditTask = (task: Task) => {
@@ -60,7 +66,9 @@ const TaskTable = (props: Props) => {
 
   const onClickShowTask = (task: Task) => {
     // dispatch(updateCurrentTaskId(taskId));
-    dispatch(openReadDialogBox());
+    // dispatch(openReadDialogBox());
+    setCurrentTask(task);
+    setIsReadDialogOpen(true);
   };
 
   //General Table Functions
@@ -207,6 +215,15 @@ const TaskTable = (props: Props) => {
         setIsOpenForm={setIsEditFormOpen}
         task={currentTask}
       />
+      <VerifyDialogBox 
+        isDeleteDialogOpen={isDeleteDialogOpen}
+        setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+        task={currentTask}
+      />
+      <ReadDialogBox 
+        isReadDialogBoxOpen = {isReadDialogOpen}
+        setIsReadDialogBoxOpen={setIsReadDialogOpen}
+        task={currentTask}/>
       
       <p className="ResultsCount">
         {" "}

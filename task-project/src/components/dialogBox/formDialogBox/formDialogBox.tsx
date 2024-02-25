@@ -44,103 +44,54 @@ interface Props {
 }
 
 const FormDialogBox = (props: Props) => {
-  console.log(props)
 
   //Hooks
   // const openFormState = useSelector(selectOpenFormDialogBox);
-  const taskToEdit = useSelector(selectTaskToEdit);
-  const taskIsEdited = useSelector(TaskIsEdited);
+  // const taskToEdit = useSelector(selectTaskToEdit);
+  // const taskIsEdited = useSelector(TaskIsEdited);
   const dispatch = useDispatch();
 
   //Setting Local States;
-
-  const [formTask, setFormTask] = useState<Task>(props.task ? props.task :{
+  const newTask: Task = {
+    status: 'Open',
     description: '',
-    status: '',
     title: '',
     estimatedTime: 0,
-    priority: '',
-    review: '',
-    timeSpent: 0
-  })
+    priority: ''
+  }
+  const [formTask, setFormTask] = useState<Task>(props.task ? props.task : newTask)
 
   dayjs.extend(utc);
-  // const [status, setStatus] = React.useState("Open");
-  // const [title, setTitle] = React.useState("");
-  // const [description, setDescription] = React.useState("");
-  // const [estTime, setEstTime] = React.useState(0);
-  // const [priority, setPriority] = React.useState("");
-  // const [review, setReview] = React.useState("");
-  // const [timeSpent, setTimeSpent] = React.useState(0);
-  // const [untilDate, setUntilDate] = React.useState<Dayjs | null>(
-  //   dayjs.utc(new Date())
-  // );
-  const [currentlyUrgentTask, setUrgentTask] = React.useState(false);
-  const [currentlyClosedTask, setClosedTask] = React.useState(false);
-  const [FormError, setFormError] = React.useState("");
+
+  const [currentlyUrgentTask, setUrgentTask] = useState(false);
+  const [currentlyClosedTask, setClosedTask] =useState(false);
+  const [FormError, setFormError] = useState("");
 
   //If Task Is New - starts new form. If Edited - retrieves data
   useEffect(() => {
-    const propsTask = props.task
-    if (propsTask) {
-      let formDate;
-      propsTask.status === 'Urgent' || propsTask.status === 'Closed' ?
-        formDate = dayjs.utc(propsTask.untilDate) :
-        formDate = dayjs.utc(new Date());
 
-      
+    const propsTask = props.task;
+
+    if (propsTask) {
 
       const tempTask: Task = {
+        _id: propsTask._id,
         description: propsTask.description,
         status: propsTask.status,
         title: propsTask.title,
         estimatedTime: propsTask.estimatedTime,
         priority: propsTask.priority,
         timeSpent: propsTask.status === 'Closed' ? propsTask.timeSpent : 0,
-        untilDate: formDate,
+        untilDate: propsTask.status === 'Urgent' || propsTask.status === 'Closed' ?
+          dayjs.utc(propsTask.untilDate) :
+          dayjs.utc(new Date()),
         review: propsTask.status === 'Closed' ? propsTask.review : ''
       }
 
       setFormTask(tempTask)
 
-      // setStatus(taskToEdit.status);
-      // setTitle(taskToEdit.title);
-      // setDescription(taskToEdit.description);
-      // setEstTime(taskToEdit.estimatedTime);
-      // setPriority(taskToEdit.priority);
-                                                      //NEEEEEEEEEEEEDDDDD TOOO ADD!!!!!
-      // if(taskToEdit.status === 'Urgent' || taskToEdit.status === 'Closed'){
-      //   setUntilDate(dayjs.utc(taskToEdit.untilDate));
-      // }
-
-      // if(taskToEdit.status === 'Closed'){
-      //   setReview(taskToEdit.review as string);
-      //   setTimeSpent(taskToEdit.timeSpent as number);
-      // }
-
     } else {
-
-      const tempTask: Task = {
-        status: 'Open',
-        title: '',
-        description: '',
-        estimatedTime: 0,
-        priority: '',
-        timeSpent: 0,
-        review: '',
-        untilDate: dayjs.utc(new Date()),
-
-      }
-
-      setFormTask(tempTask)
-      // setStatus("Open");
-      // setTitle("");
-      // setDescription("");
-      // setEstTime(0);
-      // setPriority("");
-      // setReview("");
-      // setTimeSpent(0);
-      // setUntilDate(dayjs.utc(new Date()));
+      setFormTask(newTask)
     }
   }, [props.task]);
 
@@ -149,20 +100,13 @@ const FormDialogBox = (props: Props) => {
     if (formTask.status === "Open") {
       setUrgentTask(false);
       setClosedTask(false);
-      const tempTask: Task = {...formTask, review: '', timeSpent: 0, untilDate: dayjs.utc(new Date())};
-      setFormTask(tempTask)
-      // setUntilDate(dayjs.utc(new Date()));
-      // setReview("");
-      // setTimeSpent(0);
+      setFormTask({...formTask, review: '', timeSpent: 0, untilDate: dayjs.utc(new Date())})
     }
 
     if (formTask.status === "Urgent") {
       setUrgentTask(true);
       setClosedTask(false);
-      const tempTask: Task = {...formTask, review: '', timeSpent: 0};
-      setFormTask(tempTask)
-      // setReview("");
-      // setTimeSpent(0);
+      setFormTask({...formTask, review: '', timeSpent: 0})
     }
 
     if (formTask.status === "Closed") {
@@ -176,13 +120,11 @@ const FormDialogBox = (props: Props) => {
     let result;
 
     try {
-      if (taskIsEdited) {
+      if (props.task?._id) {
         result = await updateTaskMutation();
-        dispatch(replaceTaskToNewTask(result.data.updateTask));
         dispatch(updateSuccessAlertMessage("Task Updated Succesfuly"));
       } else {
         result = await createTaskMutation();
-        dispatch(addTaskToArray(result.data.createTask));
         dispatch(updateSuccessAlertMessage("Task Added Succesfuly"));
       }
 
@@ -193,33 +135,46 @@ const FormDialogBox = (props: Props) => {
     }
   };
 
+  // const [updateTaskMutation] = useMutation(UPDATE_TASK, {
+  //   variables: {
+  //     id: formTask._id,
+  //     status: formTask.status,
+  //     title: formTask.title,
+  //     description: formTask.description,
+  //     estimatedTime: formTask.estimatedTime,
+  //     priority: formTask.priority,
+  //     review: currentlyClosedTask ? formTask.priority : null,
+  //     timeSpent: currentlyClosedTask ? formTask.timeSpent : null,
+  //     untilDate:
+  //       currentlyUrgentTask || currentlyClosedTask ? formTask.untilDate : null},
+  // });
+
+  
   const [updateTaskMutation] = useMutation(UPDATE_TASK, {
     variables: {
-      id: formTask._id,
-      status: formTask.status,
-      title: formTask.title,
-      description: formTask.description,
-      estimatedTime: formTask.estimatedTime,
-      priority: formTask.priority,
-      review: currentlyClosedTask ? formTask.priority : null,
-      timeSpent: currentlyClosedTask ? formTask.timeSpent : null,
-      untilDate:
-        currentlyUrgentTask || currentlyClosedTask ? formTask.untilDate : null},
+      taskInput: formTask},
   });
 
+  // const [createTaskMutation] = useMutation(CREATE_TASK, {
+  //   variables: {
+  //     status: formTask.status,
+  //     title: formTask.title,
+  //     description: formTask.description,
+  //     estimatedTime: formTask.estimatedTime,
+  //     priority: formTask.priority,
+  //     review: currentlyClosedTask ? formTask.review : null,
+  //     timeSpent: currentlyClosedTask ? formTask.timeSpent : null,
+  //     untilDate:
+  //       currentlyUrgentTask || currentlyClosedTask
+  //         ? formTask.untilDate
+  //         : null,
+  //   },
+  // });
+
+  
   const [createTaskMutation] = useMutation(CREATE_TASK, {
     variables: {
-      status: formTask.status,
-      title: formTask.title,
-      description: formTask.description,
-      estimatedTime: formTask.estimatedTime,
-      priority: formTask.priority,
-      review: currentlyClosedTask ? formTask.review : null,
-      timeSpent: currentlyClosedTask ? formTask.timeSpent : null,
-      untilDate:
-        currentlyUrgentTask || currentlyClosedTask
-          ? formTask.untilDate
-          : null,
+      taskInput: formTask
     },
   });
 
@@ -230,25 +185,12 @@ const FormDialogBox = (props: Props) => {
 
   const handleClose = () => {
     props.setIsOpenForm(false);
-    // dispatch(updateCurrentTaskId(""));
-
-    // setStatus("Open");
-    // setTitle("");
-    // setDescription("");
-    // setEstTime(0);
-    // setPriority("");
-    // setReview("");
-    // setTimeSpent(0);
-    // setUntilDate(dayjs.utc(new Date()));
-
     setFormError("");
   };
 
-  const onChangeStatus = (event: SelectChangeEvent) => {
-    const tempTask = {...formTask, status: event.target.value}
-    setFormTask(tempTask);
-    // setStatus(event.target.value);
-  };
+  const onChangeStatus = (event: SelectChangeEvent) => 
+    setFormTask({...formTask, status: event.target.value});
+  
 
   const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const tempTask = {...formTask, title: event.target.value}
@@ -315,7 +257,7 @@ const FormDialogBox = (props: Props) => {
 
   return (
     <div>
-      <Dialog open={props.isOpenForm} onClose={handleClose}>
+      <Dialog open={props.isOpenForm ? props.isOpenForm : false} onClose={handleClose}>
         <DialogTitle className='dialogTitle'>
         <NoteAddIcon /> &nbsp;
           {!props.task && 'Create'}{props.task && 'Modify'} Task

@@ -18,13 +18,20 @@ import {
 import { useMutation } from "@apollo/react-hooks";
 import { DELETE_TASK } from "../../../graphql/tasks";
 import { updateCurrentTaskId } from "../../../redux/tasks/tasksSlice";
+import { Task } from "../../../model/task";
 
-const VerifyDialogBox = () => {
+interface Props{
+  isDeleteDialogOpen: boolean,
+  setIsDeleteDialogOpen: Function,
+  task?: Task
+}
+
+const VerifyDialogBox = (props: Props) => {
 
   //Hooks
-  const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
-  const taskToDeleteId = useSelector(selectCurrentTaskId)
-  const taskToDeleteTitle = useSelector(selectTaskToDeleteTitle);
+  // const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
+  // const taskToDeleteId = useSelector(selectCurrentTaskId)
+  // const taskToDeleteTitle = useSelector(selectTaskToDeleteTitle);
   const dispatch = useDispatch();
 
   //Event Functions
@@ -32,8 +39,9 @@ const VerifyDialogBox = () => {
     deleteTask();
   };
   const handleClose = () => {
-    dispatch(closeAlertDialogBox());
-    dispatch(updateCurrentTaskId(''));
+    props.setIsDeleteDialogOpen(false);
+    // dispatch(closeAlertDialogBox());
+    // dispatch(updateCurrentTaskId(''));
 
   };
 
@@ -52,21 +60,21 @@ const VerifyDialogBox = () => {
 
   const [deleteTaskMutation] = useMutation(DELETE_TASK, {
     variables: {
-      id: taskToDeleteId,
+      id: props.task?._id,
     },
   });
 
   return (
     <div>
       <Dialog
-        open={openDialogBoxState}
+        open={props.isDeleteDialogOpen ? props.isDeleteDialogOpen : false}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are You Sure You Would Like To Delete '{taskToDeleteTitle}'?
+            Are You Sure You Would Like To Delete '{props.task?.title}'?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -22,64 +22,67 @@ import dayjs from "dayjs";
 import { Task } from "../../../model/task";
 
 interface Props {
-  task: Task
+  isReadDialogBoxOpen: boolean,
+  setIsReadDialogBoxOpen: Function,
+  task?: Task
 }
 
 const ReadDialogBox = (props: Props) => {
 
   //Hooks
-  const dispatch = useDispatch();
-  const readDialogBoxIsOpen = useSelector(selectOpenReadDialogBox);
-  const task = useSelector(selectCurrentTask);
+  // const dispatch = useDispatch();
+  // const readDialogBoxIsOpen = useSelector(selectOpenReadDialogBox);
+  // const task = useSelector(selectCurrentTask);
 
   //Event Function
   const handleClose = () => {
-    dispatch(closeReadDialogBox());
-    dispatch(updateCurrentTaskId(""));
+    props.setIsReadDialogBoxOpen(false);
+    // dispatch(closeReadDialogBox());
+    // dispatch(updateCurrentTaskId(""));
   };
 
   return (
     <div>
-      {task && (
+      {props.task && (
         <Dialog
           className="taskContainer"
-          open={readDialogBoxIsOpen}
+          open={props.isReadDialogBoxOpen && props.isReadDialogBoxOpen}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogContent>
-            <h3>{task.title}</h3>
+            <h3>{props.task.title}</h3>
             <DialogContentText></DialogContentText>
             <DialogContentText className="description">
-              <strong>Description:</strong> {task.description}
+              <strong>Description:</strong> {props.task.description}
             </DialogContentText>
             <DialogContentText>
-              <strong>Estimated Time:</strong> {task.estimatedTime} Hours
+              <strong>Estimated Time:</strong> {props.task.estimatedTime} Hours
             </DialogContentText>
             <DialogContentText>
-              <strong>Status:</strong> {task.status}
+              <strong>Status:</strong> {props.task.status}
             </DialogContentText>
             <DialogContentText>
-              <strong>Priority:</strong> {task.priority}
+              <strong>Priority:</strong> {props.task.priority}
             </DialogContentText>
 
-            {task.untilDate && (
+            {props.task.untilDate && (
               <DialogContentText>
                 <strong>Until:</strong>{" "}
-                {dayjs.utc(task.untilDate).format("MMMM D, YYYY")}
+                {dayjs.utc(props.task.untilDate).format("MMMM D, YYYY")}
               </DialogContentText>
             )}
 
-            {task.review && (
+            {props.task.review && (
               <DialogContentText>
-                <strong>Review:</strong> {task.review}
+                <strong>Review:</strong> {props.task.review}
               </DialogContentText>
             )}
 
-            {task.review && (
+            {props.task.review && (
               <DialogContentText>
-                <strong>Time Spent:</strong> {task.timeSpent} Hours
+                <strong>Time Spent:</strong> {props.task.timeSpent} Hours
               </DialogContentText>
             )}
           </DialogContent>
