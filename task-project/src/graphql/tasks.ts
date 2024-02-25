@@ -17,17 +17,33 @@ export const QUERY_TASKS_LIST = gql`
 `;
 
 export const QUERY_TASKS_LIST_BY_KEYWORD = gql`
-  query tasksByKeyword($keyword: String!) {
+  query Query($keyword: String) {
     tasksByKeyword(keyword: $keyword) {
       _id
-      title
       description
       estimatedTime
-      status
       priority
-      untilDate
       review
+      status
       timeSpent
+      title
+      untilDate
+    }
+  }
+`;
+
+export const QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS = gql`
+  query TasksByKeywordAndFilters($keyword: String, $filters: Filters) {
+    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {
+      _id
+      description
+      estimatedTime
+      priority
+      review
+      status
+      timeSpent
+      title
+      untilDate
     }
   }
 `;

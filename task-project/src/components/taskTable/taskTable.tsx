@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import {
   selectFilterByOpenStatus,
   selectFilterByTopPriority,
-  selectTasks,
 } from "../../redux/tasks/tasksSelectors";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,11 +13,6 @@ import {
   openFormDialogBox,
   openReadDialogBox,
 } from "../../redux/web/webSlice";
-import {
-  updateCurrentTaskId,
-  updateTaskToDeleteTitle,
-} from "../../redux/tasks/tasksSlice";
-import { updateAlltasks } from "../../redux/tasks/tasksSlice";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import PlagiarismIcon from "@mui/icons-material/Plagiarism";
 import TaskIcon from "@mui/icons-material/Task";

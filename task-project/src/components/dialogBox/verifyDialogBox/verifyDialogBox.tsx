@@ -11,13 +11,8 @@ import {
   updateErrorAlertMessage,
   updateSuccessAlertMessage,
 } from "../../../redux/web/webSlice";
-import {
-  selectCurrentTaskId,
-  selectTaskToDeleteTitle,
-} from "../../../redux/tasks/tasksSelectors";
 import { useMutation } from "@apollo/react-hooks";
 import { DELETE_TASK } from "../../../graphql/tasks";
-import { updateCurrentTaskId } from "../../../redux/tasks/tasksSlice";
 import { Task } from "../../../model/task";
 
 interface Props{

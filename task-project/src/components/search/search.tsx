@@ -3,19 +3,19 @@ import * as React from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLazyQuery} from "@apollo/react-hooks";
 import {
   QUERY_TASKS_LIST,
   QUERY_TASKS_LIST_BY_KEYWORD,
 } from "../../graphql/tasks";
 import { useDispatch } from "react-redux";
-import { updateAlltasks } from "../../redux/tasks/tasksSlice";
+import {updateSearchByKeyword} from '../../redux/tasks/tasksSlice'
 
 const Search = () => {
 
   //Hooks 
-  const [keyword, setSearchKeyword] = React.useState("");
+  // const [keyword, setSearchKeyword] = useState("");
   const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -30,21 +30,18 @@ const Search = () => {
   // }, [keyword]);
 
   //Request Functions
-  const [getMatchingTasks, matchingTasksResult] = useLazyQuery(
-    QUERY_TASKS_LIST_BY_KEYWORD,
-    { variables: { keyword: keyword } }
-  );
+
   // const [getAllTasks, allTasksResult] = useLazyQuery(QUERY_TASKS_LIST);
 
-  useEffect(() => {
-    if (matchingTasksResult.data) {
-      dispatch(updateAlltasks(matchingTasksResult.data.tasksByKeyword));
-    }
-  }, [matchingTasksResult]);
+  // useEffect(() => {
+  //   if (matchingTasksResult.data) {
+  //     // dispatch(updateAlltasks(matchingTasksResult.data.tasksByKeyword));
+  //   }
+  // }, [matchingTasksResult]);
 
   //Event Functions
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
+    dispatch(updateSearchByKeyword(event.target.value))
   };
 
   return (
@@ -58,7 +55,7 @@ const Search = () => {
           sx={{ ml: 1, flex: 1 }}
           placeholder="Search For A Task.."
           inputProps={{ "aria-label": "search google maps" }}
-          value={keyword}
+          // value={keyword}
           onChange={onChangeKeyword}
         />
           <SearchIcon sx={{ p: '10px' }} aria-label="search" className="searchIcon" />

@@ -12,12 +12,6 @@ import {
 import {
   closeReadDialogBox,
 } from "../../../redux/web/webSlice";
-import {
-  selectCurrentTask,
-} from "../../../redux/tasks/tasksSelectors";
-import {
-  updateCurrentTaskId,
-} from "../../../redux/tasks/tasksSlice";
 import dayjs from "dayjs";
 import { Task } from "../../../model/task";
 

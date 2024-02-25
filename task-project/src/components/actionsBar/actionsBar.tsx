@@ -6,6 +6,10 @@ import { openFormDialogBox } from "../../redux/web/webSlice";
 import {
   toggleFilterByOpenStatus,
   toggleFilterByPriority,
+  updateStatusFilter,
+  updatePriorityFilter,
+  removePriorityFilter,
+  removeStatusFilter
 } from "../../redux/tasks/tasksSlice";
 import {
   selectFilterByOpenStatus,
@@ -13,13 +17,14 @@ import {
 } from "../../redux/tasks/tasksSelectors";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import { useState } from "react";
 
 const ActionsBar = () => {
 
   //Hooks
   const dispatch = useDispatch();
-  const topPriorityFilterPressed = useSelector(selectFilterByTopPriority);
-  const openFilterPressed = useSelector(selectFilterByOpenStatus);
+  const [isTopPriorityButtonPressed, setTopPriorityButton] = useState<boolean>(false);
+  const [isOnlyOpenButtonPressed, setOnlyOpenButton] = useState<boolean>(false);
 
   // //Event Functions
   // const onClickOpenForm = () => {
@@ -27,17 +32,21 @@ const ActionsBar = () => {
   // };
 
   const onClickTopPriority = () => {
-    if (openFilterPressed) {
-      dispatch(toggleFilterByOpenStatus());
-    }
-    dispatch(toggleFilterByPriority());
+    setTopPriorityButton(!isTopPriorityButtonPressed);
+
+    !isTopPriorityButtonPressed ? 
+    dispatch(updatePriorityFilter('Top'))
+    :
+    dispatch(removePriorityFilter('Top'))
   };
 
   const onClickOnlyOpen = () => {
-    if (topPriorityFilterPressed) {
-      dispatch(toggleFilterByPriority());
-    }
-    dispatch(toggleFilterByOpenStatus());
+    setOnlyOpenButton(!isOnlyOpenButtonPressed);
+
+    !isOnlyOpenButtonPressed ? 
+    dispatch(updateStatusFilter('Open'))
+    :
+    dispatch(removeStatusFilter('Open'))
   };
 
   return (
@@ -50,9 +59,9 @@ const ActionsBar = () => {
 
         <Button
           variant="outlined"
-          className={topPriorityFilterPressed ?"actionBarButtonsIsPressed" : "actionBarButtons"}
+          className={isTopPriorityButtonPressed ?"actionBarButtonsIsPressed" : "actionBarButtons"}
           onClick={onClickTopPriority}
-          disableElevation={topPriorityFilterPressed}
+          disableElevation={isTopPriorityButtonPressed}
         >
           <span className="actionBarText">Only Top Priority</span>
           <KeyboardDoubleArrowUpIcon id="topPriorityIcon" />
@@ -62,7 +71,7 @@ const ActionsBar = () => {
         
         <Button
           variant="outlined"
-          className={openFilterPressed ?"actionBarButtonsIsPressed" : "actionBarButtons"}
+          className={isOnlyOpenButtonPressed ?"actionBarButtonsIsPressed" : "actionBarButtons"}
           onClick={onClickOnlyOpen}
         >
 

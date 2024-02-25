@@ -25,15 +25,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import utc from "dayjs/plugin/utc";
-import {
-  addTaskToArray,
-  replaceTaskToNewTask,
-  updateCurrentTaskId,
-} from "../../../redux/tasks/tasksSlice";
-import {
-  TaskIsEdited,
-  selectTaskToEdit,
-} from "../../../redux/tasks/tasksSelectors";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { Task } from "../../../model/task";
 

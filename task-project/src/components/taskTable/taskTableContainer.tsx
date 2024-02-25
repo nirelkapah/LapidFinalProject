@@ -1,34 +1,64 @@
 import "./taskTable.css";
 import TaskTable from "./taskTable";
 import { useQuery } from "@apollo/react-hooks";
-import { QUERY_TASKS_LIST } from "../../graphql/tasks";
-import { useDispatch } from "react-redux";
+import { QUERY_TASKS_LIST, QUERY_TASKS_LIST_BY_KEYWORD, QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS } from "../../graphql/tasks";
+import { useDispatch, useSelector } from "react-redux";
 import { updateErrorAlertMessage } from "../../redux/web/webSlice";
 import { useEffect, useState } from "react";
 import { Task } from '../../model/task';
-import {useSubscription} from '@apollo/client';
+import {useLazyQuery, useSubscription} from '@apollo/client';
 import { TASK_CREATED, TASK_UPDATED, TASK_DELETED } from "../../graphql/subscriptions";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Button from "@mui/material/Button";
 import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
+import { selectFilters, selectSearchByKeyWord } from "../../redux/tasks/tasksSelectors";
 
 
 const TaskTableContainer = () => {
 
   //Hooks
-  // const dispatch = useDispatch();
 
   //Request Functions
   const [tasksList, setTasksList] = useState<Task[]>([]);
   const [isFormDialogBoxOpen, setIsFormDialogBoxOpen] = useState<boolean>(false);
-  
-  const { data, error, loading } = useQuery(QUERY_TASKS_LIST);
+  const searchKeyword = useSelector(selectSearchByKeyWord);
+  const filters = useSelector(selectFilters);
+
+  // const [getMatchingTasks, matchingTasksResult] = useLazyQuery(
+  //   QUERY_TASKS_LIST_BY_KEYWORD,
+  //   { variables: { keyword: searchKeyword } }
+  // );
+
+
+  const { data, error, loading } = useQuery(QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS,
+    { variables: { keyword: searchKeyword , filters: filters } });
 
   useEffect(() => {
-    setTasksList(data && data.tasks);
+    setTasksList(data && data.tasksByKeywordAndFilters);
   }, [data])
 
+
+
+  // useEffect(() => {
+  //   getMatchingTasks();
+
+  //   if (matchingTasksResult.data) {
+  //     setTasksList(matchingTasksResult.data.tasksByKeyword)
+
+  //   }
+    
+  // }, [searchKeyword])
   //Subscriptions
+
+  // const getTasksByKeyword = async () => {
+  //   try{
+  //     await getMatchingTasks({ fetchPolicy: "no-cache" });
+  //     setTasksList(matchingTasksResult.data.tasksByKeyword)
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   useSubscription(
     TASK_CREATED, {
@@ -39,6 +69,7 @@ const TaskTableContainer = () => {
       }
     }
   )
+
 
   useSubscription(
     TASK_DELETED, {
@@ -52,7 +83,7 @@ const TaskTableContainer = () => {
     }
   )
 
-  useSubscription( //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!NEED CHECK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  useSubscription( 
     TASK_UPDATED, {
       onSubscriptionData: (data) => {
         const task: Task = data.subscriptionData.data.taskDeleted;
@@ -67,7 +98,6 @@ const TaskTableContainer = () => {
 
     //Event Functions
     const onClickOpenForm = () => {
-      // dispatch(openFormDialogBox());
       setIsFormDialogBoxOpen(true);
     };
   

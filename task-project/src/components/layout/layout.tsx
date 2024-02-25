@@ -49,9 +49,6 @@ const Layout = () => {
 
           {/* Prompted Components */}
 
-          <FormDialogBox />
-          <VerifyDialogBox />
-          <ReadDialogBox />
           <Alerts />
           
         </main>

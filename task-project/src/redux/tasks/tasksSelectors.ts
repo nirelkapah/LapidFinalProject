@@ -1,40 +1,10 @@
 import type { RootState} from "../store";
 
-export const selectTasks = (state: RootState) => {
-  return state.tasksState;
-};
+export const selectFilterByTopPriority = (state: RootState) => state.tasksState.filterTaskByTopPriority;
 
-export const selectTaskToDeleteTitle = (state: RootState) => {
-  return state.tasksState.taskToDeleteTitle;
-};
+export const selectFilterByOpenStatus = (state: RootState) => state.tasksState.filterTaskByOpenStatus;
 
-export const selectCurrentTaskId = (state: RootState) => {
-  return state.tasksState.currentTaskId;
-};
+export const selectSearchByKeyWord = (state:RootState) => state.tasksState.searchByKeyword;
 
-export const selectTaskToEdit = (state: RootState) => {
-  return state.tasksState.tasksArray.find(
-    (task) => task._id === state.tasksState.currentTaskId
-  );
-};
+export const selectFilters = (state:RootState) => state.tasksState.filterBy
 
-export const selectCurrentTask = (state: RootState) => {
-  return state.tasksState.tasksArray.find(
-    (task) => task._id === state.tasksState.currentTaskId
-  );
-};
-
-export const TaskIsEdited = (state: RootState) => {
-  if (state.tasksState.currentTaskId != "") {
-    return true;
-  }
-  return false;
-};
-
-export const selectFilterByTopPriority = (state: RootState) => {
-  return state.tasksState.filterTaskByTopPriority;
-};
-
-export const selectFilterByOpenStatus = (state: RootState) => {
-  return state.tasksState.filterTaskByOpenStatus;
-};
