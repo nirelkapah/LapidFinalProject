@@ -3,41 +3,13 @@ import * as React from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { useEffect, useState } from "react";
-import { useLazyQuery} from "@apollo/react-hooks";
-import {
-  QUERY_TASKS_LIST,
-  QUERY_TASKS_LIST_BY_KEYWORD,
-} from "../../graphql/tasks";
 import { useDispatch } from "react-redux";
 import {updateSearchByKeyword} from '../../redux/tasks/tasksSlice'
 
 const Search = () => {
 
   //Hooks 
-  // const [keyword, setSearchKeyword] = useState("");
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   getMatchingTasks({ fetchPolicy: "no-cache" });
-
-  //   if (keyword === "") {
-  //     getAllTasks();
-  //     if (allTasksResult.data) {
-  //       dispatch(updateAlltasks(allTasksResult.data.tasks));
-  //     }
-  //   }
-  // }, [keyword]);
-
-  //Request Functions
-
-  // const [getAllTasks, allTasksResult] = useLazyQuery(QUERY_TASKS_LIST);
-
-  // useEffect(() => {
-  //   if (matchingTasksResult.data) {
-  //     // dispatch(updateAlltasks(matchingTasksResult.data.tasksByKeyword));
-  //   }
-  // }, [matchingTasksResult]);
 
   //Event Functions
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {

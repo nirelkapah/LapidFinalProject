@@ -5,13 +5,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectOpenReadDialogBox,
-} from "../../../redux/web/webSelectors";
-import {
-  closeReadDialogBox,
-} from "../../../redux/web/webSlice";
 import dayjs from "dayjs";
 import { Task } from "../../../model/task";
 
@@ -23,16 +16,9 @@ interface Props {
 
 const ReadDialogBox = (props: Props) => {
 
-  //Hooks
-  // const dispatch = useDispatch();
-  // const readDialogBoxIsOpen = useSelector(selectOpenReadDialogBox);
-  // const task = useSelector(selectCurrentTask);
-
   //Event Function
   const handleClose = () => {
     props.setIsReadDialogBoxOpen(false);
-    // dispatch(closeReadDialogBox());
-    // dispatch(updateCurrentTaskId(""));
   };
 
   return (

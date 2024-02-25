@@ -142,7 +142,10 @@ const TaskTableContainer = () => {
     )}
 
     {tasksList && (
-      <TaskTable tasks={tasksList}/>
+      <TaskTable 
+        tasks={tasksList}
+        setTasksList={setTasksList}
+        />
     )}
 
     </div>

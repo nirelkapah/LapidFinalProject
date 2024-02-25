@@ -3,11 +3,8 @@ import TaskTableContainer from "../taskTable/taskTableContainer";
 import Search from "../search/search";
 import { BrowserRouter } from "react-router-dom";
 import ActionsBar from "../actionsBar/actionsBar";
-import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
-import VerifyDialogBox from "../dialogBox/verifyDialogBox/verifyDialogBox";
 import Alerts from "../alerts/alerts";
 import Header from "../header/header";
-import ReadDialogBox from "../dialogBox/readDialogBox/readDialogBox";
 
 const Layout = () => {
   return (

@@ -4,10 +4,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { useDispatch, useSelector } from "react-redux";
-import { selectOpenAlertDialogBox } from "../../../redux/web/webSelectors";
+import { useDispatch } from "react-redux";
 import {
-  closeAlertDialogBox,
   updateErrorAlertMessage,
   updateSuccessAlertMessage,
 } from "../../../redux/web/webSlice";
@@ -24,9 +22,6 @@ interface Props{
 const VerifyDialogBox = (props: Props) => {
 
   //Hooks
-  // const openDialogBoxState = useSelector(selectOpenAlertDialogBox);
-  // const taskToDeleteId = useSelector(selectCurrentTaskId)
-  // const taskToDeleteTitle = useSelector(selectTaskToDeleteTitle);
   const dispatch = useDispatch();
 
   //Event Functions
@@ -35,16 +30,12 @@ const VerifyDialogBox = (props: Props) => {
   };
   const handleClose = () => {
     props.setIsDeleteDialogOpen(false);
-    // dispatch(closeAlertDialogBox());
-    // dispatch(updateCurrentTaskId(''));
-
   };
 
   //Request Functions
   const deleteTask = async () => {
     try {
       await deleteTaskMutation();
-      // dispatch(deleteTaskFromArray(taskToDeleteId));
       handleClose();
       dispatch(updateSuccessAlertMessage("Task Deleted Succesfuly"));
     } catch (err) {

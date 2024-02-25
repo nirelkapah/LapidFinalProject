@@ -1,20 +1,12 @@
 import "./actionsBar.css";
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { openFormDialogBox } from "../../redux/web/webSlice";
 import {
-  toggleFilterByOpenStatus,
-  toggleFilterByPriority,
   updateStatusFilter,
   updatePriorityFilter,
   removePriorityFilter,
   removeStatusFilter
 } from "../../redux/tasks/tasksSlice";
-import {
-  selectFilterByOpenStatus,
-  selectFilterByTopPriority,
-} from "../../redux/tasks/tasksSelectors";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { useState } from "react";
@@ -26,14 +18,8 @@ const ActionsBar = () => {
   const [isTopPriorityButtonPressed, setTopPriorityButton] = useState<boolean>(false);
   const [isOnlyOpenButtonPressed, setOnlyOpenButton] = useState<boolean>(false);
 
-  // //Event Functions
-  // const onClickOpenForm = () => {
-  //   dispatch(openFormDialogBox());
-  // };
-
   const onClickTopPriority = () => {
     setTopPriorityButton(!isTopPriorityButtonPressed);
-
     !isTopPriorityButtonPressed ? 
     dispatch(updatePriorityFilter('Top'))
     :
@@ -42,7 +28,6 @@ const ActionsBar = () => {
 
   const onClickOnlyOpen = () => {
     setOnlyOpenButton(!isOnlyOpenButtonPressed);
-
     !isOnlyOpenButtonPressed ? 
     dispatch(updateStatusFilter('Open'))
     :
@@ -80,19 +65,6 @@ const ActionsBar = () => {
           <NoteAddIcon id="openTaskIcon" />
         </Button>
       </div>
-{/* 
-      <div className="addTaskContainer">
-      <Button
-        variant="text"
-        onClick={onClickOpenForm}
-        id="addTaskButton">
-        <span className="actionBarText" > Add Task</span> &nbsp;
-          <AddBoxIcon id="addTaskIcon" />
-        </Button>
-        
-        &nbsp;&nbsp;
-
-      </div> */}
 
     </div>
   );

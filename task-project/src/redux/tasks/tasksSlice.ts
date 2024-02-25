@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Task } from "../../model/task";
 import {Filters, PriorityOptions, StatusOptions} from '../../model/filters'
 export interface TasksState {
   filterTaskByTopPriority: boolean;
@@ -20,14 +19,6 @@ export const tasksSlice = createSlice({
   name: "tasksArray",
   initialState,
   reducers: {
-
-    toggleFilterByPriority: (state) => {
-      state.filterTaskByTopPriority = !state.filterTaskByTopPriority;
-    },
-
-    toggleFilterByOpenStatus: (state) => {
-      state.filterTaskByOpenStatus = !state.filterTaskByOpenStatus;
-    },
 
     updateSearchByKeyword: (state, action: PayloadAction<string>) => {
       state.searchByKeyword = action.payload
@@ -57,8 +48,6 @@ export const {
 
   // deleteTaskFromArray,
   updateSearchByKeyword,
-  toggleFilterByPriority,
-  toggleFilterByOpenStatus,
   updateStatusFilter,
   removeStatusFilter,
   updatePriorityFilter,
