@@ -33,7 +33,6 @@ input Filters {
 
 type Query {
     tasks: [Task!]!
-    tasksByKeyword(keyword: String): [Task!]! 
     tasksByKeywordAndFilters(keyword: String, filters: Filters): [Task!]
 }
 

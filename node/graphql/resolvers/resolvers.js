@@ -74,38 +74,9 @@ module.exports = {
                 }
             });
         }); },
-        //Get Tasks By Keyword (Search)
-        tasksByKeyword: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var reg, tasks, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        reg = new RegExp(args.keyword, "i");
-                        return [4 /*yield*/, tasksCollection.find({
-                                $or: [
-                                    { title: reg },
-                                    { priority: reg },
-                                    { description: reg },
-                                    { status: reg },
-                                    { review: reg },
-                                ],
-                            })];
-                    case 1:
-                        tasks = _a.sent();
-                        return [2 /*return*/, tasks.map(function (task) {
-                                return __assign(__assign({}, task._doc), { _id: task.id });
-                            })];
-                    case 2:
-                        err_2 = _a.sent();
-                        throw err_2;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); },
         //Get Tasks By Keyword Search and Filters
         tasksByKeywordAndFilters: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var reg, statusFilters, priorityFilters, tasks, err_3;
+            var reg, statusFilters, priorityFilters, tasks, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -130,8 +101,8 @@ module.exports = {
                                 return __assign(__assign({}, task._doc), { _id: task.id });
                             })];
                     case 2:
-                        err_3 = _a.sent();
-                        throw err_3;
+                        err_2 = _a.sent();
+                        throw err_2;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -139,7 +110,7 @@ module.exports = {
     },
     Mutation: {
         createTask: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var task, result, createdTask, err_4;
+            var task, result, createdTask, err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -190,15 +161,15 @@ module.exports = {
                         });
                         return [2 /*return*/, createdTask];
                     case 8:
-                        err_4 = _a.sent();
-                        throw err_4;
+                        err_3 = _a.sent();
+                        throw err_3;
                     case 9: return [2 /*return*/];
                 }
             });
         }); },
         //Delete Task
         deleteTask: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var err_5;
+            var err_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -211,15 +182,15 @@ module.exports = {
                         });
                         return [2 /*return*/, null];
                     case 2:
-                        err_5 = _a.sent();
-                        throw err_5;
+                        err_4 = _a.sent();
+                        throw err_4;
                     case 3: return [2 /*return*/];
                 }
             });
         }); },
         //Update Existing Task
         updateTask: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var result, updatedTask, err_6;
+            var result, updatedTask, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -304,8 +275,8 @@ module.exports = {
                         });
                         return [2 /*return*/, result];
                     case 13:
-                        err_6 = _a.sent();
-                        throw err_6;
+                        err_5 = _a.sent();
+                        throw err_5;
                     case 14: return [2 /*return*/];
                 }
             });

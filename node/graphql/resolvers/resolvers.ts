@@ -40,30 +40,6 @@ module.exports = {
               }
         },
 
-        //Get Tasks By Keyword (Search)
-        tasksByKeyword: async (_: any, args: any) => {
-            try {
-            let reg = new RegExp(args.keyword, "i");
-
-            const tasks = await tasksCollection.find({
-                $or: [
-                { title: reg },
-                { priority: reg },
-                { description: reg },
-                { status: reg },
-                { review: reg },
-                ],
-            });
-
-            return tasks.map((task: TaskResponse) => {
-                return { ...task._doc, _id: task.id };
-            });
-
-            } catch (err) {
-            throw err;
-            }
-        },
-
         //Get Tasks By Keyword Search and Filters
         tasksByKeywordAndFilters: async (_: any, args: any) => {
 
