@@ -1,4 +1,3 @@
-import "./verifyDialogBox.css";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,6 +11,7 @@ import {
 import { useMutation } from "@apollo/react-hooks";
 import { DELETE_TASK } from "../../../graphql/tasks";
 import { Task } from "../../../model/task";
+import { Grid } from "@mui/material";
 
 interface Props{
   isDeleteDialogOpen: boolean,
@@ -51,7 +51,7 @@ const VerifyDialogBox = (props: Props) => {
   });
 
   return (
-    <div>
+    <Grid>
       <Dialog
         open={props.isDeleteDialogOpen ? props.isDeleteDialogOpen : false}
         onClose={handleClose}
@@ -64,15 +64,15 @@ const VerifyDialogBox = (props: Props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} className="closeIcon">
+          <Button onClick={handleClose} style={{color: 'gray'}}>
             No
           </Button>
-          <Button onClick={onClickYes} autoFocus className="deleteTaskIcon">
+          <Button onClick={onClickYes} autoFocus style={{color: 'red'}}>
             Yes
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Grid>
   );
 };
 

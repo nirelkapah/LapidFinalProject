@@ -1,64 +1,31 @@
-import "./taskTable.css";
+import "../../index.css";
 import TaskTable from "./taskTable";
 import { useQuery } from "@apollo/react-hooks";
-import { QUERY_TASKS_LIST, QUERY_TASKS_LIST_BY_KEYWORD, QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS } from "../../graphql/tasks";
-import { useDispatch, useSelector } from "react-redux";
-import { updateErrorAlertMessage } from "../../redux/web/webSlice";
+import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS } from "../../graphql/tasks";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Task } from '../../model/task';
-import {useLazyQuery, useSubscription} from '@apollo/client';
+import { useSubscription} from '@apollo/client';
 import { TASK_CREATED, TASK_UPDATED, TASK_DELETED } from "../../graphql/subscriptions";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Button from "@mui/material/Button";
 import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
 import { selectFilters, selectSearchByKeyWord } from "../../redux/tasks/tasksSelectors";
-
+import { Grid, Typography } from "@mui/material";
 
 const TaskTableContainer = () => {
 
-  //Hooks
-
-  //Request Functions
   const [tasksList, setTasksList] = useState<Task[]>([]);
   const [isFormDialogBoxOpen, setIsFormDialogBoxOpen] = useState<boolean>(false);
   const searchKeyword = useSelector(selectSearchByKeyWord);
   const filters = useSelector(selectFilters);
-
-  // const [getMatchingTasks, matchingTasksResult] = useLazyQuery(
-  //   QUERY_TASKS_LIST_BY_KEYWORD,
-  //   { variables: { keyword: searchKeyword } }
-  // );
-
 
   const { data, error, loading } = useQuery(QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS,
     { variables: { keyword: searchKeyword , filters: filters } });
 
   useEffect(() => {
     setTasksList(data && data.tasksByKeywordAndFilters);
-  }, [data])
-
-
-
-  // useEffect(() => {
-  //   getMatchingTasks();
-
-  //   if (matchingTasksResult.data) {
-  //     setTasksList(matchingTasksResult.data.tasksByKeyword)
-
-  //   }
-    
-  // }, [searchKeyword])
-  //Subscriptions
-
-  // const getTasksByKeyword = async () => {
-  //   try{
-  //     await getMatchingTasks({ fetchPolicy: "no-cache" });
-  //     setTasksList(matchingTasksResult.data.tasksByKeyword)
-  //   }
-  //   catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  }, [data]);
 
   useSubscription(
     TASK_CREATED, {
@@ -96,39 +63,42 @@ const TaskTableContainer = () => {
     }
   )
 
-    //Event Functions
     const onClickOpenForm = () => {
       setIsFormDialogBoxOpen(true);
     };
   
   return(
-    <div>
+    <Grid container justifyContent={'center'} m={1}>
       <FormDialogBox 
         isOpenForm = {isFormDialogBoxOpen}
         setIsOpenForm={setIsFormDialogBoxOpen}
       />
 
     
-      <div className="addTaskContainer">
+      <Grid container m={0.5} >
         <Button
         variant="text"
         onClick={onClickOpenForm}
-        id="addTaskButton">
-        <span className="actionBarText" > Add Task</span> &nbsp;
-          <AddBoxIcon id="addTaskIcon" />
+        id="addTaskButton"
+        style={{border: 'white', backgroundColor: '#00c0a6'}}
+        >
+        <Typography color={'white'} fontWeight={'light'}> Add Task</Typography> &nbsp;
+          <AddBoxIcon style={{marginLeft: '5px', color: 'white' ,height: '20px'}} />
         </Button>
-        
-        &nbsp;&nbsp;
+      
+      </Grid>
 
-      </div>
+      {error && (
+          <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Sorry, An Error Occured, Please Check Your Internet Connection</Typography>
+      )
+      }
 
-    {error && (
-          <div className="errorAlert">Sorry, An Error Occured, Please Check Your Internet Connection</div>
-    )
-    }
+      {(tasksList && tasksList.length === 0) && (
+          <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Sorry, There are no Matching Tasks</Typography>
+      )
+      }
 
-
-    {loading && (
+      {loading && (
             <div className="lds-roller">
             <div></div>
             <div></div>
@@ -139,19 +109,17 @@ const TaskTableContainer = () => {
             <div></div>
             <div></div>
             </div>
-    )}
+      )}
 
-    {tasksList && (
+    {(tasksList && tasksList.length > 0) && (
       <TaskTable 
         tasks={tasksList}
         setTasksList={setTasksList}
         />
     )}
 
-    </div>
-
+    </Grid>
   )
-
 };
 
 export default TaskTableContainer;

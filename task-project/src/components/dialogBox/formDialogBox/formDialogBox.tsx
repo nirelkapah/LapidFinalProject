@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-import "./formDialogBox.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useDispatch, useSelector } from "react-redux";
-import { selectOpenFormDialogBox } from "../../../redux/web/webSelectors";
-import {
-  closeFormDialogBox,
-  updateSuccessAlertMessage,
-} from "../../../redux/web/webSlice";
+import { useDispatch} from "react-redux";
+import {updateSuccessAlertMessage,} from "../../../redux/web/webSlice";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { FormGroup } from "@mui/material";
+import { FormGroup, Grid, Typography } from "@mui/material";
 import { useMutation } from "@apollo/client";
 import { CREATE_TASK, UPDATE_TASK } from "../../../graphql/tasks";
 import dayjs, { Dayjs } from "dayjs";
@@ -36,13 +31,6 @@ interface Props {
 
 const FormDialogBox = (props: Props) => {
 
-  //Hooks
-  // const openFormState = useSelector(selectOpenFormDialogBox);
-  // const taskToEdit = useSelector(selectTaskToEdit);
-  // const taskIsEdited = useSelector(TaskIsEdited);
-  const dispatch = useDispatch();
-
-  //Setting Local States;
   const newTask: Task = {
     status: 'Open',
     description: '',
@@ -50,21 +38,16 @@ const FormDialogBox = (props: Props) => {
     estimatedTime: 0,
     priority: ''
   }
+
+  const dispatch = useDispatch();
   const [formTask, setFormTask] = useState<Task>(props.task ? props.task : newTask)
+  const [FormError, setFormError] = useState("");
 
   dayjs.extend(utc);
 
-  const [currentlyUrgentTask, setUrgentTask] = useState(false);
-  const [currentlyClosedTask, setClosedTask] =useState(false);
-  const [FormError, setFormError] = useState("");
-
-  //If Task Is New - starts new form. If Edited - retrieves data
   useEffect(() => {
-
     const propsTask = props.task;
-
     if (propsTask) {
-
       const tempTask: Task = {
         _id: propsTask._id,
         description: propsTask.description,
@@ -78,90 +61,42 @@ const FormDialogBox = (props: Props) => {
           dayjs.utc(new Date()),
         review: propsTask.status === 'Closed' ? propsTask.review : ''
       }
-
       setFormTask(tempTask)
-
     } else {
       setFormTask(newTask)
     }
   }, [props.task]);
 
-  //Changes Form Stracture By Status
   useEffect(() => {
     if (formTask.status === "Open") {
-      setUrgentTask(false);
-      setClosedTask(false);
       setFormTask({...formTask, review: '', timeSpent: 0, untilDate: dayjs.utc(new Date())})
     }
-
     if (formTask.status === "Urgent") {
-      setUrgentTask(true);
-      setClosedTask(false);
       setFormTask({...formTask, review: '', timeSpent: 0})
-    }
-
-    if (formTask.status === "Closed") {
-      setUrgentTask(true);
-      setClosedTask(true);
     }
   }, [formTask.status]);
 
-  //Request Functions
   const sendTask = async () => {
-    let result;
-
     try {
       if (props.task?._id) {
-        result = await updateTaskMutation();
+        await updateTaskMutation();
         dispatch(updateSuccessAlertMessage("Task Updated Succesfuly"));
       } else {
-        result = await createTaskMutation();
+        await createTaskMutation();
         dispatch(updateSuccessAlertMessage("Task Added Succesfuly"));
       }
-
       handleClose();
+      setFormTask(newTask);
     } catch (err) {
       let errorMessage = (err as Error).message;
       setFormError(errorMessage);
     }
   };
-
-  // const [updateTaskMutation] = useMutation(UPDATE_TASK, {
-  //   variables: {
-  //     id: formTask._id,
-  //     status: formTask.status,
-  //     title: formTask.title,
-  //     description: formTask.description,
-  //     estimatedTime: formTask.estimatedTime,
-  //     priority: formTask.priority,
-  //     review: currentlyClosedTask ? formTask.priority : null,
-  //     timeSpent: currentlyClosedTask ? formTask.timeSpent : null,
-  //     untilDate:
-  //       currentlyUrgentTask || currentlyClosedTask ? formTask.untilDate : null},
-  // });
-
   
   const [updateTaskMutation] = useMutation(UPDATE_TASK, {
     variables: {
       taskInput: formTask},
   });
-
-  // const [createTaskMutation] = useMutation(CREATE_TASK, {
-  //   variables: {
-  //     status: formTask.status,
-  //     title: formTask.title,
-  //     description: formTask.description,
-  //     estimatedTime: formTask.estimatedTime,
-  //     priority: formTask.priority,
-  //     review: currentlyClosedTask ? formTask.review : null,
-  //     timeSpent: currentlyClosedTask ? formTask.timeSpent : null,
-  //     untilDate:
-  //       currentlyUrgentTask || currentlyClosedTask
-  //         ? formTask.untilDate
-  //         : null,
-  //   },
-  // });
-
   
   const [createTaskMutation] = useMutation(CREATE_TASK, {
     variables: {
@@ -170,90 +105,61 @@ const FormDialogBox = (props: Props) => {
   });
 
   //Event Functions
-  const onClickSendTask = () => {
-    sendTask();
-  };
+  const onClickSendTask = () => sendTask();
 
   const handleClose = () => {
     props.setIsOpenForm(false);
     setFormError("");
   };
 
-  const onChangeStatus = (event: SelectChangeEvent) => 
-    setFormTask({...formTask, status: event.target.value});
-  
+  const onChangeStatus = (event: SelectChangeEvent) => setFormTask({...formTask, status: event.target.value});
 
-  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const tempTask = {...formTask, title: event.target.value}
-    setFormTask(tempTask);
-  }
-    // setTitle(event.target.value);};
+  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => setFormTask({...formTask, title: event.target.value});
 
-  const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const tempTask = {...formTask, description: event.target.value}
-    setFormTask(tempTask);
-  }
-    // setDescription(event.target.value);};
+  const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => setFormTask({...formTask, description: event.target.value});
 
   const onChangeEstTime = (event: React.ChangeEvent<HTMLInputElement>) => {
     let zeroWithNumber = "0"+event.target.valueAsNumber;
     if (event.target.value == zeroWithNumber){
-      const tempTask = {...formTask, estimatedTime: event.target.valueAsNumber}
-      setFormTask(tempTask);
-      // setEstTime(event.target.valueAsNumber);
+      setFormTask({...formTask, estimatedTime: event.target.valueAsNumber});
       event.target.value = event.target.valueAsNumber.toString();
     }
-    if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
-      const tempTask = {...formTask, estimatedTime: event.target.valueAsNumber}
-      setFormTask(tempTask);
-      // setEstTime(event.target.valueAsNumber);
+    else if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
+      setFormTask({...formTask, estimatedTime: event.target.valueAsNumber});
     }};
 
-  const onChangePriority = (event: SelectChangeEvent) => {
-    const tempTask = {...formTask, priority: event.target.value}
-    setFormTask(tempTask);}
+  const onChangePriority = (event: SelectChangeEvent) => setFormTask({...formTask, priority: event.target.value});
 
-    // setPriority(event.target.value);};
-
-  const onChangeReview = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const tempTask = {...formTask, review: event.target.value}
-    setFormTask(tempTask);}
-    // setReview(event.target.value);};
+  const onChangeReview = (event: React.ChangeEvent<HTMLInputElement>) => setFormTask({...formTask, review: event.target.value});
 
   const onChangeTimeSpent = (event: React.ChangeEvent<HTMLInputElement>) => {
     let zeroWithNumber = "0"+event.target.valueAsNumber;
     if (event.target.value == zeroWithNumber){
-      const tempTask = {...formTask, timeSpent: event.target.valueAsNumber}
-      setFormTask(tempTask);
-      // setTimeSpent(event.target.valueAsNumber);
+      setFormTask({...formTask, timeSpent: event.target.valueAsNumber});
       event.target.value = event.target.valueAsNumber.toString();
     }
-    if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
-      const tempTask = {...formTask, timeSpent: event.target.valueAsNumber}
-      setFormTask(tempTask);
-      // setTimeSpent(event.target.valueAsNumber);
+    else if (event.target.valueAsNumber || event.target.valueAsNumber === 0) {
+      setFormTask({...formTask, timeSpent: event.target.valueAsNumber});
     }};
 
   const onKeyDownEstimatedTime = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Backspace' && formTask.estimatedTime.toString().length === 1) {
-      setFormTask({...formTask, estimatedTime: 0});
-      // setEstTime(0);
-    }};
+     (event.key === 'Backspace' && formTask.estimatedTime.toString().length === 1) &&
+        setFormTask({...formTask, estimatedTime: 0});
+    };
 
   const onKeyDownTimeSpent = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Backspace' && formTask.timeSpent) {
+    (event.key === 'Backspace' && formTask.timeSpent) && 
       formTask.timeSpent.toString().length === 1 &&
-      setFormTask({...formTask, timeSpent: 0});
-    }};
+        setFormTask({...formTask, timeSpent: 0});
+    };
 
   return (
-    <div>
+    <Grid container>
       <Dialog open={props.isOpenForm ? props.isOpenForm : false} onClose={handleClose}>
-        <DialogTitle className='dialogTitle'>
-        <NoteAddIcon /> &nbsp;
-          {!props.task && 'Create'}{props.task && 'Modify'} Task
+        <DialogTitle color={'6945ac'} className='dialogTitle'>
+        
+          <Typography color='#6945ac' fontSize={'20px'} justifyContent={'center'}><NoteAddIcon style={{color: '6945ac'}}/> {!props.task && 'Create'}{props.task && 'Modify'} Task</Typography>
         </DialogTitle>
-
 
         <DialogContent>
           <FormGroup sx={{ m: 1, minWidth: 400 }}>
@@ -274,9 +180,7 @@ const FormDialogBox = (props: Props) => {
                 <MenuItem value={"Closed"}>Closed</MenuItem>
               </Select>
             </FormControl>
-            {FormError.includes('Status') && <span className="formError">{FormError} </span>}
-
-            <br></br>
+            {FormError.includes('Status') && <Typography color={'red'}>{FormError} </Typography>}
 
             <TextField
               onChange={onChangeTitle}
@@ -287,11 +191,10 @@ const FormDialogBox = (props: Props) => {
               value={formTask.title}
               variant="outlined"
               helperText='Title Must Be Between 6 to 30 letters'
-              
+              margin={'normal'}
             />
 
-            {FormError.includes('Title') && <span className="formError">{FormError} </span>}
-            <br></br>
+            {FormError.includes('Title') && <Typography color={'red'}>{FormError} </Typography>}
 
             <TextField
               onChange={onChangeDescription}
@@ -303,11 +206,10 @@ const FormDialogBox = (props: Props) => {
               value={formTask.description}
               variant="outlined"
               helperText='Description Must Be Between 10 to 120 letters'
-
+              margin={'normal'}
             />
-            {FormError.includes('Description') && <span className="formError">{FormError} </span>}
+            {FormError.includes('Description') && <Typography color={'red'}>{FormError} </Typography>}
 
-            <br></br>
 
             <TextField
               onChange={onChangeEstTime}
@@ -320,13 +222,13 @@ const FormDialogBox = (props: Props) => {
               value={formTask.estimatedTime}
               variant="outlined"
               InputProps={{ inputProps: { min: 0, max: 1000 } }}
+              margin={'normal'}
 
             />
 
-            {FormError.includes('Estimated') && <span className="formError">{FormError} </span>}
-            <br></br>
+            {FormError.includes('Estimated') && <Typography color={'red'}>{FormError} </Typography>}
 
-            <FormControl variant="outlined">
+            <FormControl variant="outlined" margin={'normal'}>
               <InputLabel id="priorityLabel" required>Priority</InputLabel>
               <Select
                 error={FormError.includes("Priority")}
@@ -342,14 +244,13 @@ const FormDialogBox = (props: Props) => {
                 <MenuItem value={"Minor"}>Minor</MenuItem>
               </Select>
             </FormControl>
-            {FormError.includes('Priority') && <span className="formError">{FormError} </span>}
+            {FormError.includes('Priority') && <Typography color={'red'}>{FormError} </Typography>}
 
-            <br></br>
-
-            {currentlyUrgentTask && (
+            {(formTask.status === 'Closed' || formTask.status === 'Urgent') && (
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
                 dateLibInstance={dayjs.utc}
+                margin={'normal'}
               >
                 <DemoContainer components={["DateCalendar", "DateCalendar"]}>
                   <DemoItem label="Until Date">
@@ -361,9 +262,9 @@ const FormDialogBox = (props: Props) => {
                 </DemoContainer>
               </LocalizationProvider>
             )}
-            {FormError.includes('Date') && <span className="formError">{FormError} </span>}
+            {FormError.includes('Date') && <Typography color={'red'}>{FormError} </Typography>}
 
-            {currentlyClosedTask && (
+            {formTask.status === 'Closed' && (
               <TextField
                 onChange={onChangeReview}
                 error={FormError.includes("Review")}
@@ -371,13 +272,12 @@ const FormDialogBox = (props: Props) => {
                 label="Review"
                 value={formTask.review}
                 variant="outlined"
+                margin={'normal'}
               />
             )}
-            {FormError.includes('Review') && <span className="formError">{FormError} </span>}
+            {FormError.includes('Review') && <Typography color={'red'}>{FormError} </Typography>}
 
-            <br></br>
-
-            {currentlyClosedTask && (
+            {formTask.status === 'Closed' && (
               <TextField
                 onChange={onChangeTimeSpent}
                 onKeyDown={onKeyDownTimeSpent}
@@ -388,25 +288,25 @@ const FormDialogBox = (props: Props) => {
                 value={formTask.timeSpent}
                 variant="outlined"
                 InputProps={{ inputProps: { min: 0, max: 1000 } }}
+                margin={'normal'}
 
               />
             )}
 
-            {FormError.includes('Spent') && <span className="formError">{FormError} </span>}
+            {FormError.includes('Spent') && <Typography color={'red'}>{FormError} </Typography>}
           </FormGroup>
 
-          <br></br>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} className="closeIcon">
-            Cancel
+          <Button onClick={handleClose}  style={{color: 'gray'}}>
+            <Typography color={'gray'} fontSize={'14px'} fontWeight={'500'}>Cancel</Typography>
           </Button>
-          <Button onClick={onClickSendTask} className="sendIcon">
-            Send
+          <Button onClick={onClickSendTask}>
+            <Typography color={'#6945ac'} fontSize={'14px'} fontWeight={'500'}>Send</Typography>
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Grid>
   );
 };
 

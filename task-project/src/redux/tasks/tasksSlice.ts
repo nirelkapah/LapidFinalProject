@@ -2,15 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {Filters, PriorityOptions, StatusOptions} from '../../model/filters'
 export interface TasksState {
-  filterTaskByTopPriority: boolean;
-  filterTaskByOpenStatus: boolean;
   filterBy: Filters;
   searchByKeyword: string;
 }
 
 const initialState: TasksState = {
-  filterTaskByTopPriority: false,
-  filterTaskByOpenStatus: false,
   filterBy: {status: [], priority: []},
   searchByKeyword: '',
 };

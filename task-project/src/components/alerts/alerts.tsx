@@ -1,4 +1,3 @@
-import "./alerts.css";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +10,7 @@ import {
   updateErrorAlertMessage,
   updateSuccessAlertMessage,
 } from "../../redux/web/webSlice";
+import { Grid } from "@mui/material";
 
 const Alerts = () => {
 
@@ -30,8 +30,8 @@ const Alerts = () => {
   };
 
   return (
-    <div className="alertsContainer">
-      <Stack sx={{ width: "100%" }} spacing={2}>
+    <Grid container position={'fixed'} sx={{opacity: 0.9, justifyContent: 'center', maxWidth: '1280px', top: '1%'}}>
+      <Stack sx={{ width: "100%" }} spacing={2} alignItems={'center'}>
         {successAlertMessage && (
           <Alert severity="success">{successAlertMessage}</Alert>
         )}
@@ -40,7 +40,7 @@ const Alerts = () => {
           <Alert severity="error">{errorAlertMessage}</Alert>
         )}
       </Stack>
-    </div>
+    </Grid>
   );
 };
 export default Alerts;

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import "./readDialogBox.css";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import dayjs from "dayjs";
 import { Task } from "../../../model/task";
+import { Grid, Typography } from "@mui/material";
 
 interface Props {
   isReadDialogBoxOpen: boolean,
@@ -22,7 +21,7 @@ const ReadDialogBox = (props: Props) => {
   };
 
   return (
-    <div>
+    <Grid container>
       {props.task && (
         <Dialog
           className="taskContainer"
@@ -32,48 +31,48 @@ const ReadDialogBox = (props: Props) => {
           aria-describedby="alert-dialog-description"
         >
           <DialogContent>
-            <h3>{props.task.title}</h3>
+            <Typography fontSize={'20px'} marginBottom={2} fontWeight={600} color={'black'}> {props.task.title}</Typography>
             <DialogContentText></DialogContentText>
-            <DialogContentText className="description">
-              <strong>Description:</strong> {props.task.description}
+            <DialogContentText className="description" overflow={'break-word'}>
+              <Typography><b>Description:</b> {props.task.description} </Typography>
             </DialogContentText>
             <DialogContentText>
-              <strong>Estimated Time:</strong> {props.task.estimatedTime} Hours
+              <Typography><b>Estimated Time:</b> {props.task.estimatedTime} Hours </Typography>
             </DialogContentText>
             <DialogContentText>
-              <strong>Status:</strong> {props.task.status}
+              <Typography><b>Status:</b> {props.task.status} </Typography>
             </DialogContentText>
             <DialogContentText>
-              <strong>Priority:</strong> {props.task.priority}
+            < Typography><b>Priority:</b> {props.task.priority} </Typography>
             </DialogContentText>
 
             {props.task.untilDate && (
               <DialogContentText>
-                <strong>Until:</strong>{" "}
+                <b>Until:</b>{" "}
                 {dayjs.utc(props.task.untilDate).format("MMMM D, YYYY")}
               </DialogContentText>
             )}
 
             {props.task.review && (
               <DialogContentText>
-                <strong>Review:</strong> {props.task.review}
+                <b>Review:</b> {props.task.review}
               </DialogContentText>
             )}
 
             {props.task.review && (
               <DialogContentText>
-                <strong>Time Spent:</strong> {props.task.timeSpent} Hours
+                <b>Time Spent:</b> {props.task.timeSpent} Hours
               </DialogContentText>
             )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} className="closeIcon">
+            <Button onClick={handleClose} style={{color: 'gray'}}>
               Close
             </Button>
           </DialogActions>
         </Dialog>
       )}
-    </div>
+    </Grid>
   );
 };
 

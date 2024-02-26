@@ -1,10 +1,10 @@
-import "./layout.css";
 import TaskTableContainer from "../taskTable/taskTableContainer";
 import Search from "../search/search";
 import { BrowserRouter } from "react-router-dom";
 import ActionsBar from "../actionsBar/actionsBar";
 import Alerts from "../alerts/alerts";
 import Header from "../header/header";
+import { Grid } from "@mui/material";
 
 const Layout = () => {
   return (
@@ -36,17 +36,16 @@ const Layout = () => {
           <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"></link>
         </header>
         <main>
+          <Grid container justifyContent={'center'} textAlign={'center'} maxWidth={'1280px'}>
 
-          {/* Main Components */}
+            <Header />
+            <Search />
+            <ActionsBar />
+            <TaskTableContainer />
 
-          <Header />
-          <Search />
-          <ActionsBar />
-          <TaskTableContainer />
+            <Alerts />
 
-          {/* Prompted Components */}
-
-          <Alerts />
+          </Grid>
           
         </main>
       </section>

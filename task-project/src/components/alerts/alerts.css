@@ -1,8 +1,0 @@
-.alertsContainer {
-  position: fixed;
-  align-items: center;
-  top: 5%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.9;
-}
