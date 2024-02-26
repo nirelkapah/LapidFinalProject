@@ -45,7 +45,7 @@ const ActionsBar = () => {
           disableElevation={isTopPriorityButtonPressed}
           style={{margin: '5px', borderColor: 'white'}}
         >
-          <Typography fontWeight={'light'} className="actionBarText" color={'white'}>Only Top Priority</Typography>
+          <Typography fontWeight={'light'} color={'white'}>Only Top Priority</Typography>
           <KeyboardDoubleArrowUpIcon style={{marginLeft: '5px', color: 'white' ,height: '20px'}} />
         </Button>
         

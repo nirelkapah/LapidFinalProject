@@ -8,10 +8,8 @@ import { Grid } from "@mui/material";
 
 const Search = () => {
 
-  //Hooks 
   const dispatch = useDispatch();
 
-  //Event Functions
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateSearchByKeyword(event.target.value))
   };
@@ -21,11 +19,10 @@ const Search = () => {
       <Paper
         component="form"
         sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 400 }}
-      >
+        >
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="Search For A Task.."
-          inputProps={{ "aria-label": "search google maps" }}
           onChange={onChangeKeyword}
         />
         <SearchIcon sx={{ p: '10px' }} aria-label="search" className="searchIcon" style={{color: 'c74cb1'}}/>
