@@ -33,7 +33,7 @@ input Filters {
 
 type Query {
     tasks: [Task!]!
-    tasksByKeywordAndFilters(keyword: String, filters: Filters): [Task!]
+    tasksByKeywordAndFilters(keyword: String, filters: Filters): [Task]
 }
 
 type Mutation {

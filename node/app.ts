@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const { graphqlHTTP } = require("express-graphql");
 const config = require("./config.json");
 const typeDefs = require("./graphql/schema/typeDefs");
-const resolvers = require("./graphql/resolvers/resolvers.js");
+const resolvers = require("./graphql/resolvers/resolvers");
 const cors = require("cors");
 const { createServer } = require('http');
 const { ApolloServer } = require('apollo-server-express');
@@ -22,15 +22,6 @@ const corsOptions = {
 };
 
 //===============================Graphql Data =============================//
-
-// app.use(
-//   "/graphql",
-//   graphqlHTTP({
-//     schema: graphQlSchema,
-//     rootValue: graphQlResolvers,
-//     graphiql: true,
-//   })
-// );
 
 ( async () => {
 
