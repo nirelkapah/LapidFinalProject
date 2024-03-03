@@ -1,16 +1,27 @@
 //=====================import=====================//
-const express = require("express");
-const mongoose = require("mongoose");
-const { graphqlHTTP } = require("express-graphql");
-const config = require("./config.json");
-const typeDefs = require("./graphql/schema/typeDefs");
-const resolvers = require("./graphql/resolvers/resolvers");
-const cors = require("cors");
-const { createServer } = require('http');
+// const express = require("express");
+import express from 'express'
+import mongoose from 'mongoose'
+// const mongoose = require("mongoose");
+// const { graphqlHTTP } = require("express-graphql");
+// const config = require("./config.json");
+import * as config from './config.json'
+// const typeDefs = require("./graphql/schema/typeDefs");
+import {resolvers} from './graphql/resolvers/resolvers'
+import {typeDefs} from './graphql/schema/typeDefs'
+// const resolvers = require("./graphql/resolvers/resolvers");
+// const cors = require("cors");
+import cors from 'cors'
+// const { createServer } = require('http');
+import { createServer } from 'http';
 const { ApolloServer } = require('apollo-server-express');
+// import { ApolloServer } from 'apollo-server-express';
 const { SubscriptionServer } = require('subscriptions-transport-ws');
-const { execute, subscribe } = require('graphql');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
+// const { execute, subscribe } = require('graphql');
+import { execute, subscribe } from 'graphql';
+// const { makeExecutableSchema } = require('@graphql-tools/schema');
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
 //===============================ON SERVER START =============================
 
@@ -77,7 +88,6 @@ const corsOptions = {
       console.error('Error connecting to MongoDB:', error.message);
     }
   };
-  
   // Call the connectToDatabase function to initiate the connection
   connectToDatabase();
 
@@ -89,5 +99,6 @@ server.listen(PORT, () => console.log("Listening on " + PORT));
 
 
 //===============================Connecting to DB =============================//
+
 
 

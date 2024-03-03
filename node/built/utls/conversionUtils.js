@@ -1,5 +1,10 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.convertTimeSpentToDB = exports.convertDateFromDB = exports.convertDateToDB = void 0;
 var convertDateToDB = function (stringUntilDate) { return new Date(stringUntilDate); };
+exports.convertDateToDB = convertDateToDB;
 var convertDateFromDB = function (docUntilDate) { return new Date(docUntilDate).toISOString(); };
+exports.convertDateFromDB = convertDateFromDB;
 var convertTimeSpentToDB = function (numberTimeSpent) { return Number.parseFloat(numberTimeSpent); };
-module.exports = { convertDateFromDB: convertDateFromDB, convertDateToDB: convertDateToDB, convertTimeSpentToDB: convertTimeSpentToDB };
+exports.convertTimeSpentToDB = convertTimeSpentToDB;
+// module.exports = { convertDateFromDB, convertDateToDB, convertTimeSpentToDB };

@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,19 +58,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 //=====================import=====================//
-var express = require("express");
-var mongoose = require("mongoose");
-var graphqlHTTP = require("express-graphql").graphqlHTTP;
-var config = require("./config.json");
-var typeDefs = require("./graphql/schema/typeDefs");
-var resolvers = require("./graphql/resolvers/resolvers");
-var cors = require("cors");
-var createServer = require('http').createServer;
+// const express = require("express");
+var express_1 = __importDefault(require("express"));
+var mongoose_1 = __importDefault(require("mongoose"));
+// const mongoose = require("mongoose");
+// const { graphqlHTTP } = require("express-graphql");
+// const config = require("./config.json");
+var config = __importStar(require("./config.json"));
+// const typeDefs = require("./graphql/schema/typeDefs");
+var resolvers_1 = require("./graphql/resolvers/resolvers");
+var typeDefs_1 = require("./graphql/schema/typeDefs");
+// const resolvers = require("./graphql/resolvers/resolvers");
+// const cors = require("cors");
+var cors_1 = __importDefault(require("cors"));
+// const { createServer } = require('http');
+var http_1 = require("http");
 var ApolloServer = require('apollo-server-express').ApolloServer;
+// import { ApolloServer } from 'apollo-server-express';
 var SubscriptionServer = require('subscriptions-transport-ws').SubscriptionServer;
-var _a = require('graphql'), execute = _a.execute, subscribe = _a.subscribe;
-var makeExecutableSchema = require('@graphql-tools/schema').makeExecutableSchema;
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
+// const { execute, subscribe } = require('graphql');
+var graphql_1 = require("graphql");
+// const { makeExecutableSchema } = require('@graphql-tools/schema');
+var schema_1 = require("@graphql-tools/schema");
 //===============================ON SERVER START =============================
 var corsOptions = {
     origin: "*",
@@ -61,16 +99,16 @@ var corsOptions = {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                app = express();
-                app.use(cors(corsOptions));
+                app = (0, express_1.default)();
+                app.use((0, cors_1.default)(corsOptions));
                 //Parse Incoming JSON
-                app.use(express.json());
-                schema = makeExecutableSchema({ typeDefs: typeDefs, resolvers: resolvers });
-                server = createServer(app);
+                app.use(express_1.default.json());
+                schema = (0, schema_1.makeExecutableSchema)({ typeDefs: typeDefs_1.typeDefs, resolvers: resolvers_1.resolvers });
+                server = (0, http_1.createServer)(app);
                 SubscriptionServer.create({
                     schema: schema,
-                    execute: execute,
-                    subscribe: subscribe,
+                    execute: graphql_1.execute,
+                    subscribe: graphql_1.subscribe,
                 }, {
                     server: server,
                     path: '/graphql',
@@ -112,7 +150,7 @@ var corsOptions = {
                         switch (_a.label) {
                             case 0:
                                 _a.trys.push([0, 2, , 3]);
-                                return [4 /*yield*/, mongoose.connect("mongodb+srv://".concat(config.mongo.MONGO_USER, ":").concat(config.mongo.MONGO_PASSWORD, "@cluster0.pj7djsr.mongodb.net/").concat(config.mongo.MONGO_DB))];
+                                return [4 /*yield*/, mongoose_1.default.connect("mongodb+srv://".concat(config.mongo.MONGO_USER, ":").concat(config.mongo.MONGO_PASSWORD, "@cluster0.pj7djsr.mongodb.net/").concat(config.mongo.MONGO_DB))];
                             case 1:
                                 _a.sent();
                                 console.log('Connected to MongoDB');

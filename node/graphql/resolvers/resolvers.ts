@@ -1,13 +1,8 @@
-// const {subscribe} = require("graphql");
-const tasksCollection = require("../../models/task");
-const Task = require("../../models/task");
-const ConversionUtils = require("../../utls/conversionUtils");
-const {
-  openTaskAuthSchema,
-  closedTaskAuthSchema,
-  UrgentTaskAuthSchema,
-} = require("../../utls/TaskValidation");
-const {PubSub} = require("graphql-subscriptions");
+
+import {tasksCollection} from '../../models/task'
+import * as ConversionUtils from '../../utls/conversionUtils'
+import {PubSub} from 'graphql-subscriptions'
+import {openTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} from '../../utls/TaskValidation'
 
 const pubsub = new PubSub();
 
@@ -24,14 +19,14 @@ interface TaskResponse {
   _doc: object
 }
 
-module.exports = {
+export const resolvers = {
     Query:{
         
         tasks: async () => {
             try {
                 const tasks = await tasksCollection.find();
           
-                return tasks.map((task: TaskResponse) => {
+                return tasks.map((task: any) => {
                   return { ...task._doc, _id: task.id };
                 });
           
@@ -61,7 +56,7 @@ module.exports = {
           .find({ "priority": { "$in": priorityFilters.length > 0 ? priorityFilters : ['Top' , 'Regular' , 'Minor'] } })
           ;
 
-          return tasks.map((task: TaskResponse) => {
+          return tasks.map((task: any) => {
               return { ...task._doc, _id: task.id };
           });
 
@@ -91,12 +86,12 @@ module.exports = {
               //Convert Type
               if (args.taskInput.timeSpent) {
                 args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(
-                  +args.taskInput.timeSpent
+                  args.taskInput.timeSpent
                 );
               }
         
               //Create Task Object
-              const task = new Task({
+              const task = new tasksCollection({
                 title: args.taskInput.title,
                 description: args.taskInput.description,
                 // estimatedTime: Number.parseFloat(+args.taskInput.estimatedTime),
@@ -116,9 +111,9 @@ module.exports = {
               }
         
               //Push New Task
-              const result = await task.save();
+              const result: any = await task.save();
         
-              const createdTask = { ...result._doc, _id: task.id, untilDate: task.untilDate };
+              const createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate };
 
               pubsub.publish('TASK_CREATED', {
                 taskCreated: createdTask
@@ -162,11 +157,11 @@ module.exports = {
               //Covert Data
               if (args.taskInput.timeSpent) {
                 args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(
-                  +args.taskInput.timeSpent
+                  args.taskInput.timeSpent
                 );
               }
         
-              let result;
+              let result: any;
         
               //If Open Task
               if(args.taskInput.status === 'Open'){

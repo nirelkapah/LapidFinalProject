@@ -10,6 +10,29 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -46,14 +69,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// const {subscribe} = require("graphql");
-var tasksCollection = require("../../models/task");
-var Task = require("../../models/task");
-var ConversionUtils = require("../../utls/conversionUtils");
-var _a = require("../../utls/TaskValidation"), openTaskAuthSchema = _a.openTaskAuthSchema, closedTaskAuthSchema = _a.closedTaskAuthSchema, UrgentTaskAuthSchema = _a.UrgentTaskAuthSchema;
-var PubSub = require("graphql-subscriptions").PubSub;
-var pubsub = new PubSub();
-module.exports = {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resolvers = void 0;
+var task_1 = require("../../models/task");
+var ConversionUtils = __importStar(require("../../utls/conversionUtils"));
+var graphql_subscriptions_1 = require("graphql-subscriptions");
+var TaskValidation_1 = require("../../utls/TaskValidation");
+var pubsub = new graphql_subscriptions_1.PubSub();
+exports.resolvers = {
     Query: {
         tasks: function () { return __awaiter(void 0, void 0, void 0, function () {
             var tasks, err_1;
@@ -61,7 +84,7 @@ module.exports = {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, tasksCollection.find()];
+                        return [4 /*yield*/, task_1.tasksCollection.find()];
                     case 1:
                         tasks = _a.sent();
                         return [2 /*return*/, tasks.map(function (task) {
@@ -84,7 +107,7 @@ module.exports = {
                         reg = new RegExp(args.keyword, "i");
                         statusFilters = args.filters.status;
                         priorityFilters = args.filters.priority;
-                        return [4 /*yield*/, tasksCollection.find({
+                        return [4 /*yield*/, task_1.tasksCollection.find({
                                 $or: [
                                     { title: reg },
                                     { priority: reg },
@@ -116,28 +139,28 @@ module.exports = {
                     case 0:
                         _a.trys.push([0, 8, , 9]);
                         if (!(args.taskInput.status === "Open")) return [3 /*break*/, 2];
-                        return [4 /*yield*/, openTaskAuthSchema.validateAsync(args.taskInput)];
+                        return [4 /*yield*/, TaskValidation_1.openTaskAuthSchema.validateAsync(args.taskInput)];
                     case 1:
                         _a.sent();
                         return [3 /*break*/, 6];
                     case 2:
                         if (!(args.taskInput.status === "Urgent")) return [3 /*break*/, 4];
-                        return [4 /*yield*/, UrgentTaskAuthSchema.validateAsync(args.taskInput)];
+                        return [4 /*yield*/, TaskValidation_1.UrgentTaskAuthSchema.validateAsync(args.taskInput)];
                     case 3:
                         _a.sent();
                         return [3 /*break*/, 6];
                     case 4:
                         if (!(args.taskInput.status === "Closed")) return [3 /*break*/, 6];
-                        return [4 /*yield*/, closedTaskAuthSchema.validateAsync(args.taskInput)];
+                        return [4 /*yield*/, TaskValidation_1.closedTaskAuthSchema.validateAsync(args.taskInput)];
                     case 5:
                         _a.sent();
                         _a.label = 6;
                     case 6:
                         //Convert Type
                         if (args.taskInput.timeSpent) {
-                            args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(+args.taskInput.timeSpent);
+                            args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(args.taskInput.timeSpent);
                         }
-                        task = new Task({
+                        task = new task_1.tasksCollection({
                             title: args.taskInput.title,
                             description: args.taskInput.description,
                             // estimatedTime: Number.parseFloat(+args.taskInput.estimatedTime),
@@ -174,7 +197,7 @@ module.exports = {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, tasksCollection.findOneAndRemove({ _id: args._id })];
+                        return [4 /*yield*/, task_1.tasksCollection.findOneAndRemove({ _id: args._id })];
                     case 1:
                         _a.sent();
                         pubsub.publish('TASK_DELETED', {
@@ -196,30 +219,30 @@ module.exports = {
                     case 0:
                         _a.trys.push([0, 13, , 14]);
                         if (!(args.taskInput.status === "Open")) return [3 /*break*/, 2];
-                        return [4 /*yield*/, openTaskAuthSchema.validateAsync(args.taskInput)];
+                        return [4 /*yield*/, TaskValidation_1.openTaskAuthSchema.validateAsync(args.taskInput)];
                     case 1:
                         _a.sent();
                         return [3 /*break*/, 6];
                     case 2:
                         if (!(args.taskInput.status === "Urgent")) return [3 /*break*/, 4];
-                        return [4 /*yield*/, UrgentTaskAuthSchema.validateAsync(args.taskInput)];
+                        return [4 /*yield*/, TaskValidation_1.UrgentTaskAuthSchema.validateAsync(args.taskInput)];
                     case 3:
                         _a.sent();
                         return [3 /*break*/, 6];
                     case 4:
                         if (!(args.taskInput.status === "Closed")) return [3 /*break*/, 6];
-                        return [4 /*yield*/, closedTaskAuthSchema.validateAsync(args.taskInput)];
+                        return [4 /*yield*/, TaskValidation_1.closedTaskAuthSchema.validateAsync(args.taskInput)];
                     case 5:
                         _a.sent();
                         _a.label = 6;
                     case 6:
                         //Covert Data
                         if (args.taskInput.timeSpent) {
-                            args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(+args.taskInput.timeSpent);
+                            args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(args.taskInput.timeSpent);
                         }
                         result = void 0;
                         if (!(args.taskInput.status === 'Open')) return [3 /*break*/, 8];
-                        return [4 /*yield*/, tasksCollection.findOneAndUpdate({ _id: args.taskInput._id }, {
+                        return [4 /*yield*/, task_1.tasksCollection.findOneAndUpdate({ _id: args.taskInput._id }, {
                                 $set: {
                                     title: args.taskInput.title,
                                     description: args.taskInput.description,
@@ -235,7 +258,7 @@ module.exports = {
                         return [3 /*break*/, 12];
                     case 8:
                         if (!(args.taskInput.status === 'Urgent')) return [3 /*break*/, 10];
-                        return [4 /*yield*/, tasksCollection.findOneAndUpdate({ _id: args.taskInput._id }, {
+                        return [4 /*yield*/, task_1.tasksCollection.findOneAndUpdate({ _id: args.taskInput._id }, {
                                 $set: {
                                     title: args.taskInput.title,
                                     description: args.taskInput.description,
@@ -252,7 +275,7 @@ module.exports = {
                         return [3 /*break*/, 12];
                     case 10:
                         if (!(args.taskInput.status === 'Closed')) return [3 /*break*/, 12];
-                        return [4 /*yield*/, tasksCollection.findOneAndUpdate({ _id: args.taskInput._id }, {
+                        return [4 /*yield*/, task_1.tasksCollection.findOneAndUpdate({ _id: args.taskInput._id }, {
                                 $set: {
                                     title: args.taskInput.title,
                                     description: args.taskInput.description,

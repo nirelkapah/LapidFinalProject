@@ -1,8 +1,16 @@
-import * as mongoose from "mongoose";
+import { Schema, model, connect } from 'mongoose';
+interface TaskInterface {
+  title: string;
+  description: string;
+  estimatedTime: number;
+  status: string;
+  priority: string;
+  untilDate?: string;
+  review?: string;
+  timeSpent?: number;
+}
 
-const Schema = mongoose.Schema;
-
-const taskSchema = new Schema({
+export const taskSchema = new Schema<TaskInterface>({
   title: {
     type: String,
     required: true,
@@ -40,4 +48,6 @@ const taskSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Task", taskSchema);
+export const tasksCollection = model<TaskInterface>('Task', taskSchema)
+
+

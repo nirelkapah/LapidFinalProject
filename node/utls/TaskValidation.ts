@@ -1,6 +1,7 @@
-const Joi = require("joi");
+// const Joi = require("joi");
+import Joi from 'joi'
 
-const openTaskAuthSchema = Joi.object({
+export const openTaskAuthSchema = Joi.object({
   _id: Joi.optional(),
   title: Joi.string().required().max(30).min(6).messages({
     "string.empty": "Please Fill In Title",
@@ -32,7 +33,7 @@ const openTaskAuthSchema = Joi.object({
   timeSpent: Joi.optional(),
 });
 
-const UrgentTaskAuthSchema = Joi.object({
+export const UrgentTaskAuthSchema = Joi.object({
   _id: Joi.optional(),
   title: Joi.string().required().max(30).min(6).messages({
     "string.empty": "Please Fill In Title",
@@ -67,7 +68,7 @@ const UrgentTaskAuthSchema = Joi.object({
   timeSpent: Joi.optional(),
 });
 
-const closedTaskAuthSchema = Joi.object({
+export const closedTaskAuthSchema = Joi.object({
   _id: Joi.optional(),
   title: Joi.string().required().max(30).min(6).messages({
     "string.empty": "Please Fill In Title",
@@ -110,8 +111,8 @@ const closedTaskAuthSchema = Joi.object({
     "number.greater": "Please Fill Amount Spent Which Is Greater Than 0",
   }),
 });
-module.exports = {
-  openTaskAuthSchema,
-  UrgentTaskAuthSchema,
-  closedTaskAuthSchema,
-};
+// module.exports = {
+//   openTaskAuthSchema,
+//   UrgentTaskAuthSchema,
+//   closedTaskAuthSchema,
+// };
