@@ -13,7 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FormGroup, Grid, Typography } from "@mui/material";
 import { useMutation } from "@apollo/client";
-import { CREATE_TASK, UPDATE_TASK } from "../../../graphql/tasks";
+import { CREATE_TASK, UPDATE_TASK } from "../../../graphql/mutations";
 import dayjs, { Dayjs } from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -71,7 +71,7 @@ const FormDialogBox = (props: Props) => {
     if (formTask.status === "Open") {
       setFormTask({...formTask, review: '', timeSpent: 0, untilDate: dayjs.utc(new Date())})
     }
-    if (formTask.status === "Urgent") {
+    else if (formTask.status === "Urgent") {
       setFormTask({...formTask, review: '', timeSpent: 0})
     }
   }, [formTask.status]);
@@ -142,12 +142,12 @@ const FormDialogBox = (props: Props) => {
       setFormTask({...formTask, timeSpent: event.target.valueAsNumber});
     }};
 
-  const onKeyDownEstimatedTime = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const onKeyDownEstimatedTime = (event: React.KeyboardEvent<HTMLDivElement>) => {
      (event.key === 'Backspace' && formTask.estimatedTime.toString().length === 1) &&
         setFormTask({...formTask, estimatedTime: 0});
     };
 
-  const onKeyDownTimeSpent = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const onKeyDownTimeSpent = (event: React.KeyboardEvent<HTMLDivElement>) => {
     (event.key === 'Backspace' && formTask.timeSpent) && 
       formTask.timeSpent.toString().length === 1 &&
         setFormTask({...formTask, timeSpent: 0});

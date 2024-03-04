@@ -9,7 +9,7 @@ import {
   updateSuccessAlertMessage,
 } from "../../../redux/web/webSlice";
 import { useMutation } from "@apollo/react-hooks";
-import { DELETE_TASK } from "../../../graphql/tasks";
+import { DELETE_TASK } from "../../../graphql/mutations";
 import { Task } from "../../../model/task";
 import { Grid } from "@mui/material";
 

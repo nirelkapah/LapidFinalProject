@@ -1,7 +1,7 @@
 import "../../index.css";
 import TaskTable from "./taskTable";
-import { useQuery } from "@apollo/react-hooks";
-import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS } from "../../graphql/tasks";
+import { useQuery, useLazyQuery  } from "@apollo/react-hooks";
+import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS, QUERY_TASK_BY_ID } from "../../graphql/queries";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Task } from '../../model/task';
@@ -12,27 +12,56 @@ import Button from "@mui/material/Button";
 import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
 import { selectFilters, selectSearchByKeyWord } from "../../redux/tasks/tasksSelectors";
 import { Grid, Typography } from "@mui/material";
+import { Filters, PriorityOptions, StatusOptions } from "../../model/filters";
 
 const TaskTableContainer = () => {
 
   const [tasksList, setTasksList] = useState<Task[]>([]);
   const [isFormDialogBoxOpen, setIsFormDialogBoxOpen] = useState<boolean>(false);
-  const searchKeyword = useSelector(selectSearchByKeyWord);
-  const filters = useSelector(selectFilters);
+  const searchKeyword: string = useSelector(selectSearchByKeyWord);
+  const filters: Filters = useSelector(selectFilters);
 
-  const { data, error, loading } = useQuery(QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS,
-    { variables: { keyword: searchKeyword , filters: filters } });
+  const { data, error, loading, refetch } = useQuery(QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS,
+    {variables: { keyword: searchKeyword , filters: filters }, fetchPolicy: 'no-cache' }, );
+  
+  // const [loadTask, { data: modiefiedTaskData }] = useLazyQuery(QUERY_TASK_BY_ID, {fetchPolicy: 'no-cache'});
+
 
   useEffect(() => {
+    console.log('Refetched')
     setTasksList(data && data.tasksByKeywordAndFilters);
-  }, [data]);
+  }, [data && data.tasksByKeywordAndFilters]);
+
+  // const isMatchingTaskToFiltersAndSearch = (task: Task, taskPriority: PriorityOptions, taskStatus: StatusOptions): boolean => {
+  //   if((filters.priority.length > 0) && filters.priority.indexOf(taskPriority) ===-1 || 
+  //   ((filters.status.length > 0) && filters.status.indexOf(taskStatus) === -1) ||
+  //   ((searchKeyword !=="") && !(task.description || task.status || task.title || task.priority).includes(searchKeyword))){
+  //     return false
+  //   }
+  //   else{
+  //     return true
+  //   }
+  // }
+  // useEffect(() => {
+  //   if(modiefiedTaskData && modiefiedTaskData.taskById) {
+  //     const task = modiefiedTaskData.taskById;
+  //     if(isMatchingTaskToFiltersAndSearch(task, task.priority, task.status)){
+  //       let temporaryTasksList = [...tasksList];
+  //       const matchingTaskIndex = temporaryTasksList.map((task) => task._id).indexOf(task._id);
+  //       matchingTaskIndex !== -1 ? temporaryTasksList.splice(matchingTaskIndex, 1, task): temporaryTasksList.push(task);
+  //       setTasksList(temporaryTasksList);
+  //     } 
+  //   }
+  // },[modiefiedTaskData && modiefiedTaskData.taskById])
 
   useSubscription(
     TASK_CREATED, {
       onSubscriptionData: (data) => {
-          const task: Task = data.subscriptionData.data.taskCreated;
-          const updatedTasksList = [...tasksList, task];
-          setTasksList(updatedTasksList);
+          const idNumber: string = data.subscriptionData.data.taskCreated;
+          // loadTask({ variables: { taskId: idNumber } });
+          refetch();
+
+
       }
     }
   )
@@ -42,10 +71,11 @@ const TaskTableContainer = () => {
     TASK_DELETED, {
       onSubscriptionData: (data) => {
         const idNumber: string = data.subscriptionData.data.taskDeleted;
-        let temporaryTasksList = [...tasksList];
-        let removeIndex = temporaryTasksList.map((task) => task._id).indexOf(idNumber);
-        temporaryTasksList.splice(removeIndex, 1);
-        setTasksList(temporaryTasksList);
+        // let temporaryTasksList = [...tasksList];
+        // let removeIndex = temporaryTasksList.map((task) => task._id).indexOf(idNumber);
+        // temporaryTasksList.splice(removeIndex, 1);
+        // setTasksList(temporaryTasksList);
+        refetch();
       }
     }
   )
@@ -53,12 +83,10 @@ const TaskTableContainer = () => {
   useSubscription( 
     TASK_UPDATED, {
       onSubscriptionData: (data) => {
-        const task: Task = data.subscriptionData.data.taskDeleted;
-        console.log(task);
-        let temporaryTasksList = [...tasksList];
-        let replaceIndex = temporaryTasksList.map((task) => task._id).indexOf(task._id);
-        temporaryTasksList.splice(replaceIndex, 1, task);
-        setTasksList(temporaryTasksList);
+        const idNumber: string = data.subscriptionData.data.taskUpdated;
+        // loadTask({ variables: { taskId: idNumber } });
+        refetch();
+
       }
     }
   )
