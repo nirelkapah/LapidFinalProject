@@ -34,6 +34,7 @@ input Filters {
 
 type Query {
     tasks: [Task!]!
+    taskById(id: String!): Task
     tasksByKeywordAndFilters(keyword: String, filters: Filters): [Task]
 }
 
@@ -45,9 +46,9 @@ type Mutation {
 }
 
 type Subscription {
-    taskCreated: Task
+    taskCreated: String
     taskDeleted: String
-    taskUpdated: Task
+    taskUpdated: String
 }
 
 `;

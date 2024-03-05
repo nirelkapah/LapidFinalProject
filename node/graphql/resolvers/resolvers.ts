@@ -3,10 +3,11 @@ import {tasksCollection} from '../../models/task'
 import * as ConversionUtils from '../../utls/conversionUtils'
 import {PubSub} from 'graphql-subscriptions'
 import {openTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} from '../../utls/TaskValidation'
+import mongoose from 'mongoose';
 
 const pubsub = new PubSub();
 
-interface TaskResponse { 
+interface TaskResponse extends mongoose.Document { 
   id: string, 
   title : string 
   description: string,
@@ -33,10 +34,26 @@ export const resolvers = {
               } catch (err) {
                 throw err;
               }
-        },
+          },
 
-        //Get Tasks By Keyword Search and Filters
-        tasksByKeywordAndFilters: async (_: any, args: any) => {
+          //Get Tasks By Id
+          taskById: async (_: any, args: any) => {
+
+            try {
+            const taskId: string = args.id;
+  
+            const result: any = await tasksCollection.findById(taskId)
+            console.log(result && result._doc);
+
+            return {...result._doc,_id: args.id};
+  
+            } catch (err) {
+            throw err;
+            }
+          },
+
+          //Get Tasks By Keyword Search and Filters
+          tasksByKeywordAndFilters: async (_: any, args: any) => {
 
           try {
           let reg = new RegExp(args.keyword, "i");
@@ -63,7 +80,7 @@ export const resolvers = {
           } catch (err) {
           throw err;
           }
-      },
+        },
 
             
 
@@ -113,13 +130,13 @@ export const resolvers = {
               //Push New Task
               const result: any = await task.save();
         
-              const createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate };
-
+              // const createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate };
+              console.log(task.id)
               pubsub.publish('TASK_CREATED', {
-                taskCreated: createdTask
+                taskCreated: task.id
               });
 
-              return createdTask;
+              return result;
         
             } catch (err) {
               throw err;
@@ -129,7 +146,6 @@ export const resolvers = {
           //Delete Task
           deleteTask: async (_: any, args: any) => {
             try {
-        
               await tasksCollection.findOneAndRemove({ _id: args._id });
 
               pubsub.publish('TASK_DELETED', {
@@ -225,10 +241,10 @@ export const resolvers = {
                   { new: true }
                 );
               }
-              const updatedTask = { ...result._doc, _id: args.taskInput.id };
-
+              // const updatedTask = { ...result._doc, _id: args.taskInput.id };
+              console.log(args.taskInput._id)
               pubsub.publish('TASK_UPDATED', {
-                taskUpdated: updatedTask
+                taskUpdated: args.taskInput._id
               });
 
 

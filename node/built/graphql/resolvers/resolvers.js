@@ -97,9 +97,29 @@ exports.resolvers = {
                 }
             });
         }); },
+        //Get Tasks By Id
+        taskById: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
+            var taskId, result, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        taskId = args.id;
+                        return [4 /*yield*/, task_1.tasksCollection.findById(taskId)];
+                    case 1:
+                        result = _a.sent();
+                        console.log(result && result._doc);
+                        return [2 /*return*/, __assign(__assign({}, result._doc), { _id: args.id })];
+                    case 2:
+                        err_2 = _a.sent();
+                        throw err_2;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); },
         //Get Tasks By Keyword Search and Filters
         tasksByKeywordAndFilters: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var reg, statusFilters, priorityFilters, tasks, err_2;
+            var reg, statusFilters, priorityFilters, tasks, err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -124,8 +144,8 @@ exports.resolvers = {
                                 return __assign(__assign({}, task._doc), { _id: task.id });
                             })];
                     case 2:
-                        err_2 = _a.sent();
-                        throw err_2;
+                        err_3 = _a.sent();
+                        throw err_3;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -133,7 +153,7 @@ exports.resolvers = {
     },
     Mutation: {
         createTask: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var task, result, createdTask, err_3;
+            var task, result, err_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -178,21 +198,22 @@ exports.resolvers = {
                         return [4 /*yield*/, task.save()];
                     case 7:
                         result = _a.sent();
-                        createdTask = __assign(__assign({}, result._doc), { _id: task.id, untilDate: task.untilDate });
+                        // const createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate };
+                        console.log(task.id);
                         pubsub.publish('TASK_CREATED', {
-                            taskCreated: createdTask
+                            taskCreated: task.id
                         });
-                        return [2 /*return*/, createdTask];
+                        return [2 /*return*/, result];
                     case 8:
-                        err_3 = _a.sent();
-                        throw err_3;
+                        err_4 = _a.sent();
+                        throw err_4;
                     case 9: return [2 /*return*/];
                 }
             });
         }); },
         //Delete Task
         deleteTask: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var err_4;
+            var err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -205,15 +226,15 @@ exports.resolvers = {
                         });
                         return [2 /*return*/, null];
                     case 2:
-                        err_4 = _a.sent();
-                        throw err_4;
+                        err_5 = _a.sent();
+                        throw err_5;
                     case 3: return [2 /*return*/];
                 }
             });
         }); },
         //Update Existing Task
         updateTask: function (_, args) { return __awaiter(void 0, void 0, void 0, function () {
-            var result, updatedTask, err_5;
+            var result, err_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -292,14 +313,15 @@ exports.resolvers = {
                         result = _a.sent();
                         _a.label = 12;
                     case 12:
-                        updatedTask = __assign(__assign({}, result._doc), { _id: args.taskInput.id });
+                        // const updatedTask = { ...result._doc, _id: args.taskInput.id };
+                        console.log(args.taskInput._id);
                         pubsub.publish('TASK_UPDATED', {
-                            taskUpdated: updatedTask
+                            taskUpdated: args.taskInput._id
                         });
                         return [2 /*return*/, result];
                     case 13:
-                        err_5 = _a.sent();
-                        throw err_5;
+                        err_6 = _a.sent();
+                        throw err_6;
                     case 14: return [2 /*return*/];
                 }
             });
