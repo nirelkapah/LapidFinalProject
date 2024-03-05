@@ -3,30 +3,15 @@ import {tasksCollection} from '../../models/task'
 import * as ConversionUtils from '../../utls/conversionUtils'
 import {PubSub} from 'graphql-subscriptions'
 import {openTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} from '../../utls/TaskValidation'
-import mongoose from 'mongoose';
-
+import { TaskResponse } from '../../models/taskResponse'
 const pubsub = new PubSub();
-
-interface TaskResponse extends mongoose.Document { 
-  id: string, 
-  title : string 
-  description: string,
-  estimatedTime: number, 
-  status: string,
-  priority: string,
-  untilDate: String,
-  review: String,
-  timeSpent: number,
-  _doc: object
-}
 
 export const resolvers = {
     Query:{
         
         tasks: async () => {
             try {
-                const tasks = await tasksCollection.find();
-          
+                const tasks: TaskResponse[] = await tasksCollection.find();
                 return tasks.map((task: any) => {
                   return { ...task._doc, _id: task.id };
                 });
@@ -43,7 +28,6 @@ export const resolvers = {
             const taskId: string = args.id;
   
             const result: any = await tasksCollection.findById(taskId)
-            console.log(result && result._doc);
 
             return {...result._doc,_id: args.id};
   
@@ -54,13 +38,12 @@ export const resolvers = {
 
           //Get Tasks By Keyword Search and Filters
           tasksByKeywordAndFilters: async (_: any, args: any) => {
-
           try {
           let reg = new RegExp(args.keyword, "i");
           const statusFilters: [string] = args.filters.status;
           const priorityFilters: [string] = args.filters.priority;
 
-          const tasks = await tasksCollection.find({
+          const tasks: TaskResponse[] = await tasksCollection.find({
               $or: [
               { title: reg },
               { priority: reg },
@@ -71,8 +54,7 @@ export const resolvers = {
           })
           .find({ "status": { "$in": statusFilters.length > 0 ? statusFilters : ['Open' , 'Closed' , 'Urgent'] } })
           .find({ "priority": { "$in": priorityFilters.length > 0 ? priorityFilters : ['Top' , 'Regular' , 'Minor'] } })
-          ;
-
+          
           return tasks.map((task: any) => {
               return { ...task._doc, _id: task.id };
           });
@@ -131,7 +113,6 @@ export const resolvers = {
               const result: any = await task.save();
         
               // const createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate };
-              console.log(task.id)
               pubsub.publish('TASK_CREATED', {
                 taskCreated: task.id
               });

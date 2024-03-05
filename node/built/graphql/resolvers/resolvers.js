@@ -108,7 +108,6 @@ exports.resolvers = {
                         return [4 /*yield*/, task_1.tasksCollection.findById(taskId)];
                     case 1:
                         result = _a.sent();
-                        console.log(result && result._doc);
                         return [2 /*return*/, __assign(__assign({}, result._doc), { _id: args.id })];
                     case 2:
                         err_2 = _a.sent();
@@ -199,7 +198,6 @@ exports.resolvers = {
                     case 7:
                         result = _a.sent();
                         // const createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate };
-                        console.log(task.id);
                         pubsub.publish('TASK_CREATED', {
                             taskCreated: task.id
                         });
