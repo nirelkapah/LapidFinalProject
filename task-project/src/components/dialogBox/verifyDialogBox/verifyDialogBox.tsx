@@ -11,15 +11,20 @@ import {
 import { useMutation } from "@apollo/react-hooks";
 import { DELETE_TASK } from "../../../graphql/mutations";
 import { Task } from "../../../model/task";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 
-interface Props{
+interface verifyDialogBoxProps{
   isDeleteDialogOpen: boolean,
-  setIsDeleteDialogOpen: Function,
+  setIsDeleteDialogOpen: Dispatch<SetStateAction<boolean>>,
   task?: Task
 }
 
-const VerifyDialogBox = (props: Props) => {
+const VerifyDialogBox = (props: verifyDialogBoxProps) => {
+
+  const isDialogBoxOpen = props.isDeleteDialogOpen;
+  const setDialogBoxOpen = props.setIsDeleteDialogOpen;
+  const task = props.task;
 
   //Hooks
   const dispatch = useDispatch();
@@ -29,7 +34,7 @@ const VerifyDialogBox = (props: Props) => {
     deleteTask();
   };
   const handleClose = () => {
-    props.setIsDeleteDialogOpen(false);
+    setDialogBoxOpen(false);
   };
 
   //Request Functions
@@ -46,7 +51,7 @@ const VerifyDialogBox = (props: Props) => {
 
   const [deleteTaskMutation] = useMutation(DELETE_TASK, {
     variables: {
-      id: props.task?._id,
+      id: task?._id,
     },
   });
 
@@ -60,15 +65,21 @@ const VerifyDialogBox = (props: Props) => {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are You Sure You Would Like To Delete '{props.task?.title}'?
+            <Typography>
+              Are You Sure You Would Like To Delete '{task?.title}'?
+            </Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} style={{color: 'gray'}}>
-            No
+          <Button onClick={handleClose} sx={{color: 'gray'}}>
+            <Typography>
+              No
+            </Typography>
           </Button>
-          <Button onClick={onClickYes} autoFocus style={{color: 'red'}}>
-            Yes
+          <Button onClick={onClickYes} sx={{color: 'red'}}>
+            <Typography>
+              Yes
+            </Typography>
           </Button>
         </DialogActions>
       </Dialog>

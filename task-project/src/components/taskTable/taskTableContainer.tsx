@@ -14,6 +14,7 @@ import { selectFilters, selectSearchByKeyWord } from "../../redux/tasks/tasksSel
 import { Grid, Typography } from "@mui/material";
 import { Filters, PriorityOptions, StatusOptions } from "../../model/filters";
 
+
 const TaskTableContainer = () => {
 
   const [tasksList, setTasksList] = useState<Task[]>([]);
@@ -28,8 +29,7 @@ const TaskTableContainer = () => {
 
 
   useEffect(() => {
-    console.log('Refetched')
-    setTasksList(data && data.tasksByKeywordAndFilters);
+    data && setTasksList(data.tasksByKeywordAndFilters);
   }, [data && data.tasksByKeywordAndFilters]);
 
   // const isMatchingTaskToFiltersAndSearch = (task: Task, taskPriority: PriorityOptions, taskStatus: StatusOptions): boolean => {
@@ -96,14 +96,14 @@ const TaskTableContainer = () => {
     };
   
   return(
-    <Grid container justifyContent={'center'} m={1}>
+    <Grid container justifyContent={'center'} m={1} direction={'column'}>
       <FormDialogBox 
         isOpenForm = {isFormDialogBoxOpen}
         setIsOpenForm={setIsFormDialogBoxOpen}
       />
 
     
-      <Grid container m={0.5} >
+      <Grid item m={0.5} >
         <Button
         variant="text"
         onClick={onClickOpenForm}
@@ -116,36 +116,39 @@ const TaskTableContainer = () => {
       
       </Grid>
 
-      {error && (
-          <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Sorry, An Error Occured, Please Check Your Internet Connection</Typography>
-      )
-      }
+      <Grid item m={0.5} textAlign={'center'}>
+          {error && (
+              <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Sorry, An Error Occured, Please Check Your Internet Connection</Typography>
+          )
+          }
 
-      {(tasksList && tasksList.length === 0) && (
-          <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Sorry, There are no Matching Tasks</Typography>
-      )
-      }
+          {(tasksList && (tasksList.length === 0 && !error)) && (
+              <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Sorry, There are no Matching Tasks</Typography>
+          )
+          }
 
-      {loading && (
-            <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            </div>
-      )}
+          {loading && (
+                <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+          )}
 
-    {(tasksList && tasksList.length > 0) && (
-      <TaskTable 
-        tasks={tasksList}
-        setTasksList={setTasksList}
-        />
-    )}
+        {(tasksList && tasksList.length > 0) && (
+          <TaskTable 
+            tasks={tasksList}
+            setTasksList={setTasksList}
+            />
+        )}
+    </Grid>
 
+    
     </Grid>
   )
 };

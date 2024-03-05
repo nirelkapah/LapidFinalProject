@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -23,13 +23,13 @@ import utc from "dayjs/plugin/utc";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { Task } from "../../../model/task";
 
-interface Props {
+interface formDialogBoxProps {
   isOpenForm: boolean;
-  setIsOpenForm: Function;
+  setIsOpenForm: Dispatch<SetStateAction<boolean>>;
   task?: Task;
 }
 
-const FormDialogBox = (props: Props) => {
+const FormDialogBox = (props: formDialogBoxProps) => {
 
   const newTask: Task = {
     status: 'Open',

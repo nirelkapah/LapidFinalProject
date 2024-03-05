@@ -3,71 +3,74 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { Task } from "../../../model/task";
 import { Grid, Typography } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 
-interface Props {
+interface readDialogBoxProps {
   isReadDialogBoxOpen: boolean,
-  setIsReadDialogBoxOpen: Function,
+  setIsReadDialogBoxOpen: Dispatch<SetStateAction<boolean>>,
   task?: Task
 }
 
-const ReadDialogBox = (props: Props) => {
 
-  //Event Function
+const ReadDialogBox = (props: readDialogBoxProps) => {
+  const isDialogBoxOpen = props.isReadDialogBoxOpen;
+  const setDialogBoxOpen = props.setIsReadDialogBoxOpen;
+  const task = props.task;
+
   const handleClose = () => {
-    props.setIsReadDialogBoxOpen(false);
+    setDialogBoxOpen(false);
   };
+
+  const keysMap = new Map<string , string>([
+    ['description', 'Description'],
+    ['estimatedTime', 'Estimated Time'],
+    ['priority', 'Priority'],
+    ['review', 'Review'],
+    ['status', 'Status' ],
+    ['timeSpent', 'Time Spent'],
+    ['title', 'Title'],
+    ['untilDate','Until Date']
+  ])
+
+  const unWantedKeys = ['_id', '__typename']
+
+  const DialogRow = {
+    get: (key: string, value: string | number) => {
+      const convertKeyToTitle = (key: any): string => key && keysMap.get(key);
+      const convertDateToString = (value: any): string =>  dayjs.utc(value).format("MMMM D, YYYY");
+
+      return (
+        <DialogContentText key={key}>
+              <Typography component={'span'}><b>{convertKeyToTitle(key)}:</b> {key === 'untilDate' ? convertDateToString(value) : value}</Typography>
+        </DialogContentText>
+      )
+    }
+  }
 
   return (
     <Grid container>
-      {props.task && (
+      {task && (
         <Dialog
           className="taskContainer"
-          open={props.isReadDialogBoxOpen && props.isReadDialogBoxOpen}
+          open={isDialogBoxOpen && isDialogBoxOpen}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogContent>
-            <Typography fontSize={'20px'} marginBottom={2} fontWeight={600} color={'black'}> {props.task.title}</Typography>
-            <DialogContentText></DialogContentText>
-            <DialogContentText className="description" overflow={'break-word'}>
-              <Typography><b>Description:</b> {props.task.description} </Typography>
-            </DialogContentText>
-            <DialogContentText>
-              <Typography><b>Estimated Time:</b> {props.task.estimatedTime} Hours </Typography>
-            </DialogContentText>
-            <DialogContentText>
-              <Typography><b>Status:</b> {props.task.status} </Typography>
-            </DialogContentText>
-            <DialogContentText>
-            < Typography><b>Priority:</b> {props.task.priority} </Typography>
-            </DialogContentText>
+          <Typography fontSize={'20px'} marginBottom={2} fontWeight={600} color={'black'}> {task.title}</Typography>
 
-            {props.task.untilDate && (
-              <DialogContentText>
-                <b>Until:</b>{" "}
-                {dayjs.utc(props.task.untilDate).format("MMMM D, YYYY")}
-              </DialogContentText>
-            )}
-
-            {props.task.review && (
-              <DialogContentText>
-                <b>Review:</b> {props.task.review}
-              </DialogContentText>
-            )}
-
-            {props.task.review && (
-              <DialogContentText>
-                <b>Time Spent:</b> {props.task.timeSpent} Hours
-              </DialogContentText>
-            )}
+          {task && Object.entries(task).map(([rowKey, rowValue])=> !(unWantedKeys.includes(rowKey) || rowValue === null) && DialogRow.get(rowKey, rowValue))}
+          
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} style={{color: 'gray'}}>
-              Close
+            <Button onClick={handleClose} sx={{color: 'gray'}}>
+              <Typography>
+                Close
+              </Typography>
             </Button>
           </DialogActions>
         </Dialog>
