@@ -5,9 +5,9 @@ interface TaskInterface {
   estimatedTime: number;
   status: string;
   priority: string;
-  untilDate?: string;
-  review?: string;
-  timeSpent?: number;
+  untilDate?: string | null;
+  review?: string | null;
+  timeSpent?: number | null;
 }
 
 export const taskSchema = new Schema<TaskInterface>({

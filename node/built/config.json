@@ -1,7 +1,0 @@
-{
-    "mongo": {
-        "MONGO_USER": "nirel",
-        "MONGO_PASSWORD": "lapid123456789",
-        "MONGO_DB": "TasksDB"
-    }
-}

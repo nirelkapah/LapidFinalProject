@@ -9,7 +9,7 @@ export interface TaskResponse extends mongoose.Document {
     estimatedTime: number, 
     status: string,
     priority: string,
-    untilDate?: String | undefined,
-    review?: String | undefined,
-    timeSpent?: number | undefined,
+    untilDate?: String | null,
+    review?: String | null,
+    timeSpent?: number | null,
   }

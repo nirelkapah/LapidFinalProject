@@ -39,9 +39,9 @@ type Query {
 }
 
 type Mutation {
-    createTask(taskInput: TaskInput): Task
+    createTask(taskInput: TaskInput!): Task
     deleteTask(_id: String!): Task
-    updateTask(taskInput: TaskInput): Task
+    updateTask(taskInput: TaskInput!): Task
 
 }
 

@@ -1,77 +1,24 @@
 
 import {tasksCollection} from '../../models/task'
 import * as ConversionUtils from '../../utls/conversionUtils'
-import {PubSub} from 'graphql-subscriptions'
+// import {PubSub} from 'graphql-subscriptions'
 import {openTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} from '../../utls/TaskValidation'
-import { TaskResponse } from '../../models/taskResponse'
-const pubsub = new PubSub();
+// const pubsub = new PubSub();
+import {MutationCreateTaskArgs} from "../../../task-project/src/gql/graphql";
+import { TaskResponse } from '../../models/taskResponse';
+import {pubsub} from './subscriptions.resolver.ts'
 
-export const resolvers = {
-    Query:{
-        
-        tasks: async () => {
-            try {
-                const tasks: TaskResponse[] = await tasksCollection.find();
-                return tasks.map((task: any) => {
-                  return { ...task._doc, _id: task.id };
-                });
-          
-              } catch (err) {
-                throw err;
-              }
-          },
-
-          //Get Tasks By Id
-          taskById: async (_: any, args: any) => {
-
-            try {
-            const taskId: string = args.id;
-  
-            const result: any = await tasksCollection.findById(taskId)
-
-            return {...result._doc,_id: args.id};
-  
-            } catch (err) {
-            throw err;
-            }
-          },
-
-          //Get Tasks By Keyword Search and Filters
-          tasksByKeywordAndFilters: async (_: any, args: any) => {
-          try {
-          let reg = new RegExp(args.keyword, "i");
-          const statusFilters: [string] = args.filters.status;
-          const priorityFilters: [string] = args.filters.priority;
-
-          const tasks: TaskResponse[] = await tasksCollection.find({
-              $or: [
-              { title: reg },
-              { priority: reg },
-              { description: reg },
-              { status: reg },
-              { review: reg },
-              ],
-          })
-          .find({ "status": { "$in": statusFilters.length > 0 ? statusFilters : ['Open' , 'Closed' , 'Urgent'] } })
-          .find({ "priority": { "$in": priorityFilters.length > 0 ? priorityFilters : ['Top' , 'Regular' , 'Minor'] } })
-          
-          return tasks.map((task: any) => {
-              return { ...task._doc, _id: task.id };
-          });
-
-          } catch (err) {
-          throw err;
-          }
-        },
-
-            
-
-    },
+export const mutationResolvers = {
 
     Mutation: {
 
-        createTask: async (_: any, args: any) => {
+        createTask: async (_: any, args: MutationCreateTaskArgs) => {
             try {
+
+              console.log(args)
+              console.log(typeof(args.taskInput.timeSpent))
+              console.log(typeof(args.taskInput.estimatedTime))
+
         
               //Validations
               if (args.taskInput.status === "Open") {
@@ -82,12 +29,12 @@ export const resolvers = {
                 await closedTaskAuthSchema.validateAsync(args.taskInput);
               }
         
-              //Convert Type
-              if (args.taskInput.timeSpent) {
-                args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(
-                  args.taskInput.timeSpent
-                );
-              }
+              // Convert Type
+              // if (args.taskInput.timeSpent) {
+              //   args.taskInput.timeSpent = ConversionUtils.convertTimeSpentToDB(
+              //     args.taskInput.timeSpent
+              //   );
+              // }
         
               //Create Task Object
               const task = new tasksCollection({
@@ -96,25 +43,29 @@ export const resolvers = {
                 // estimatedTime: Number.parseFloat(+args.taskInput.estimatedTime),
                 estimatedTime:args.taskInput.estimatedTime,
                 status: args.taskInput.status,
-                priority: args.taskInput.priority,
-        
+                priority: args.taskInput.priority
               });
+
+              args.taskInput.status === 'Closed' &&  (task.review = args.taskInput.review);
+              args.taskInput.status === 'Closed' && (task.timeSpent = args.taskInput.timeSpent);
+              (args.taskInput.status === 'Closed' || args.taskInput.status === 'Urgent') && (task.untilDate = args.taskInput.untilDate);
         
-              if(args.taskInput.status === 'Urgent' || args.taskInput.status === 'Closed'){
-                task.untilDate = args.taskInput.untilDate;
-              }
+              // if(args.taskInput.status === 'Urgent' || args.taskInput.status === 'Closed'){
+              //   task.untilDate = args.taskInput.untilDate;
+              // }
         
-              if(args.taskInput.status === 'Closed'){
-                task.review = args.taskInput.review;
-                task.timeSpent = args.taskInput.timeSpent;
-              }
+              // if(args.taskInput.status === 'Closed'){
+              //   task.review = args.taskInput.review;
+              //   task.timeSpent = args.taskInput.timeSpent;
+              // }
         
               //Push New Task
               const result: any = await task.save();
         
-              // const createdTask = {...result._doc, _id: task.id, untilDate: task.untilDate };
+              const createdTask: TaskResponse = {...result._doc, _id: task.id};
+              console.log(createdTask)
               pubsub.publish('TASK_CREATED', {
-                taskCreated: task.id
+                taskCreated: createdTask._id
               });
 
               return result;
@@ -237,18 +188,4 @@ export const resolvers = {
           },
 
     },
-
-    Subscription: {
-        taskCreated: {
-            subscribe: () => pubsub.asyncIterator('TASK_CREATED')
-        },
-
-        taskDeleted: {
-            subscribe: () => pubsub.asyncIterator('TASK_DELETED')
-        },
-
-        taskUpdated: {
-            subscribe: () => pubsub.asyncIterator('TASK_UPDATED')
-        }
-    } 
 }
