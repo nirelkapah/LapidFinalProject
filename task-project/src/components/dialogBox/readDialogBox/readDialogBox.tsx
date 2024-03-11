@@ -7,6 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { Task } from "../../../model/task";
 import { Grid, Typography } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
+import { DialogRow } from "./dialogRow";
 
 interface readDialogBoxProps {
   isReadDialogBoxOpen: boolean,
@@ -14,47 +15,19 @@ interface readDialogBoxProps {
   task?: Task
 }
 
-const keysMap = new Map<string , string>([
-  ['description', 'Description'],
-  ['estimatedTime', 'Estimated Time'],
-  ['priority', 'Priority'],
-  ['review', 'Review'],
-  ['status', 'Status' ],
-  ['timeSpent', 'Time Spent'],
-  ['title', 'Title'],
-  ['untilDate','Until Date']
-])
-
 const unWantedKeys = ['_id', '__typename']
 
-const DialogRow = {
-  get: (key: string, value: string | number) => {
-    const convertKeyToTitle = (key: any): string => key && keysMap.get(key);
-    const convertDateToString = (value: any): string =>  dayjs.utc(value).format("MMMM D, YYYY");
 
-    return (
-      <DialogContentText key={key}>
-            <Typography component={'span'}><b>{convertKeyToTitle(key)}:</b> {key === 'untilDate' ? convertDateToString(value) : value}</Typography>
-      </DialogContentText>
-    )
-  }
-}
+const ReadDialogBox = ({isReadDialogBoxOpen,setIsReadDialogBoxOpen,task}: readDialogBoxProps) => {
 
-const ReadDialogBox = (props: readDialogBoxProps) => {
-  
-const isDialogBoxOpen = props.isReadDialogBoxOpen;
-const setDialogBoxOpen = props.setIsReadDialogBoxOpen;
-const task = props.task;
-
-const handleClose = () => setDialogBoxOpen(false);
-
+  const handleClose = () => setIsReadDialogBoxOpen(false);
 
 
   return (
     <Grid container>
       {task && (
         <Dialog
-          open={isDialogBoxOpen && isDialogBoxOpen}
+          open={isReadDialogBoxOpen && isReadDialogBoxOpen}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"

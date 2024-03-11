@@ -20,11 +20,7 @@ interface verifyDialogBoxProps{
   task?: Task
 }
 
-const VerifyDialogBox = (props: verifyDialogBoxProps) => {
-
-  const isDialogBoxOpen = props.isDeleteDialogOpen;
-  const setDialogBoxOpen = props.setIsDeleteDialogOpen;
-  const task = props.task;
+const VerifyDialogBox = ({isDeleteDialogOpen, setIsDeleteDialogOpen, task}: verifyDialogBoxProps) => {
 
   //Hooks
   const dispatch = useDispatch();
@@ -34,7 +30,7 @@ const VerifyDialogBox = (props: verifyDialogBoxProps) => {
     deleteTask();
   };
   const handleClose = () => {
-    setDialogBoxOpen(false);
+    setIsDeleteDialogOpen(false);
   };
 
   //Request Functions
@@ -58,7 +54,7 @@ const VerifyDialogBox = (props: verifyDialogBoxProps) => {
   return (
     <Grid>
       <Dialog
-        open={props.isDeleteDialogOpen ? props.isDeleteDialogOpen : false}
+        open={isDeleteDialogOpen ? isDeleteDialogOpen : false}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

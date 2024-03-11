@@ -37,17 +37,15 @@ const newTask: Task = {
     priority: ''
 }
 
-
-
-const FormDialogBox = (props: formDialogBoxProps) => {
+const FormDialogBox = ({isOpenForm, setIsOpenForm, task }: formDialogBoxProps) => {
   const dispatch = useDispatch();
-  const [formTask, setFormTask] = useState<Task>(props.task ? props.task : newTask)
+  const [formTask, setFormTask] = useState<Task>(task ? task : newTask)
   const [FormError, setFormError] = useState("");
   dayjs.extend(utc);
 
 
   useEffect(() => {
-    const propsTask = props.task;
+    const propsTask = task;
     if (propsTask) {
       const tempTask: Task = {
         _id: propsTask._id,
@@ -66,7 +64,7 @@ const FormDialogBox = (props: formDialogBoxProps) => {
     } else {
       setFormTask(newTask)
     }
-  }, [props.task]);
+  }, [task]);
 
   useEffect(() => {
     if (formTask.status === "Open") {
@@ -79,7 +77,7 @@ const FormDialogBox = (props: formDialogBoxProps) => {
 
   const sendTask = async () => {
     try {
-      if (props.task?._id) {
+      if (task?._id) {
         await updateTaskMutation();
         dispatch(updateSuccessAlertMessage("Task Updated Succesfuly"));
       } else {
@@ -109,7 +107,7 @@ const FormDialogBox = (props: formDialogBoxProps) => {
   const onClickSendTask = () => sendTask();
 
   const handleClose = () => {
-    props.setIsOpenForm(false);
+    setIsOpenForm(false);
     setFormError("");
   };
 
@@ -156,10 +154,10 @@ const FormDialogBox = (props: formDialogBoxProps) => {
 
   return (
     <Grid container>
-      <Dialog open={props.isOpenForm ? props.isOpenForm : false} onClose={handleClose}>
+      <Dialog open={isOpenForm ? isOpenForm : false} onClose={handleClose}>
         <DialogTitle color={'6945ac'}>
         
-          <Typography color='#6945ac' fontSize={'20px'} justifyContent={'center'}><NoteAddIcon sx={{color: '6945ac'}}/> {!props.task && 'Create'}{props.task && 'Modify'} Task</Typography>
+          <Typography color='#6945ac' fontSize={'20px'} justifyContent={'center'}><NoteAddIcon sx={{color: '6945ac'}}/> {!task && 'Create'}{task && 'Modify'} Task</Typography>
         </DialogTitle>
 
         <DialogContent>
