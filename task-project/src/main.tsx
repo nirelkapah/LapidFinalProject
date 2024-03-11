@@ -4,22 +4,11 @@ import "./index.css";
 import Layout from "./components/layout/layout";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
-import Header from "./components/header/header";
-
 import { split , HttpLink } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-// import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from '@apollo/react-hooks'
-
-
-
-
-// const client = new ApolloClient({
-//   uri: "http://localhost:3001/graphql",
-//   cache: new InMemoryCache(),
-// });
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:3001/graphql'

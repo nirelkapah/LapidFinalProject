@@ -10,7 +10,10 @@ const Layout = () => {
   return (
     <BrowserRouter>
           <Grid container direction={"column"}>
-            
+            <Grid item>
+              <Alerts />
+            </Grid>
+
             <Grid item textAlign={"center"}>
               <Header />
             </Grid>
@@ -26,8 +29,6 @@ const Layout = () => {
             <Grid item>
               <TaskTableContainer />
             </Grid>
-
-            <Alerts />
 
           </Grid>
     </BrowserRouter>

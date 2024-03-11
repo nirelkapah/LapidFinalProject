@@ -8,21 +8,23 @@ import {
 } from "../../redux/tasks/tasksSlice";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import { Filters } from "../../model/filters";
 import { selectFilters } from "../../redux/tasks/tasksSelectors";
 
+const buttonStyle = {
+  margin: '5px', 
+  borderColor: 'white',  
+  ":hover": {borderColor: 'white', backgroundColor: 'purple'}
+}
+
 const ActionsBar = () => {
 
   const dispatch = useDispatch();
-  // const [isTopPriorityButtonPressed, setTopPriorityButton] = useState<boolean>(false);
-  // const [isOnlyOpenButtonPressed, setOnlyOpenButton] = useState<boolean>(false);
   const filters: Filters = useSelector(selectFilters);
 
 
   const onClickTopPriority = () => {
-    // setTopPriorityButton(!filters.priority.includes('Top'));
     !filters.priority.includes('Top') ? 
     dispatch(updatePriorityFilter('Top'))
     :
@@ -30,21 +32,15 @@ const ActionsBar = () => {
   };
 
   const onClickOnlyOpen = () => {
-    // setOnlyOpenButton(!isOnlyOpenButtonPressed);
     !filters.status.includes('Open') ? 
     dispatch(updateStatusFilter('Open'))
     :
     dispatch(removeStatusFilter('Open'))
   };
 
-  const buttonStyle = {
-    margin: '5px', 
-    borderColor: 'white',  
-    ":hover": {borderColor: 'white', backgroundColor: 'purple'}
-  }
 
   return (
-    <Grid sx={{justifyContent: 'center' , alignItems: 'center'}} container className="animate__animated animate__fadeInUp" m={1}>
+    <Grid alignItems={'center'} justifyContent={'center'} container className="animate__animated animate__fadeInUp" m={1}>
 
         <Typography fontWeight={'light'} marginRight={1} color={'white'}>QUICK FILTERS:</Typography>
 

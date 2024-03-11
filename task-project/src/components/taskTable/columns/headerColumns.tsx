@@ -20,9 +20,8 @@ enum ColumnDirection {
 
 export const headerTableCell = {
 
-    OrderByArray: (values: any[], orderType: any, direction: string) => { 
-
-    return values.sort((a, b) => {
+    OrderByArray: (values: any[], orderType: any, direction: string) => 
+    values.sort((a, b) => {
         if (a[orderType] < b[orderType]) {
             return direction === ColumnDirection.down ? -1 : 1
         }
@@ -32,7 +31,7 @@ export const headerTableCell = {
         }
 
         return 0
-    })},
+    }),
 
     getColumn: (title: string) => {
         return(

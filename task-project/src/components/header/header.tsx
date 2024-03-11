@@ -1,18 +1,15 @@
 import { Box, Grid, Paper } from "@mui/material";
 // import {Image} from 'mui-image'
 
-const Header = () => {
-  return (
+const Header = () => (
     <Grid container direction={'column'}>
       <Box
         component="img"
-        sx={{
-          height: '40px',
-          width: '40px',
-          position: 'fixed',
-          left: '1%',
-          top: '1%'
-        }}
+        height={'40px'}
+        width={'40px'}
+        position={'fixed'}
+        left={'1%'}
+        top={'1%'}
         alt="logo"
         src="/logo_new.png"
       />
@@ -24,5 +21,5 @@ const Header = () => {
       </Grid>
     </Grid>
   );
-};
-export default Header;
+
+  export default Header;

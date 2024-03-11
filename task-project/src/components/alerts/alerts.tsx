@@ -10,11 +10,9 @@ import {
   updateErrorAlertMessage,
   updateSuccessAlertMessage,
 } from "../../redux/web/webSlice";
-import { Grid } from "@mui/material";
 
 const Alerts = () => {
 
-  //Hooks
   const successAlertMessage = useSelector(selectSuccessAlertMessage);
   const errorAlertMessage = useSelector(selectErrorAlertMessage);
   const dispatch = useDispatch();
@@ -23,15 +21,13 @@ const Alerts = () => {
     setTimeout(deleteAlert, 2000);
   }, [successAlertMessage, errorAlertMessage]);
 
-  //Event Functions
   const deleteAlert = () => {
     dispatch(updateSuccessAlertMessage(""));
     dispatch(updateErrorAlertMessage(""));
   };
 
   return (
-    <Grid container position={'fixed'} sx={{opacity: 0.9, justifyContent: 'center', maxWidth: '1280px', top: '1%'}}>
-      <Stack sx={{ width: "100%" }} spacing={2} alignItems={'center'}>
+      <Stack position={'fixed'} left={'50%'} alignContent={'center'} margin={'0 auto'} zIndex={100} top={'5%'} sx={{opacity: 0.9, transform: 'translate(-50%, -50%)'}}>
         {successAlertMessage && (
           <Alert severity="success">{successAlertMessage}</Alert>
         )}
@@ -40,7 +36,6 @@ const Alerts = () => {
           <Alert severity="error">{errorAlertMessage}</Alert>
         )}
       </Stack>
-    </Grid>
   );
 };
 export default Alerts;

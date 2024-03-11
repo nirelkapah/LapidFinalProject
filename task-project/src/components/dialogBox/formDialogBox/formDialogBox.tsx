@@ -5,7 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import {updateSuccessAlertMessage,} from "../../../redux/web/webSlice";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,7 +14,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FormGroup, Grid, Typography } from "@mui/material";
 import { useMutation } from "@apollo/client";
 import { CREATE_TASK, UPDATE_TASK } from "../../../graphql/mutations";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -29,21 +29,22 @@ interface formDialogBoxProps {
   task?: Task;
 }
 
-const FormDialogBox = (props: formDialogBoxProps) => {
-
-  const newTask: Task = {
+const newTask: Task = {
     status: 'Open',
     description: '',
     title: '',
     estimatedTime: 0,
     priority: ''
-  }
+}
 
+
+
+const FormDialogBox = (props: formDialogBoxProps) => {
   const dispatch = useDispatch();
   const [formTask, setFormTask] = useState<Task>(props.task ? props.task : newTask)
   const [FormError, setFormError] = useState("");
-
   dayjs.extend(utc);
+
 
   useEffect(() => {
     const propsTask = props.task;
@@ -156,9 +157,9 @@ const FormDialogBox = (props: formDialogBoxProps) => {
   return (
     <Grid container>
       <Dialog open={props.isOpenForm ? props.isOpenForm : false} onClose={handleClose}>
-        <DialogTitle color={'6945ac'} className='dialogTitle'>
+        <DialogTitle color={'6945ac'}>
         
-          <Typography color='#6945ac' fontSize={'20px'} justifyContent={'center'}><NoteAddIcon style={{color: '6945ac'}}/> {!props.task && 'Create'}{props.task && 'Modify'} Task</Typography>
+          <Typography color='#6945ac' fontSize={'20px'} justifyContent={'center'}><NoteAddIcon sx={{color: '6945ac'}}/> {!props.task && 'Create'}{props.task && 'Modify'} Task</Typography>
         </DialogTitle>
 
         <DialogContent>
@@ -298,7 +299,7 @@ const FormDialogBox = (props: formDialogBoxProps) => {
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}  style={{color: 'gray'}}>
+          <Button onClick={handleClose}  sx={{color: 'gray'}}>
             <Typography color={'gray'} fontSize={'14px'} fontWeight={'500'}>Cancel</Typography>
           </Button>
           <Button onClick={onClickSendTask}>

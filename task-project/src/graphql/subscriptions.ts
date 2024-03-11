@@ -1,19 +1,19 @@
 import {gql} from '@apollo/client';
 
 export const TASK_CREATED  = gql`
-    subscription Subscription {
-        taskCreated
+    subscription taskCreated($keyword: String, $filters: Filters) {
+    taskCreated(keyword: $keyword, filters: $filters)
     }
-`
+`;
 
 export const TASK_UPDATED  = gql`
-    subscription Subscription {
-        taskUpdated
+    subscription taskUpdated($keyword: String, $filters: Filters) {
+        taskUpdated(keyword: $keyword, filters: $filters)
     }
-`
+`;
 
 export const TASK_DELETED  = gql`
-    subscription Subscription {
+    subscription taskDeleted {
         taskDeleted
     }
-`
+`;

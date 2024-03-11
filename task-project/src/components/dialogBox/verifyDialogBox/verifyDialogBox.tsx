@@ -65,19 +65,19 @@ const VerifyDialogBox = (props: verifyDialogBoxProps) => {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Typography>
+            <Typography component={'span'}>
               Are You Sure You Would Like To Delete '{task?.title}'?
             </Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{color: 'gray'}}>
-            <Typography>
+            <Typography component={'span'}>
               No
             </Typography>
           </Button>
           <Button onClick={onClickYes} sx={{color: 'red'}}>
-            <Typography>
+            <Typography component={'span'}>
               Yes
             </Typography>
           </Button>
