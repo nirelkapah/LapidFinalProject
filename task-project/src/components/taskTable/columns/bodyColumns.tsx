@@ -24,107 +24,119 @@ enum TaskPriority {
     regular = 'Regular'
 }
 
-export const bodyTableCell = {
+export const regularTableCell = {
 
-    getRegularCell: (text: string | number) => {
+    get: (text: string | number) => {
         return(
             <TableCell align="center">{text}</TableCell>
         )
     },
+}
 
-    getStatusCell: (status: string) => {
-        return (
-            <TableCell align="center">
+export const statusTableCell = {
 
-                {status === TaskStatus.open && (
-                  <Tooltip title="Open Task" arrow>
-                  <NoteAddIcon sx={{color: '#00c0a6'}}/>
-                  </Tooltip>
-                )}
+  get: (status: string) => {
+      return (
+          <TableCell align="center">
 
-                {status === TaskStatus.urgent && (
-                  <Tooltip title="Urgent Task" arrow>
-                  <PlagiarismIcon sx={{color: '#efcf00'}} />
-                  </Tooltip>
-                )}
+              {status === TaskStatus.open && (
+                <Tooltip title="Open Task" arrow>
+                <NoteAddIcon sx={{color: '#00c0a6'}}/>
+                </Tooltip>
+              )}
 
-                {status === TaskStatus.closed && (
-                  <Tooltip title="Closed Task" arrow>
-                  <TaskIcon  sx={{color: '#00bbf9'}} />
-                  </Tooltip>
-                )}
+              {status === TaskStatus.urgent && (
+                <Tooltip title="Urgent Task" arrow>
+                <PlagiarismIcon sx={{color: '#efcf00'}} />
+                </Tooltip>
+              )}
 
-            </TableCell>
-        )
-    },
+              {status === TaskStatus.closed && (
+                <Tooltip title="Closed Task" arrow>
+                <TaskIcon  sx={{color: '#00bbf9'}} />
+                </Tooltip>
+              )}
 
-    getPriorityCell: (priority: string) => {
-        return(
-            <TableCell align="center">
-            {priority === TaskPriority.top && (
-            <Tooltip title="Top Priority" arrow>
-            <KeyboardDoubleArrowUpIcon
-            sx={{color: '#ef476f'}}
-            />
-            </Tooltip>
-            )}
+          </TableCell>
+      )
+  },
 
-            {priority === TaskPriority.regular && (
-            <Tooltip title="Regular Priority" arrow>
-            <KeyboardArrowUpIcon sx={{color: '#f8961e'}}/>
-            </Tooltip>
-            )}
+}
 
-            {priority === TaskPriority.minor && (
-            <Tooltip title="Minor Priority" arrow>
-            <KeyboardArrowDownIcon sx={{color: '#ffdeb9'}}/>
-            </Tooltip>
-            )}
-            </TableCell>
-        )
-    },
 
-    getActionsCell: (task: Task, onClickShowTask: (task: Task) => void, onClickEditTask: (task: Task) => void, onClickDeleteTask: (task: Task) => void) => {
-        return(
-            <TableCell align="center" sx={{minWidth: 'fit-content'}}>
+export const priorityTableCell = {
+
+  get: (priority: string) => {
+      return(
+          <TableCell align="center">
+          {priority === TaskPriority.top && (
+          <Tooltip title="Top Priority" arrow>
+          <KeyboardDoubleArrowUpIcon
+          sx={{color: '#ef476f'}}
+          />
+          </Tooltip>
+          )}
+
+          {priority === TaskPriority.regular && (
+          <Tooltip title="Regular Priority" arrow>
+          <KeyboardArrowUpIcon sx={{color: '#f8961e'}}/>
+          </Tooltip>
+          )}
+
+          {priority === TaskPriority.minor && (
+          <Tooltip title="Minor Priority" arrow>
+          <KeyboardArrowDownIcon sx={{color: '#ffdeb9'}}/>
+          </Tooltip>
+          )}
+          </TableCell>
+      )
+  }
+}
+
+
+export const actionsTableCell = {
+
+  get: (task: Task, onClickShowTask: (task: Task) => void, onClickEditTask: (task: Task) => void, onClickDeleteTask: (task: Task) => void) => {
+      return(
+          <TableCell align="center" sx={{minWidth: 'fit-content'}}>
+
+            <Button
+                variant="text"
+                onClick={() => onClickShowTask(task)}
+                sx={{width: 'fit-content', minWidth: 5}} size="small"
+                >
+                <Tooltip title="Show Task" arrow>
+                <DescriptionIcon  sx={{color: '#7046ac'}} />
+                </Tooltip>
+              </Button>
 
               <Button
-                  variant="text"
-                  onClick={() => onClickShowTask(task)}
-                  sx={{width: 'fit-content', minWidth: 5}} size="small"
-                  >
-                  <Tooltip title="Show Task" arrow>
-                  <DescriptionIcon  sx={{color: '#7046ac'}} />
-                  </Tooltip>
-                </Button>
-
-                <Button
-                  variant="text"
-                  onClick={() => onClickEditTask(task)}
-                  sx={{width: 'fit-content', minWidth: 40}} size="small"
-                  >
-                  <Tooltip title="Edit Task" arrow>
-                  <EditIcon sx={{color: '#a84bb0'}}/>
-                  </Tooltip>
-                </Button>
-
-                <Button
-                  variant="text"
-                  onClick={() =>
-                    onClickDeleteTask(
-                      task
-                    )
-                  }
-                  sx={{width: 'fit-content', minWidth: 5}} size="small"
-
+                variant="text"
+                onClick={() => onClickEditTask(task)}
+                sx={{width: 'fit-content', minWidth: 40}} size="small"
                 >
-                  <Tooltip title="Delete Task" arrow>
-                  <DeleteIcon sx={{color: '#e54fb3'}}/>
-                  </Tooltip>
-                </Button>
-              </TableCell>
-        )
-    
-    }
+                <Tooltip title="Edit Task" arrow>
+                <EditIcon sx={{color: '#a84bb0'}}/>
+                </Tooltip>
+              </Button>
+
+              <Button
+                variant="text"
+                onClick={() =>
+                  onClickDeleteTask(
+                    task
+                  )
+                }
+                sx={{width: 'fit-content', minWidth: 5}} size="small"
+
+              >
+                <Tooltip title="Delete Task" arrow>
+                <DeleteIcon sx={{color: '#e54fb3'}}/>
+                </Tooltip>
+              </Button>
+            </TableCell>
+      )
+  
+  }
 }
 

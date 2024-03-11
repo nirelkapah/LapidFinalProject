@@ -18,7 +18,19 @@ enum ColumnDirection {
     down = 'down',
 }
 
-export const headerTableCell = {
+export const regularColumn = {
+
+    get: (title: string) => {
+        return(
+            <TableCell key={title} align="center">
+                {title}
+            </TableCell>
+        )
+    }
+}
+
+
+export const sortColumn = {
 
     OrderByArray: (values: any[], orderType: any, direction: string) => 
     values.sort((a, b) => {
@@ -33,15 +45,7 @@ export const headerTableCell = {
         return 0
     }),
 
-    getColumn: (title: string) => {
-        return(
-            <TableCell key={title} align="center">
-                {title}
-            </TableCell>
-        )
-    },
-
-    getSortbaleColumn: (title: ColumnType, setSortBy: Dispatch<SetStateAction<SortType>>, sortBy: SortType) => {
+    get: (title: ColumnType, setSortBy: Dispatch<SetStateAction<SortType>>, sortBy: SortType) => {
         const temporaryTitle = titlesMap.get(title);
         return (
             
@@ -60,4 +64,3 @@ export const headerTableCell = {
         )
     }
 }
-

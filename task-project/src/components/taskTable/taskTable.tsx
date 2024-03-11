@@ -4,8 +4,8 @@ import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHea
 import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
 import VerifyDialogBox from "../dialogBox/verifyDialogBox/verifyDialogBox";
 import ReadDialogBox from "../dialogBox/readDialogBox/readDialogBox";
-import { headerTableCell } from "./columns/headerColumns";
-import { bodyTableCell } from "./columns/bodyColumns";
+import { regularColumn, sortColumn } from "./columns/headerColumns";
+import { regularTableCell, statusTableCell, priorityTableCell, actionsTableCell } from "./columns/bodyColumns";
 import { ColumnType, SortType } from "../../model/sort";
 
 interface taskTableProps {
@@ -74,29 +74,28 @@ const TaskTable = ({tasks}: taskTableProps) => {
           </Typography>
           </Box>
 
-
           <TableContainer component={Paper} style={{maxHeight: 350}}>
           <Table  aria-label="simple table">
 
             <TableHead>
               <TableRow>
-                {titles.map((title: ColumnType) => headerTableCell.getSortbaleColumn(title, setSortBy, sortBy))}
-                {headerTableCell.getColumn('Actions')}
+                {titles.map((title: ColumnType) => sortColumn.get(title, setSortBy, sortBy))}
+                {regularColumn.get('Actions')}
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {headerTableCell.OrderByArray(tasks, sortBy.orderType, sortBy.direction).map((task) => (
+              {sortColumn.OrderByArray(tasks, sortBy.orderType, sortBy.direction).map((task) => (
                 <TableRow
                   key={task._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  {bodyTableCell.getStatusCell(task.status)}
-                  {bodyTableCell.getPriorityCell(task.priority)}
-                  {bodyTableCell.getRegularCell(task.title)}
-                  {bodyTableCell.getRegularCell(task.description)}
-                  {bodyTableCell.getRegularCell(task.estimatedTime)}
-                  {bodyTableCell.getActionsCell(task, onClickShowTask, onClickEditTask, onClickDeleteTask)}
+                  {statusTableCell.get(task.status)}
+                  {priorityTableCell.get(task.priority)}
+                  {regularTableCell.get(task.title)}
+                  {regularTableCell.get(task.description)}
+                  {regularTableCell.get(task.estimatedTime)}
+                  {actionsTableCell.get(task, onClickShowTask, onClickEditTask, onClickDeleteTask)}
                 </TableRow>
               ))}
             </TableBody>
