@@ -16,9 +16,8 @@ const documents = {
     "\n  mutation CreateTask($taskInput: TaskInput!) {\n    createTask(taskInput: $taskInput) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n": types.CreateTaskDocument,
     "\nmutation UpdateTask($taskInput: TaskInput!) {\n  updateTask(taskInput: $taskInput) {\n    _id\n    description\n    estimatedTime\n    priority\n    review\n    status\n    timeSpent\n    title\n    untilDate\n  }\n}\n": types.UpdateTaskDocument,
     "\n  mutation deleteTask($id: String!) {\n    deleteTask(_id: $id) {\n      _id\n    }\n  }\n": types.DeleteTaskDocument,
-    "\n  query Query{\n    tasks {\n      _id\n      title\n      description\n      estimatedTime\n      status\n      priority\n      untilDate\n      review\n      timeSpent\n    }\n  }\n": types.QueryDocument,
     "\n  query TaskById($taskId: String!) {\n    taskById(id: $taskId) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n": types.TaskByIdDocument,
-    "\n  query TasksByKeywordAndFilters($keyword: String, $filters: Filters) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n": types.TasksByKeywordAndFiltersDocument,
+    "\n  query TasksByKeywordAndFilters($keyword: String!, $filters: Filters!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n": types.TasksByKeywordAndFiltersDocument,
     "\n    subscription taskCreated($keyword: String, $filters: Filters) {\n    taskCreated(keyword: $keyword, filters: $filters)\n    }\n": types.TaskCreatedDocument,
     "\n    subscription taskUpdated($keyword: String, $filters: Filters) {\n        taskUpdated(keyword: $keyword, filters: $filters)\n    }\n": types.TaskUpdatedDocument,
     "\n    subscription taskDeleted {\n        taskDeleted\n    }\n": types.TaskDeletedDocument,
@@ -53,15 +52,11 @@ export function graphql(source: "\n  mutation deleteTask($id: String!) {\n    de
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Query{\n    tasks {\n      _id\n      title\n      description\n      estimatedTime\n      status\n      priority\n      untilDate\n      review\n      timeSpent\n    }\n  }\n"): (typeof documents)["\n  query Query{\n    tasks {\n      _id\n      title\n      description\n      estimatedTime\n      status\n      priority\n      untilDate\n      review\n      timeSpent\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  query TaskById($taskId: String!) {\n    taskById(id: $taskId) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"): (typeof documents)["\n  query TaskById($taskId: String!) {\n    taskById(id: $taskId) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query TasksByKeywordAndFilters($keyword: String, $filters: Filters) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"): (typeof documents)["\n  query TasksByKeywordAndFilters($keyword: String, $filters: Filters) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"];
+export function graphql(source: "\n  query TasksByKeywordAndFilters($keyword: String!, $filters: Filters!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"): (typeof documents)["\n  query TasksByKeywordAndFilters($keyword: String!, $filters: Filters!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
