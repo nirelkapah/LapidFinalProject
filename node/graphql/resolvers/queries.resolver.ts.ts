@@ -1,43 +1,69 @@
 
-import {tasksCollection} from '../../models/task'
-import { TaskResponse } from '../../models/taskResponse'
+import {tasksCollection} from '../../models/task';
+import { TaskResponse } from '../../models/taskResponse';
+import {QueryTaskByIdArgs, QueryTaskByIdKeywordAndFiltersArgs, Filters , QueryTasksByKeywordAndFiltersArgs} from "../../../task-project/src/gql/graphql";
+import { ObjectId } from 'mongodb';
 
 export const queryResolvers = {
     Query:{
-        
-        tasks: async () => {
-            try {
-                const tasks: TaskResponse[] = await tasksCollection.find();
-                return tasks.map((task: any) => {
-                  return { ...task._doc, _id: task.id };
-                });
-          
-              } catch (err) {
-                throw err;
-              }
-          },
 
-          //Get Tasks By Id
-          taskById: async (_: any, args: any) => {
+          taskById: async (_: any, args: QueryTaskByIdArgs) => {
 
             try {
-            const taskId: string = args.id;
-  
-            const result: any = await tasksCollection.findById(taskId)
-
-            return {...result._doc,_id: args.id};
+              const taskId: string = args.id;
+              const result: any = await tasksCollection.findById(taskId)
+              const resultId = new ObjectId(result._id)
+    
+              return {...result._doc,_id: resultId.toString()};
   
             } catch (err) {
-            throw err;
+              throw err;
             }
           },
 
-          //Get Tasks By Keyword Search and Filters
-          tasksByKeywordAndFilters: async (_: any, args: any) => {
+          taskByIdKeywordAndFilters: async (_: any, args: QueryTaskByIdKeywordAndFiltersArgs) => {
+
+            try {
+              const taskId: string = args.id;
+              const reg = new RegExp(args.keyword ? args.keyword : '', "i");
+              const filters: Filters = {
+                priority: (args.filters?.priority && args.filters?.priority.length > 0 ) ? (args.filters?.priority) : (['Top' , 'Regular' , 'Minor']),
+                status: (args.filters?.status && args.filters?.status.length > 0) ? args.filters.status : ['Open' , 'Closed' , 'Urgent']
+              }
+
+              const convertedObjectId = new ObjectId(taskId)
+    
+              const result: any = await tasksCollection.find({
+              $or: [
+              { title: reg },
+              { priority: reg },
+              { description: reg },
+              { status: reg },
+              { review: reg },
+              ],})
+              .find({ "status": { "$in": filters.status } })
+              .find({ "priority": { "$in": filters.priority } })
+              .findOne({ "_id": convertedObjectId })
+
+
+              let resultId = undefined;
+              
+              result &&  (resultId = new ObjectId(result._id).toString());
+              
+              return {...result._doc,_id: resultId};
+  
+            } catch (err) {
+              throw err;
+            }
+          },
+
+          tasksByKeywordAndFilters: async (_: any, args: QueryTasksByKeywordAndFiltersArgs) => {
           try {
-          let reg = new RegExp(args.keyword, "i");
-          const statusFilters: [string] = args.filters.status;
-          const priorityFilters: [string] = args.filters.priority;
+          const reg = new RegExp(args.keyword ? args.keyword : '', "i");
+          const filters: Filters = {
+            priority: (args.filters?.priority && args.filters?.priority.length > 0 ) ? (args.filters?.priority) : (['Top' , 'Regular' , 'Minor']),
+            status: (args.filters?.status && args.filters?.status.length > 0) ? args.filters.status : ['Open' , 'Closed' , 'Urgent']
+          }
 
           const tasks: TaskResponse[] = await tasksCollection.find({
               $or: [
@@ -48,15 +74,15 @@ export const queryResolvers = {
               { review: reg },
               ],
           })
-          .find({ "status": { "$in": statusFilters.length > 0 ? statusFilters : ['Open' , 'Closed' , 'Urgent'] } })
-          .find({ "priority": { "$in": priorityFilters.length > 0 ? priorityFilters : ['Top' , 'Regular' , 'Minor'] } })
+          .find({ "status": { "$in": filters.status } })
+          .find({ "priority": { "$in": filters.priority } })
           
           return tasks.map((task: any) => {
-              return { ...task._doc, _id: task.id };
+            return { ...task._doc, _id: task.id };
           });
 
           } catch (err) {
-          throw err;
+            throw err;
           }
         },
 

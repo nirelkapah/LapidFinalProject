@@ -1,4 +1,3 @@
-// const {gql} = require('apollo-server');
 import {gql} from 'apollo-server'
 
 export const typeDefs = gql`
@@ -33,9 +32,9 @@ input Filters {
 }
 
 type Query {
-    tasks: [Task!]!
     taskById(id: String!): Task
-    tasksByKeywordAndFilters(keyword: String, filters: Filters): [Task]
+    taskByIdKeywordAndFilters(id: String!,keyword: String!, filters: Filters!): Task
+    tasksByKeywordAndFilters(keyword: String!, filters: Filters!): [Task]
 }
 
 type Mutation {
@@ -46,9 +45,9 @@ type Mutation {
 }
 
 type Subscription {
-    taskCreated: String
+    taskCreated(keyword: String, filters: Filters): String
+    taskUpdated(keyword: String, filters: Filters): String
     taskDeleted: String
-    taskUpdated: String
 }
 
 `;
