@@ -58,7 +58,7 @@ type Mutation {
 
 type Subscription {
     taskCreated(keyword: String, filters: Filters): String
-    taskUpdated(keyword: String, filters: Filters): String
+    taskUpdated: String
     taskDeleted: String
 }
 
