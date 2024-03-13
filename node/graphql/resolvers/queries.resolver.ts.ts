@@ -3,7 +3,19 @@ import {tasksCollection} from '../../models/task';
 import { TaskResponse } from '../../models/taskResponse';
 import {QueryTaskByIdArgs, QueryTaskByIdKeywordAndFiltersArgs, Filters , QueryTasksByKeywordAndFiltersArgs} from "../../../task-project/src/gql/graphql";
 import { ObjectId } from 'mongodb';
-import { Priority, Status } from '../../../task-project/src/gql/graphql';
+// import { Priority, Status } from '../../../task-project/src/gql/graphql';
+
+enum Priority {
+  Top = 'Top',
+  Regular = 'Regular',
+  Minor = 'Minor'
+}
+
+enum Status {
+  Open = 'Open',
+  Closed = 'Closed',
+  Urgent = 'Urgent'
+}
 
 export const queryResolvers = {
     Query:{
