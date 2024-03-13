@@ -2,8 +2,11 @@
 import {tasksCollection} from '../../models/task'
 import {openTaskAuthSchema, closedTaskAuthSchema, UrgentTaskAuthSchema} from '../../utls/TaskValidation'
 import {MutationCreateTaskArgs, MutationDeleteTaskArgs, MutationUpdateTaskArgs, Task} from "../../../task-project/src/gql/graphql";
-import { TaskResponse } from '../../models/taskResponse';
 import {pubsub} from './subscriptions.resolver.ts'
+import { TaskResponse } from '../../models/taskResponse';
+import { Maybe } from 'graphql/jsutils/Maybe';
+import { Priority, Status } from '../../../task-project/src/gql/graphql';
+
 
 export const mutationResolvers = {
 
@@ -12,9 +15,9 @@ export const mutationResolvers = {
         createTask: async (_: any, args: MutationCreateTaskArgs) => {
             try {
         
-              args.taskInput.status === "Open" ? await openTaskAuthSchema.validateAsync(args.taskInput) :
-              args.taskInput.status === "Urgent" ? await UrgentTaskAuthSchema.validateAsync(args.taskInput) :
-              args.taskInput.status === "Closed" && await closedTaskAuthSchema.validateAsync(args.taskInput)
+              args.taskInput.status === Status.Open ? await openTaskAuthSchema.validateAsync(args.taskInput) :
+              args.taskInput.status === Status.Urgent ? await UrgentTaskAuthSchema.validateAsync(args.taskInput) :
+              args.taskInput.status === Status.Closed && await closedTaskAuthSchema.validateAsync(args.taskInput)
         
               const task = new tasksCollection({
                 title: args.taskInput.title,
@@ -24,13 +27,13 @@ export const mutationResolvers = {
                 priority: args.taskInput.priority
               });
 
-              args.taskInput.status === 'Closed' &&  (task.review = args.taskInput.review);
-              args.taskInput.status === 'Closed' && (task.timeSpent = args.taskInput.timeSpent);
-              (args.taskInput.status === 'Closed' || args.taskInput.status === 'Urgent') && (task.untilDate = args.taskInput.untilDate);
-        
+              args.taskInput.status === Status.Closed &&  (task.review = args.taskInput.review);
+              args.taskInput.status === Status.Closed && (task.timeSpent = args.taskInput.timeSpent);
+              (args.taskInput.status === Status.Closed || args.taskInput.status === Status.Urgent) && (task.untilDate = args.taskInput.untilDate);
+              console.log(task);
               const result: any = await task.save();
         
-              const createdTask: TaskResponse = {...result._doc, _id: task.id};
+              const createdTask: Task = {...result._doc, _id: task.id};
               pubsub.publish('TASK_CREATED', {
                 taskCreated: createdTask._id
               });
@@ -45,13 +48,13 @@ export const mutationResolvers = {
           deleteTask: async (_: any, args: MutationDeleteTaskArgs) => {
             try {
 
-             await tasksCollection.findOneAndRemove({ _id: args._id });
+             const result: Maybe<TaskResponse> = await tasksCollection.findOneAndRemove({ _id: args._id });
 
-             await pubsub.publish('TASK_DELETED', {
+             pubsub.publish('TASK_DELETED', {
               taskDeleted: args._id
             });
         
-              return null;
+              return result;
             } catch (err) {
               throw err;
             }
@@ -61,13 +64,9 @@ export const mutationResolvers = {
           updateTask: async (_: any, args: MutationUpdateTaskArgs) => {
             try {
 
-              if (args.taskInput.status === "Open") {
-                await openTaskAuthSchema.validateAsync(args.taskInput);
-              } else if (args.taskInput.status === "Urgent") {
-                await UrgentTaskAuthSchema.validateAsync(args.taskInput);
-              } else if (args.taskInput.status === "Closed") {
-                await closedTaskAuthSchema.validateAsync(args.taskInput);
-              }
+              args.taskInput.status === Status.Open ? await openTaskAuthSchema.validateAsync(args.taskInput) :
+              args.taskInput.status === Status.Urgent ? await UrgentTaskAuthSchema.validateAsync(args.taskInput) :
+              args.taskInput.status === Status.Closed && await closedTaskAuthSchema.validateAsync(args.taskInput)
 
               const task = new tasksCollection({
                 _id: args.taskInput._id,
@@ -78,16 +77,16 @@ export const mutationResolvers = {
                 priority: args.taskInput.priority
               });
 
-              args.taskInput.status === 'Closed' &&  (task.review = args.taskInput.review);
-              args.taskInput.status === 'Closed' && (task.timeSpent = args.taskInput.timeSpent);
-              (args.taskInput.status === 'Closed' || args.taskInput.status === 'Urgent') && (task.untilDate = args.taskInput.untilDate);
+              args.taskInput.status === Status.Closed &&  (task.review = args.taskInput.review);
+              args.taskInput.status === Status.Closed && (task.timeSpent = args.taskInput.timeSpent);
+              (args.taskInput.status === Status.Closed || args.taskInput.status === Status.Urgent) && (task.untilDate = args.taskInput.untilDate);
 
               let unSetFields: Partial<Task> = (
-              (task.status === 'Open') ? ({untilDate: '', review: '', timeSpent: 0}) :
-              (task.status === 'Urgent') ? ({review: '', timeSpent: 0}) : {}
+              (task.status === Status.Open) ? ({untilDate: '', review: '', timeSpent: 0}) :
+              (task.status === Status.Urgent) ? ({review: '', timeSpent: 0}) : {}
               )
 
-              let result: any;
+              let result: Maybe<TaskResponse>;
 
               result = await tasksCollection.findOneAndUpdate(
                 { _id: task._id },
@@ -99,7 +98,8 @@ export const mutationResolvers = {
               );
 
               pubsub.publish('TASK_UPDATED', {
-                taskUpdated: args.taskInput._id
+                taskUpdated: args.taskInput._id,
+                filterCondition: true
               });
 
               return result;

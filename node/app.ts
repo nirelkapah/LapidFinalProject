@@ -8,11 +8,13 @@ import { queryResolvers } from './graphql/resolvers/queries.resolver.ts'
 import { subscriptionResolvers } from './graphql/resolvers/subscriptions.resolver.ts'
 import cors from 'cors'
 import { createServer } from 'http';
-const { ApolloServer } = require('apollo-server-express');
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const {ApolloServer} = require('apollo-server-express')
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 import { execute, subscribe } from 'graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-
+// import { ApolloServer } from 'apollo-server'
 //===============================ON SERVER START =============================
 
 const corsOptions = {

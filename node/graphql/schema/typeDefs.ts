@@ -26,6 +26,18 @@ type Task {
     timeSpent: Float
 }
 
+enum Priority{
+    Top
+    Regular
+    Minor
+}
+
+enum Status{
+    Open
+    Urgent
+    Closed
+}
+
 input Filters { 
     status: [String]
     priority: [String]
@@ -33,8 +45,8 @@ input Filters {
 
 type Query {
     taskById(id: String!): Task
-    taskByIdKeywordAndFilters(id: String!,keyword: String!, filters: Filters!): Task
-    tasksByKeywordAndFilters(keyword: String!, filters: Filters!): [Task]
+    taskByIdKeywordAndFilters(id: String!,keyword: String, filters: Filters): Task
+    tasksByKeywordAndFilters(keyword: String, filters: Filters): [Task]
 }
 
 type Mutation {
