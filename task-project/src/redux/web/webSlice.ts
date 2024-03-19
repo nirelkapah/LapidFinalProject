@@ -25,34 +25,34 @@ export const webSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    closeFormDialogBox: (state) => {
+    closeFormDialogBox: (state: WebState) => {
       state.openFormDialogBox = false;
     },
 
-    openFormDialogBox: (state) => {
+    openFormDialogBox: (state: WebState) => {
       state.openFormDialogBox = true;
     },
 
-    closeAlertDialogBox: (state) => {
+    closeAlertDialogBox: (state: WebState) => {
       state.openVerifyDialogBox = false;
     },
 
-    openAlertDialogBox: (state) => {
+    openAlertDialogBox: (state: WebState) => {
       state.openVerifyDialogBox = true;
     },
 
-    closeReadDialogBox: (state) => {
+    closeReadDialogBox: (state: WebState) => {
       state.openReadDialogBox = false;
     },
 
-    openReadDialogBox: (state) => {
+    openReadDialogBox: (state: WebState) => {
       state.openReadDialogBox = true;
     },
 
-    updateErrorAlertMessage: (state, action: PayloadAction<string>) => {
+    updateErrorAlertMessage: (state: WebState, action: PayloadAction<string>) => {
       state.errorAlertMessage = action.payload;
     },
-    updateSuccessAlertMessage: (state, action: PayloadAction<string>) => {
+    updateSuccessAlertMessage: (state: WebState, action: PayloadAction<string>) => {
       state.successAlertMessage = action.payload;
     },
   },

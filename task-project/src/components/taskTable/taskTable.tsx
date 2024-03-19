@@ -85,11 +85,11 @@ const TaskTable = ({tasks}: taskTableProps) => {
             </TableHead>
 
             <TableBody>
-              {sortColumn.OrderByArray(tasks, sortBy.orderType, sortBy.direction).map((task) => (
-                <TableRow
-                  key={task._id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
+                {sortColumn.OrderByArray([...tasks], sortBy.orderType, sortBy.direction).map((task) => (
+                  <TableRow
+                    key={task._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
                   {statusTableCell.get(task.status)}
                   {priorityTableCell.get(task.priority)}
                   {regularTableCell.get(task.title)}

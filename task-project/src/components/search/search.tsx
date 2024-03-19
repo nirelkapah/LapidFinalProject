@@ -3,12 +3,13 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch } from "react-redux";
-import {updateSearchByKeyword} from '../../redux/tasks/tasksSlice'
+import {updateSearchByKeyword} from '../../redux/filters/filtersSlice'
 import { Grid } from "@mui/material";
 
 const Search = () => {
 
   const dispatch = useDispatch();
+  dispatch(updateSearchByKeyword(''))
 
   const onChangeKeyword = (event: React.ChangeEvent<HTMLInputElement>) => dispatch(updateSearchByKeyword(event.target.value))
 

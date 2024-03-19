@@ -1,6 +1,10 @@
 import type { RootState} from "../store";
 
-export const selectSearchByKeyWord = (state:RootState) => state.tasksState.searchByKeyword;
+export const selectTasks = (state:RootState) => state.tasksState.tasks
 
-export const selectFilters = (state:RootState) => state.tasksState.filterBy
+export const selectTasksError = (state:RootState) => state.tasksState.error
+
+export const selectTasksLoading = (state:RootState) => state.tasksState.loading
+
+
 

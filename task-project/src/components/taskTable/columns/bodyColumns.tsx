@@ -93,7 +93,6 @@ export const priorityTableCell = {
   }
 }
 
-
 export const actionsTableCell = {
 
   get: (task: Task, onClickShowTask: (task: Task) => void, onClickEditTask: (task: Task) => void, onClickDeleteTask: (task: Task) => void) => {

@@ -33,6 +33,7 @@ export const regularColumn = {
 export const sortColumn = {
 
     OrderByArray: (values: any[], orderType: any, direction: string) => 
+    
     values.sort((a, b) => {
         if (a[orderType] < b[orderType]) {
             return direction === ColumnDirection.down ? -1 : 1
@@ -42,8 +43,8 @@ export const sortColumn = {
             return direction === ColumnDirection.down ?  1 : -1
         }
 
-        return 0
-    }),
+        return 0}
+        ),
 
     get: (title: ColumnType, setSortBy: Dispatch<SetStateAction<SortType>>, sortBy: SortType) => {
         const temporaryTitle = titlesMap.get(title);

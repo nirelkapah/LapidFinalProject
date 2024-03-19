@@ -2,7 +2,7 @@ import "../../index.css";
 import TaskTable from "./taskTable";
 import { useQuery} from "@apollo/react-hooks";
 import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS, QUERY_TASK_BY_ID } from "../../graphql/queries";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Task } from '../../model/task';
 import { useSubscription, SubscribeToMoreOptions} from '@apollo/client';
@@ -10,43 +10,43 @@ import { TASK_CREATED, TASK_UPDATED, TASK_DELETED } from "../../graphql/subscrip
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Button from "@mui/material/Button";
 import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
-import { selectFilters, selectSearchByKeyWord } from "../../redux/tasks/tasksSelectors";
+import { selectFilters, selectSearchByKeyWord } from "../../redux/filters/filtersSelectors";
 import { Grid, Typography } from "@mui/material";
 import { Filters, keywordAndFilters } from "../../model/filters";
+import { selectTasks, selectTasksError, selectTasksLoading } from "../../redux/tasks/tasksSelectors";
+import { modifiedTask, removeTask } from "../../redux/tasks/tasksSlice";
 
 const TaskTableContainer = () => {
 
-  const [tasksList, setTasksList] = useState<Task[]>([]);
+  const dispatch = useDispatch();
   const [isFormDialogBoxOpen, setIsFormDialogBoxOpen] = useState<boolean>(false);
   const searchKeyword: string = useSelector(selectSearchByKeyWord);
   const filters: Filters = useSelector(selectFilters);
+  const loading : boolean = useSelector(selectTasksLoading);
+  const tasksList: Task[] = useSelector(selectTasks);
+  const error : boolean = useSelector(selectTasksError);
+
   const [keywordAndFilterValues, setKeywordAndFilterValues] = useState<keywordAndFilters>({keyword: searchKeyword , filters: filters});
 
-  const { data, error, loading, refetch } = useQuery(QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS,
-    {variables: { keyword: searchKeyword , filters: filters }, fetchPolicy: 'no-cache' }, );
-
   useEffect(() => {
-    data && setTasksList(data.tasksByKeywordAndFilters);
     setKeywordAndFilterValues({keyword: searchKeyword , filters: filters});
-
-  }, [data && data.tasksByKeywordAndFilters]);
+  }, [filters || searchKeyword]);
 
   const { data: taskCreated} = useSubscription(TASK_CREATED,{variables: keywordAndFilterValues,});
   const { data: taskDeleted} = useSubscription(TASK_DELETED,{variables: keywordAndFilterValues,});
   const { data: taskUpdated} = useSubscription(TASK_UPDATED,{variables: keywordAndFilterValues,});
 
   useEffect(() => {
-    (taskCreated || taskUpdated) && refetch();
-    taskDeleted && deleteTask(taskDeleted.taskDeleted);
-  }, [taskCreated, taskDeleted, taskUpdated]);
+    dispatch(modifiedTask(taskCreated))
+  }, [taskCreated])
 
-  const deleteTask = (taskId: string) => {
-    let temporaryTasksList = [...tasksList];
-    let removeIndex = temporaryTasksList.map((task) => task._id).indexOf(taskId);
-    removeIndex !== -1 &&
-    temporaryTasksList.splice(removeIndex, 1);
-    setTasksList(temporaryTasksList);
-  }
+  useEffect(() => {
+    dispatch(modifiedTask(taskUpdated))
+  }, [taskUpdated])
+
+  useEffect(() => {
+    taskDeleted && dispatch(removeTask(taskDeleted.taskDeleted))
+  }, [taskDeleted])
 
   const onClickOpenForm = () => {
     setIsFormDialogBoxOpen(true);
@@ -76,7 +76,7 @@ const TaskTableContainer = () => {
 
     <Grid item m={0.5} textAlign={'center'}>
           {error && (
-              <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Sorry, An Error Occured, Please Check Your Internet Connection</Typography>
+              <Typography color={'white'} fontSize={'20px'} fontWeight={100}>Please Check Your Internet Connection</Typography>
           )
           }
 
@@ -93,11 +93,13 @@ const TaskTableContainer = () => {
                 </div>
           )}
 
-        {(tasksList && !loading && !error) && (
-          <TaskTable 
-            tasks={tasksList}
-            />
-        )}
+        {(tasksList && !loading && !error) &&(
+            <TaskTable 
+              tasks={tasksList}
+              />
+          )}
+
+        
       </Grid>
 
     

@@ -1,53 +1,64 @@
+
+
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import {Filters, PriorityOptions, StatusOptions} from '../../model/filters'
-export interface TasksState {
-  filterBy: Filters;
-  searchByKeyword: string;
+import { Task } from "../../model/task";
+export interface tasksState {
+  tasks: Task[];
+  error: boolean;
+  loading: boolean;
+
 }
 
-const initialState: TasksState = {
-  filterBy: {status: [], priority: []},
-  searchByKeyword: '',
+const initialState: tasksState = {
+  tasks: [],
+  error: false,
+  loading: false
 };
 
 export const tasksSlice = createSlice({
-  name: "tasksArray",
+  name: "tasksSlice",
   initialState,
   reducers: {
 
-    updateSearchByKeyword: (state, action: PayloadAction<string>) => {
-      state.searchByKeyword = action.payload
+    removeTask: (state: tasksState, action: PayloadAction<string>) => {
+      let temporaryTasksList = [...state.tasks];
+      let removeIndex = temporaryTasksList.map((task) => task._id).indexOf(action.payload);
+      removeIndex !== -1 &&
+      temporaryTasksList.splice(removeIndex, 1);
+      state.tasks = temporaryTasksList;
     },
 
-    updateStatusFilter: (state, action: PayloadAction<StatusOptions>) => {
-      state.filterBy.status.push(action.payload)
+    modifiedTask: (state: tasksState, action: PayloadAction<string>) => {
+        console.log('Updated / Created Task : ', action.payload); 
     },
 
-    removeStatusFilter: (state, action: PayloadAction<StatusOptions>) => {
-      const array = state.filterBy.status;
-      state.filterBy.status.splice(array.indexOf(action.payload), 1)  
+    setTasks: (state: tasksState, action: PayloadAction<Task[]>) => {
+        state.tasks = action.payload;
+        state.error && (state.error = false);
+        state.loading && (state.loading = false);
     },
 
-    updatePriorityFilter: (state, action: PayloadAction<PriorityOptions>) => {
-      state.filterBy.priority.push(action.payload)
+    setTasksError: (state: tasksState, action: PayloadAction<boolean>) => {
+        state.error = action.payload
     },
 
-    removePriorityFilter: (state, action: PayloadAction<PriorityOptions>) => {
-      const array = state.filterBy.priority;
-      state.filterBy.priority.splice(array.indexOf(action.payload), 1) 
-    },
+    setTasksLoading: (state: tasksState, action: PayloadAction<boolean>) => {
+      state.loading = action.payload
+  },
+
+
+
   },
 });
 
 export const {
 
-  // deleteTaskFromArray,
-  updateSearchByKeyword,
-  updateStatusFilter,
-  removeStatusFilter,
-  updatePriorityFilter,
-  removePriorityFilter
+  removeTask,
+  setTasks,
+  modifiedTask,
+  setTasksError,
+  setTasksLoading
 
 } = tasksSlice.actions;
 

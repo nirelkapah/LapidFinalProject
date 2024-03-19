@@ -5,12 +5,12 @@ import {
   updatePriorityFilter,
   removePriorityFilter,
   removeStatusFilter
-} from "../../redux/tasks/tasksSlice";
+} from "../../redux/filters/filtersSlice";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { Grid, Typography } from "@mui/material";
 import { Filters } from "../../model/filters";
-import { selectFilters } from "../../redux/tasks/tasksSelectors";
+import { selectFilters } from "../../redux/filters/filtersSelectors";
 
 const buttonStyle = {
   margin: '5px', 
