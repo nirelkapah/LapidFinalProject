@@ -40,7 +40,6 @@ export const mutationResolvers = {
               args.taskInput.status === Status.Closed &&  (task.review = args.taskInput.review);
               args.taskInput.status === Status.Closed && (task.timeSpent = args.taskInput.timeSpent);
               (args.taskInput.status === Status.Closed || args.taskInput.status === Status.Urgent) && (task.untilDate = args.taskInput.untilDate);
-              console.log(task);
               const result: any = await task.save();
         
               const createdTask: Task = {...result._doc, _id: task.id};
