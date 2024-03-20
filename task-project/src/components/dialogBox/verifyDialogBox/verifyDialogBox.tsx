@@ -3,17 +3,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { useDispatch } from "react-redux";
-import {
-  updateErrorAlertMessage,
-  updateSuccessAlertMessage,
-} from "../../../redux/web/webSlice";
-import { useMutation } from "@apollo/react-hooks";
-import { DELETE_TASK } from "../../../graphql/mutations";
 import { Task } from "../../../model/task";
 import { Grid, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import {useDeleteTask} from "./useDeleteTask";
+import {useDeleteTask} from "../../../hooks/useDeleteTask";
 
 interface verifyDialogBoxProps{
   isDeleteDialogOpen: boolean,
@@ -23,8 +16,8 @@ interface verifyDialogBoxProps{
 
 const VerifyDialogBox = ({isDeleteDialogOpen, setIsDeleteDialogOpen, task}: verifyDialogBoxProps) => {
 
-  const setDeleteTask = useDeleteTask(setIsDeleteDialogOpen, task?._id);
-  
+  const setDeleteTask = useDeleteTask({setIsDeleteDialogOpen, taskId: task?._id});
+
   const handleClose = () => {
     setIsDeleteDialogOpen(false);
   };

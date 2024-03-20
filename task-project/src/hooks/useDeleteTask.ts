@@ -1,12 +1,15 @@
 import { useMutation } from "@apollo/client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { DELETE_TASK } from "../../../graphql/mutations";
-import { Task } from "../../../gql/graphql";
+import { DELETE_TASK } from "../graphql/mutations";
 import { useDispatch } from "react-redux";
-import { updateErrorAlertMessage, updateSuccessAlertMessage } from "../../../redux/web/webSlice";
+import { updateErrorAlertMessage, updateSuccessAlertMessage } from "../redux/web/webSlice";
 
+interface useDeleteTaskProps {
+  setIsDeleteDialogOpen: Dispatch<SetStateAction<boolean>>, 
+  taskId?: string
+}
 
-export const useDeleteTask = (setIsDeleteDialogOpen: Dispatch<SetStateAction<boolean>>, taskId?: string) => {
+export const useDeleteTask = ({setIsDeleteDialogOpen, taskId}: useDeleteTaskProps) => {
     const dispatch = useDispatch();
 
     const [deleteTask, setDeleteTask] = useState<boolean>(false);
@@ -25,6 +28,8 @@ export const useDeleteTask = (setIsDeleteDialogOpen: Dispatch<SetStateAction<boo
           let errorMessage = (err as Error).message;
           dispatch(updateErrorAlertMessage(errorMessage));
         }
+
+        setDeleteTask(false)
       };
     
     const [deleteTaskMutation] = useMutation(DELETE_TASK, {

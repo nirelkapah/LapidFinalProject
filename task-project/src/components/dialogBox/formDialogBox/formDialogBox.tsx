@@ -5,24 +5,20 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useDispatch, useSelector} from "react-redux";
-import {updateSuccessAlertMessage,} from "../../../redux/web/webSlice";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FormGroup, Grid, Typography } from "@mui/material";
-import { useMutation } from "@apollo/client";
-import { CREATE_TASK, UPDATE_TASK } from "../../../graphql/mutations";
 import dayjs from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import utc from "dayjs/plugin/utc";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { Task } from "../../../model/task";
-
+import { useModifyTask } from "../../../hooks/useModifyTask";
+import { useSendTask } from "../../../hooks/useSendTask";
 interface formDialogBoxProps {
   isOpenForm: boolean;
   setIsOpenForm: Dispatch<SetStateAction<boolean>>;
@@ -30,61 +26,13 @@ interface formDialogBoxProps {
 }
 
 const FormDialogBox = ({isOpenForm, setIsOpenForm, task }: formDialogBoxProps) => {
-  const dispatch = useDispatch();
-  console.log
-  const [formTask, setFormTask] = useState<Task>(task ? task : {status:'', description:'', title:'', estimatedTime:0, priority:''} )
-  const [FormError, setFormError] = useState("");
-  dayjs.extend(utc);
 
-  useEffect(() => {
-    task && setFormTask({
-      _id: task._id,
-      description: task.description,
-      status: task.status,
-      title: task.title,
-      estimatedTime: task.estimatedTime,
-      priority: task.priority,
-      timeSpent: task.status === 'Closed' ? task.timeSpent : 0,
-      untilDate: task.status === 'Urgent' || task.status === 'Closed' ?
-          dayjs.utc(task.untilDate) :
-          dayjs.utc(new Date()),
-      review: task.status === 'Closed' ? task.review : ''
-    })
-  }, [task]);
+  const {formTask, setFormTask, FormError, setFormError} = useModifyTask(task);
+  const {setIsSendTask} = useSendTask({formTask, setFormTask, setFormError, setIsOpenForm})
 
-  useEffect(() => {
-    if (formTask.status === "Open") {
-      setFormTask({...formTask, review: '', timeSpent: 0, untilDate: dayjs.utc(new Date())})
-    }
-    else if (formTask.status === "Urgent") {
-      setFormTask({...formTask, review: '', timeSpent: 0})
-    }
-  }, [formTask.status]);
+  const onClickSendTask = () => setIsSendTask(true);
 
-  const sendTask = async () => {
-    try {
-      (task?._id) ? (
-        await updateTaskMutation(),
-        dispatch(updateSuccessAlertMessage("Task Updated Succesfuly"))) 
-        : (
-        await createTaskMutation(),
-        dispatch(updateSuccessAlertMessage("Task Added Succesfuly"))
-      )
-      handleClose();
-      setFormTask({status:'', description:'', title:'', estimatedTime:0, priority:''});
-
-    } catch (err) {
-      let errorMessage = (err as Error).message;
-      setFormError(errorMessage);
-    }
-  };
-  
-  const [updateTaskMutation] = useMutation(UPDATE_TASK, {variables: {taskInput: formTask}});
-  const [createTaskMutation] = useMutation(CREATE_TASK, {variables: {taskInput: formTask},});
-
-  const onClickSendTask = () => sendTask();
-
-  const handleClose = () => {
+  const onClickClose = () => {
     setIsOpenForm(false);
     setFormError("");
   };
@@ -115,7 +63,7 @@ const FormDialogBox = ({isOpenForm, setIsOpenForm, task }: formDialogBoxProps) =
 
   return (
     <Grid container>
-      <Dialog open={isOpenForm ? isOpenForm : false} onClose={handleClose}>
+      <Dialog open={isOpenForm ? isOpenForm : false} onClose={onClickClose}>
         <DialogTitle color={'6945ac'}>
         
           <Typography color='#6945ac' fontSize={'20px'} justifyContent={'center'}><NoteAddIcon sx={{color: '6945ac'}}/> {!task && 'Create'}{task && 'Modify'} Task</Typography>
@@ -258,7 +206,7 @@ const FormDialogBox = ({isOpenForm, setIsOpenForm, task }: formDialogBoxProps) =
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}  sx={{color: 'gray'}}>
+          <Button onClick={onClickClose}  sx={{color: 'gray'}}>
             <Typography color={'gray'} fontSize={'14px'} fontWeight={'500'}>Cancel</Typography>
           </Button>
           <Button onClick={onClickSendTask}>
