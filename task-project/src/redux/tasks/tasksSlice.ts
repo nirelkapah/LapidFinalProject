@@ -29,10 +29,6 @@ export const tasksSlice = createSlice({
       state.tasks = temporaryTasksList;
     },
 
-    modifiedTask: (state: tasksState, action: PayloadAction<string>) => {
-        console.log('Updated / Created Task : ', action.payload); 
-    },
-
     setTasks: (state: tasksState, action: PayloadAction<Task[]>) => {
         state.tasks = action.payload;
         state.error && (state.error = false);
@@ -47,7 +43,7 @@ export const tasksSlice = createSlice({
       state.loading = action.payload
   },
 
-
+  triggerRefetch: () => {},
 
   },
 });
@@ -56,7 +52,7 @@ export const {
 
   removeTask,
   setTasks,
-  modifiedTask,
+  triggerRefetch,
   setTasksError,
   setTasksLoading
 

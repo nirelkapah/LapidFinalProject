@@ -5,7 +5,7 @@ import { switchMap, catchError, map, filter, mergeMap, startWith } from 'rxjs/op
 import { GraphQLClient } from 'graphql-request';
 import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS } from '../../graphql/queries';
 import { updateSearchByKeyword, removePriorityFilter, updatePriorityFilter, updateStatusFilter, removeStatusFilter } from '../filters/filtersSlice';
-import {modifiedTask} from '../tasks/tasksSlice'
+import {triggerRefetch} from '../tasks/tasksSlice'
 import type { RootState} from "../store";
 import { useSelector } from 'react-redux';
 import { selectFilters, selectSearchByKeyWord } from '../filters/filtersSelectors';
@@ -37,7 +37,7 @@ export const fetchTasksEpic: any = (action$: Observable<Action>, state$: StateOb
       updatePriorityFilter.type, 
       updateStatusFilter.type, 
       removeStatusFilter.type, 
-      modifiedTask.type ),   
+      triggerRefetch.type ),   
     mergeMap(() => {
       const loadingAction = setTasksLoading(true);
       return concat(

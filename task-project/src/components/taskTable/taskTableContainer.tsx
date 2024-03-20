@@ -14,7 +14,7 @@ import { selectFilters, selectSearchByKeyWord } from "../../redux/filters/filter
 import { Grid, Typography } from "@mui/material";
 import { Filters, keywordAndFilters } from "../../model/filters";
 import { selectTasks, selectTasksError, selectTasksLoading } from "../../redux/tasks/tasksSelectors";
-import { modifiedTask, removeTask } from "../../redux/tasks/tasksSlice";
+import { triggerRefetch, removeTask } from "../../redux/tasks/tasksSlice";
 
 const TaskTableContainer = () => {
 
@@ -37,11 +37,11 @@ const TaskTableContainer = () => {
   const { data: taskUpdated} = useSubscription(TASK_UPDATED,{variables: keywordAndFilterValues,});
 
   useEffect(() => {
-    dispatch(modifiedTask(taskCreated))
+    taskCreated && dispatch(triggerRefetch())
   }, [taskCreated])
 
   useEffect(() => {
-    dispatch(modifiedTask(taskUpdated))
+    taskUpdated && dispatch(triggerRefetch())
   }, [taskUpdated])
 
   useEffect(() => {
