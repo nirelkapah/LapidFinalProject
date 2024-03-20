@@ -1,4 +1,4 @@
-import { Button, TableCell } from "@mui/material";
+import { Button, Grid, TableCell } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 import NorthIcon from '@mui/icons-material/North';
 import SouthIcon from '@mui/icons-material/South';
@@ -50,7 +50,11 @@ export const sortColumn = {
         const temporaryTitle = titlesMap.get(title);
         return (
             
-            <TableCell key={title} align="center">{temporaryTitle}
+            <TableCell key={title} align="center">
+                <Grid container alignItems={'center'} justifyContent={'center'} minWidth={'max-content'}>
+
+                
+                {temporaryTitle} 
                 {!(sortBy.direction === ColumnDirection.up && sortBy.orderType=== title) &&
                 <Button sx={{width: 10, minWidth: 5, marginLeft: 1}} size="small" >
                     <NorthIcon onClick={() => setSortBy({orderType: title, direction: 'up'})} sx={{width: 15}} />
@@ -60,6 +64,7 @@ export const sortColumn = {
                 <Button sx={{width: 10, minWidth: 5, marginLeft: 1}} size="small">
                     <SouthIcon onClick={() => setSortBy({orderType: title, direction: 'down'})} sx={{width: 15}}/>
                 </Button>}
+                </Grid>
             </TableCell>
             
         )

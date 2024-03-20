@@ -1,4 +1,4 @@
-import { Button, TableCell, Tooltip } from "@mui/material";
+import { Button, Grid, TableCell, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import PlagiarismIcon from "@mui/icons-material/Plagiarism";
@@ -9,7 +9,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { Task } from "../../../model/task";
-
 
 
 enum TaskStatus {
@@ -97,8 +96,8 @@ export const actionsTableCell = {
 
   get: (task: Task, onClickShowTask: (task: Task) => void, onClickEditTask: (task: Task) => void, onClickDeleteTask: (task: Task) => void) => {
       return(
-          <TableCell align="center" sx={{minWidth: 'fit-content'}}>
-
+          <TableCell align="center" sx={{minWidth: '120px', padding: '0'}}>
+          <Grid container alignItems="center">
             <Button
                 variant="text"
                 onClick={() => onClickShowTask(task)}
@@ -133,6 +132,7 @@ export const actionsTableCell = {
                 <DeleteIcon sx={{color: '#e54fb3'}}/>
                 </Tooltip>
               </Button>
+              </Grid>
             </TableCell>
       )
   
