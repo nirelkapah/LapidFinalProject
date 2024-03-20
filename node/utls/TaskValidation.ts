@@ -99,20 +99,15 @@ export const closedTaskAuthSchema = Joi.object({
     "date.empty": "Please Fill In Date",
     "date.greater": "Please Fill In Date Which Is Older Than Today",
   }),
-  review: Joi.string().min(10).max(120).messages({
+  review: Joi.string().required().min(10).max(120).messages({
     "string.empty": "Please Fill In Review",
     "any.required": "Please Fill In Review",
     "string.max": "Review Can't Be Longer Than 120 Letters",
     "string.min": "Review Can't Be Shorter Than 10 Letters",
   }),
-  timeSpent: Joi.number().greater(0).messages({
+  timeSpent: Joi.number().required().greater(0).messages({
     "number.empty": "Please Fill In Amount of Time Spent",
     "any.required": "Please Fill In Amount of Time Spent",
     "number.greater": "Please Fill Amount Spent Which Is Greater Than 0",
   }),
 });
-// module.exports = {
-//   openTaskAuthSchema,
-//   UrgentTaskAuthSchema,
-//   closedTaskAuthSchema,
-// };
