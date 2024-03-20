@@ -1,11 +1,9 @@
 import "../../index.css";
 import TaskTable from "./taskTable";
-import { useQuery} from "@apollo/react-hooks";
-import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS, QUERY_TASK_BY_ID } from "../../graphql/queries";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Task } from '../../model/task';
-import { useSubscription, SubscribeToMoreOptions} from '@apollo/client';
+import { useSubscription} from '@apollo/client';
 import { TASK_CREATED, TASK_UPDATED, TASK_DELETED } from "../../graphql/subscriptions";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Button from "@mui/material/Button";
@@ -33,8 +31,8 @@ const TaskTableContainer = () => {
   }, [filters || searchKeyword]);
 
   const { data: taskCreated} = useSubscription(TASK_CREATED,{variables: keywordAndFilterValues,});
-  const { data: taskDeleted} = useSubscription(TASK_DELETED,{variables: keywordAndFilterValues,});
-  const { data: taskUpdated} = useSubscription(TASK_UPDATED,{variables: keywordAndFilterValues,});
+  const { data: taskDeleted} = useSubscription(TASK_DELETED);
+  const { data: taskUpdated} = useSubscription(TASK_UPDATED);
 
   useEffect(() => {
     taskCreated && dispatch(triggerRefetch())
