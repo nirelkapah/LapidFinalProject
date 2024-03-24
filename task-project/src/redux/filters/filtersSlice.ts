@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import {Filters, PriorityOptions, StatusOptions} from '../../model/filters'
+import {Filters} from '../../model/filters'
 import { Task } from "../../model/task";
 export interface filtersState {
   filterBy: Filters;
@@ -8,7 +8,7 @@ export interface filtersState {
 }
 
 const initialState: filtersState = {
-  filterBy: {status: [], priority: []},
+  filterBy: [],
   searchByKeyword: '',
 };
 
@@ -21,33 +21,18 @@ export const filtersSlice = createSlice({
       state.searchByKeyword = action.payload
     },
 
-    updateStatusFilter: (state: filtersState, action: PayloadAction<StatusOptions>) => {
-      state.filterBy.status.push(action.payload)
+    updateFilter: (state: filtersState, action: PayloadAction<string>) => {
+      state.filterBy.includes(action.payload) ? state.filterBy.splice(state.filterBy.indexOf(action.payload), 1) :
+      state.filterBy.push(action.payload)
     },
 
-    removeStatusFilter: (state: filtersState, action: PayloadAction<StatusOptions>) => {
-      const array = state.filterBy.status;
-      state.filterBy.status.splice(array.indexOf(action.payload), 1)  
-    },
-
-    updatePriorityFilter: (state: filtersState, action: PayloadAction<PriorityOptions>) => {
-      state.filterBy.priority.push(action.payload)
-    },
-
-    removePriorityFilter: (state: filtersState, action: PayloadAction<PriorityOptions>) => {
-      const array = state.filterBy.priority;
-      state.filterBy.priority.splice(array.indexOf(action.payload), 1) 
-    },
   },
 });
 
 export const {
 
   updateSearchByKeyword,
-  updateStatusFilter,
-  removeStatusFilter,
-  updatePriorityFilter,
-  removePriorityFilter
+  updateFilter
 
 } = filtersSlice.actions;
 

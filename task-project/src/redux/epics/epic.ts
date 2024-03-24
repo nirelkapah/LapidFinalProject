@@ -4,7 +4,7 @@ import { Observable, concat, from, of } from 'rxjs';
 import { switchMap, catchError, map, filter, mergeMap, startWith } from 'rxjs/operators';
 import { GraphQLClient } from 'graphql-request';
 import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS } from '../../graphql/queries';
-import { updateSearchByKeyword, removePriorityFilter, updatePriorityFilter, updateStatusFilter, removeStatusFilter } from '../filters/filtersSlice';
+import { updateSearchByKeyword, updateFilter} from '../filters/filtersSlice';
 import {triggerRefetch} from '../tasks/tasksSlice'
 import type { RootState} from "../store";
 import { setTasks, setTasksError, setTasksLoading } from '../tasks/tasksSlice';
@@ -23,10 +23,7 @@ export const fetchTasksEpic = (action$: Observable<Action>, state$: StateObserva
   action$.pipe(
     ofType(
       updateSearchByKeyword.type, 
-      removePriorityFilter.type, 
-      updatePriorityFilter.type, 
-      updateStatusFilter.type, 
-      removeStatusFilter.type, 
+      updateFilter.type, 
       triggerRefetch.type ),   
     mergeMap(() => {
       const loadingAction = setTasksLoading(true);

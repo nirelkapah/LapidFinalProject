@@ -1,10 +1,7 @@
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector} from "react-redux";
 import {
-  updateStatusFilter,
-  updatePriorityFilter,
-  removePriorityFilter,
-  removeStatusFilter
+  updateFilter,
 } from "../../redux/filters/filtersSlice";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
@@ -23,19 +20,18 @@ const ActionsBar = () => {
   const dispatch = useDispatch();
   const filters: Filters = useSelector(selectFilters);
 
-
   const onClickTopPriority = () => {
-    !filters.priority.includes('Top') ? 
-    dispatch(updatePriorityFilter('Top'))
+    !filters.includes('Top') ? 
+    dispatch(updateFilter('Top'))
     :
-    dispatch(removePriorityFilter('Top'))
+    dispatch(updateFilter('Top'))
   };
 
   const onClickOnlyOpen = () => {
-    !filters.status.includes('Open') ? 
-    dispatch(updateStatusFilter('Open'))
+    !filters.includes('Open') ? 
+    dispatch(updateFilter('Open'))
     :
-    dispatch(removeStatusFilter('Open'))
+    dispatch(updateFilter('Open'))
   };
 
 
@@ -47,7 +43,7 @@ const ActionsBar = () => {
         <Button
           variant="outlined"
           onClick={onClickTopPriority}
-          sx={{...buttonStyle, backgroundColor: filters.priority.includes('Top') ? 'purple': 'transparent'}}
+          sx={{...buttonStyle, backgroundColor: filters.includes('Top') ? 'purple': 'transparent'}}
         >
           <Typography fontWeight={'light'} color={'white'}>Only Top Priority</Typography>
           <KeyboardDoubleArrowUpIcon sx={{marginLeft: '5px', color: 'white' ,height: '20px'}} />
@@ -56,7 +52,7 @@ const ActionsBar = () => {
         <Button
           variant="outlined"
           onClick={onClickOnlyOpen}
-          sx={{...buttonStyle, backgroundColor: filters.status.includes('Open') ? 'purple': 'transparent'}}
+          sx={{...buttonStyle, backgroundColor: filters.includes('Open') ? 'purple': 'transparent'}}
         >
 
           <Typography fontWeight={'light'} color={'white'}> Only Open</Typography>

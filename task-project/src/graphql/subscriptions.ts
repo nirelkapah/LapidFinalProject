@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 export const TASK_CREATED  = gql`
-    subscription taskCreated($keyword: String, $filters: Filters) {
+    subscription taskCreated($keyword: String, $filters: [String]) {
     taskCreated(keyword: $keyword, filters: $filters)
     }
 `;

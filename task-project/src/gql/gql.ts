@@ -17,7 +17,10 @@ const documents = {
     "\nmutation UpdateTask($taskInput: TaskInput!) {\n  updateTask(taskInput: $taskInput) {\n    _id\n    description\n    estimatedTime\n    priority\n    review\n    status\n    timeSpent\n    title\n    untilDate\n  }\n}\n": types.UpdateTaskDocument,
     "\n  mutation deleteTask($id: String!) {\n    deleteTask(_id: $id) {\n      _id\n    }\n  }\n": types.DeleteTaskDocument,
     "\n  query TaskById($taskId: String!) {\n    taskById(id: $taskId) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n": types.TaskByIdDocument,
-    "\n  query TasksByKeywordAndFilters($keyword: String!, $filters: Filters!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n": types.TasksByKeywordAndFiltersDocument,
+    "\n  query TasksByKeywordAndFilters($keyword: String!, $filters: [String]!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n": types.TasksByKeywordAndFiltersDocument,
+    "\n    subscription taskCreated($keyword: String, $filters: [String]) {\n    taskCreated(keyword: $keyword, filters: $filters)\n    }\n": types.TaskCreatedDocument,
+    "\n    subscription taskUpdated {\n        taskUpdated\n    }\n": types.TaskUpdatedDocument,
+    "\n    subscription taskDeleted {\n        taskDeleted\n    }\n": types.TaskDeletedDocument,
 };
 
 /**
@@ -53,7 +56,19 @@ export function graphql(source: "\n  query TaskById($taskId: String!) {\n    tas
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query TasksByKeywordAndFilters($keyword: String!, $filters: Filters!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"): (typeof documents)["\n  query TasksByKeywordAndFilters($keyword: String!, $filters: Filters!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"];
+export function graphql(source: "\n  query TasksByKeywordAndFilters($keyword: String!, $filters: [String]!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"): (typeof documents)["\n  query TasksByKeywordAndFilters($keyword: String!, $filters: [String]!) {\n    tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {\n      _id\n      description\n      estimatedTime\n      priority\n      review\n      status\n      timeSpent\n      title\n      untilDate\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    subscription taskCreated($keyword: String, $filters: [String]) {\n    taskCreated(keyword: $keyword, filters: $filters)\n    }\n"): (typeof documents)["\n    subscription taskCreated($keyword: String, $filters: [String]) {\n    taskCreated(keyword: $keyword, filters: $filters)\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    subscription taskUpdated {\n        taskUpdated\n    }\n"): (typeof documents)["\n    subscription taskUpdated {\n        taskUpdated\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    subscription taskDeleted {\n        taskDeleted\n    }\n"): (typeof documents)["\n    subscription taskDeleted {\n        taskDeleted\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -17,7 +17,7 @@ export const QUERY_TASK_BY_ID = gql`
 `;
 
 export const QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS = gql`
-  query TasksByKeywordAndFilters($keyword: String!, $filters: Filters!) {
+  query TasksByKeywordAndFilters($keyword: String!, $filters: [String]!) {
     tasksByKeywordAndFilters(keyword: $keyword, filters: $filters) {
       _id
       description
