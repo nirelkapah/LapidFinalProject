@@ -30,7 +30,7 @@ const TaskTableContainer = () => {
     setKeywordAndFilterValues({keyword: searchKeyword , filters: filters});
   }, [filters || searchKeyword]);
 
-  const { data: taskCreated} = useSubscription(TASK_CREATED,{variables: keywordAndFilterValues,});
+  const { data: taskCreated} = useSubscription(TASK_CREATED,{variables: keywordAndFilterValues});
   const { data: taskDeleted} = useSubscription(TASK_DELETED);
   const { data: taskUpdated} = useSubscription(TASK_UPDATED);
 

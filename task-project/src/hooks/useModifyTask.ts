@@ -27,16 +27,18 @@ export const useModifyTask = (task?: Task) => {
       }, [task]);
 
     useEffect(() => {
-    if (formTask.status === "Open") {
-        setFormTask({...formTask, review: '', timeSpent: 0, untilDate: dayjs.utc(new Date())})
-    }
-    else if (formTask.status === "Urgent") {
-        setFormTask({...formTask, review: '', timeSpent: 0})
-    }
+        
+    setFormTask(
+        (formTask.status === "Open") ? 
+        ({...formTask, review: '', timeSpent: 0, untilDate: dayjs.utc(new Date())}) : 
+        (formTask.status === "Urgent") ?
+        ({...formTask, review: '', timeSpent: 0}) : {...formTask}
+        )
+
     }, [formTask.status]);
 
     dayjs.extend(utc);
-
+    
     return {formTask, setFormTask, FormError, setFormError}
 
 }

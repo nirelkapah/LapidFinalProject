@@ -16,14 +16,14 @@ interface verifyDialogBoxProps{
 
 const VerifyDialogBox = ({isDeleteDialogOpen, setIsDeleteDialogOpen, task}: verifyDialogBoxProps) => {
 
-  const setDeleteTask = useDeleteTask({setIsDeleteDialogOpen, taskId: task?._id});
+  const {removeTask} = useDeleteTask({setIsDeleteDialogOpen, taskId: task?._id});
 
   const handleClose = () => {
     setIsDeleteDialogOpen(false);
   };
 
   const onClickYes = () => {
-    setDeleteTask(true);
+    removeTask();
   };
 
   return (

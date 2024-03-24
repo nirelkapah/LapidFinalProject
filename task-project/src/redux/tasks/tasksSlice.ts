@@ -22,10 +22,9 @@ export const tasksSlice = createSlice({
   reducers: {
 
     removeTask: (state: tasksState, action: PayloadAction<string>) => {
-      let temporaryTasksList = [...state.tasks];
-      let removeIndex = temporaryTasksList.map((task) => task._id).indexOf(action.payload);
-      removeIndex !== -1 &&
-      temporaryTasksList.splice(removeIndex, 1);
+      const temporaryTasksList = [...state.tasks];
+      const removeIndex = temporaryTasksList.findIndex(task => task._id === action.payload);
+      removeIndex !== -1 && temporaryTasksList.splice(removeIndex, 1);
       state.tasks = temporaryTasksList;
     },
 

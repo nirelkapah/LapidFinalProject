@@ -12,12 +12,6 @@ interface useDeleteTaskProps {
 export const useDeleteTask = ({setIsDeleteDialogOpen, taskId}: useDeleteTaskProps) => {
     const dispatch = useDispatch();
 
-    const [deleteTask, setDeleteTask] = useState<boolean>(false);
-
-    useEffect(()=> {
-        deleteTask && removeTask();
-    },[deleteTask])
-
     const removeTask = async () => {
         try {
           await deleteTaskMutation();
@@ -28,8 +22,6 @@ export const useDeleteTask = ({setIsDeleteDialogOpen, taskId}: useDeleteTaskProp
           let errorMessage = (err as Error).message;
           dispatch(updateErrorAlertMessage(errorMessage));
         }
-
-        setDeleteTask(false)
       };
     
     const [deleteTaskMutation] = useMutation(DELETE_TASK, {
@@ -38,6 +30,6 @@ export const useDeleteTask = ({setIsDeleteDialogOpen, taskId}: useDeleteTaskProp
         },
       });
 
-    return setDeleteTask
+    return {removeTask}
 
 }
