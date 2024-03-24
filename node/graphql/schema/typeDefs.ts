@@ -38,15 +38,10 @@ enum Status{
     Closed
 }
 
-input Filters { 
-    status: [String]
-    priority: [String]
-}
-
 type Query {
     taskById(id: String!): Task
-    taskByIdKeywordAndFilters(id: String!,keyword: String, filters: Filters): Task
-    tasksByKeywordAndFilters(keyword: String, filters: Filters): [Task]
+    taskByIdKeywordAndFilters(id: String!,keyword: String, filters: [String]): Task
+    tasksByKeywordAndFilters(keyword: String, filters: [String]): [Task]
 }
 
 type Mutation {
@@ -57,7 +52,7 @@ type Mutation {
 }
 
 type Subscription {
-    taskCreated(keyword: String, filters: Filters): String
+    taskCreated(keyword: String, filters: [String]): String
     taskUpdated: String
     taskDeleted: String
 }
