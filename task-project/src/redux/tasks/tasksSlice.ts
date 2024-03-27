@@ -28,6 +28,10 @@ export const tasksSlice = createSlice({
       state.tasks = temporaryTasksList;
     },
 
+    addTask: (state: tasksState, action: PayloadAction<Task>) => {
+      state.tasks.push(action.payload)
+    },
+
     setTasks: (state: tasksState, action: PayloadAction<Task[]>) => {
         state.tasks = action.payload;
         state.error && (state.error = false);
@@ -50,10 +54,11 @@ export const tasksSlice = createSlice({
 export const {
 
   removeTask,
+  addTask,
   setTasks,
   triggerRefetch,
   setTasksError,
-  setTasksLoading
+  setTasksLoading,
 
 } = tasksSlice.actions;
 

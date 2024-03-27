@@ -3,12 +3,13 @@ import { combineEpics } from 'redux-observable';
 import { Observable, concat, from, of } from 'rxjs';
 import { switchMap, catchError, map, filter, mergeMap, startWith } from 'rxjs/operators';
 import { GraphQLClient } from 'graphql-request';
-import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS } from '../../graphql/queries';
+import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS, QUERY_TASK_BY_ID } from '../../graphql/queries';
 import { updateSearchByKeyword, updateFilter} from '../filters/filtersSlice';
 import {triggerRefetch} from '../tasks/tasksSlice'
 import type { RootState} from "../store";
 import { setTasks, setTasksError, setTasksLoading } from '../tasks/tasksSlice';
 import { Action} from 'redux';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 
 const GRAPHQL_ENDPOINT = 'http://localhost:3001/graphql';
@@ -40,8 +41,25 @@ export const fetchTasksEpic = (action$: Observable<Action>, state$: StateObserva
     )
   );
 
+  // export const fetchTaskByIdEpic = (action$: any, state$: StateObservable<RootState>) =>
+  // action$.pipe(
+  //   ofType(
+  //     addTask.type, 
+  //    ),   
+  //   mergeMap(() => {
+  //     console.log(addTask)
+  //     return from(graphqlClient.request(QUERY_TASK_BY_ID,
+  //       { taskId: 'sda', fetchPolicy: 'no-cache' })).pipe(
+  //         map((data: any) => setTasks(data)),
+  //         catchError(() => of(setTasksError(true)))
+  //       );
+      
+  //   })
+  // );
+
 const rootEpic = combineEpics(
-    fetchTasksEpic
+    fetchTasksEpic,
+    // fetchTaskByIdEpic
 );
 
 export default rootEpic;

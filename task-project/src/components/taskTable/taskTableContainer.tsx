@@ -3,8 +3,9 @@ import TaskTable from "./taskTable";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Task } from '../../model/task';
-import { useSubscription} from '@apollo/client';
+import { useSubscription, useQuery} from '@apollo/client';
 import { TASK_CREATED, TASK_UPDATED, TASK_DELETED } from "../../graphql/subscriptions";
+import { QUERY_TASK_BY_ID } from "../../graphql/queries";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Button from "@mui/material/Button";
 import FormDialogBox from "../dialogBox/formDialogBox/formDialogBox";
@@ -12,7 +13,11 @@ import { selectFilters, selectSearchByKeyWord } from "../../redux/filters/filter
 import { Grid, Typography } from "@mui/material";
 import { Filters, keywordAndFilters } from "../../model/filters";
 import { selectTasks, selectTasksError, selectTasksLoading } from "../../redux/tasks/tasksSelectors";
-import { triggerRefetch, removeTask } from "../../redux/tasks/tasksSlice";
+import { triggerRefetch, removeTask, addTask} from "../../redux/tasks/tasksSlice";
+import {apolloClient} from '../../main'
+
+
+
 
 const TaskTableContainer = () => {
 
@@ -20,22 +25,57 @@ const TaskTableContainer = () => {
   const [isFormDialogBoxOpen, setIsFormDialogBoxOpen] = useState<boolean>(false);
   const searchKeyword: string = useSelector(selectSearchByKeyWord);
   const filters: Filters = useSelector(selectFilters);
+  
   const loading : boolean = useSelector(selectTasksLoading);
   const tasksList: Task[] = useSelector(selectTasks);
   const error : boolean = useSelector(selectTasksError);
 
   const [keywordAndFilterValues, setKeywordAndFilterValues] = useState<keywordAndFilters>({keyword: searchKeyword , filters: filters});
+  const [fetchTask, setFetchTask] = useState<string>('');
 
   useEffect(() => {
     setKeywordAndFilterValues({keyword: searchKeyword , filters: filters});
-  }, [filters || searchKeyword]);
-
-  const { data: taskCreated} = useSubscription(TASK_CREATED,{variables: keywordAndFilterValues});
-  const { data: taskDeleted} = useSubscription(TASK_DELETED);
-  const { data: taskUpdated} = useSubscription(TASK_UPDATED);
+  }, [filters, searchKeyword]);
 
   useEffect(() => {
-    taskCreated && dispatch(triggerRefetch())
+    if (fetchTask) {
+      const fetchData = async () => {
+        try {
+          const { data } = await apolloClient.query({
+            query: QUERY_TASK_BY_ID,
+            variables: {taskId: fetchTask},
+            fetchPolicy: 'no-cache',
+          });
+          dispatch(addTask(data.taskById))
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+      fetchData();
+    }
+  }, [fetchTask]); // Only execute when executeQuery changes
+
+  // const isQuery: boolean = () => taskToFetch ? true : false
+
+  const { data: taskCreated} = useSubscription(TASK_CREATED,{variables: keywordAndFilterValues});
+  const { data: taskDeleted} = useSubscription(TASK_DELETED,{variables: keywordAndFilterValues});
+  const { data: taskUpdated} = useSubscription(TASK_UPDATED);
+  // const {data: taskFetchResult, refetch} = useQuery(QUERY_TASK_BY_ID, {fetchPolicy: 'no-cache', skip: !executeQuery});
+
+  // useEffect(() => {
+  //   taskFetchResult && dispatch(addTask(taskFetchResult.taskById))
+  // }, [taskFetchResult]);
+
+  // useEffect(() => {taskToFetch && refetch({taskId: taskToFetch})})
+
+  useEffect(() => {
+    // setExecuteQuery(true);
+    // taskCreated && refetch({taskId: taskCreated.taskCreated})
+    taskCreated && setFetchTask(taskCreated.taskCreated)
+
+      
+    // refetch({taskId: taskCreated.taskCreated});
+    // taskToFetch && refetch();
   }, [taskCreated])
 
   useEffect(() => {

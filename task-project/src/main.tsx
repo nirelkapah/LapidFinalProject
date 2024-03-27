@@ -39,7 +39,7 @@ const splitLink = split(
   httpLink,
 );
 
-const apolloClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache()
 });

@@ -13,7 +13,7 @@ export const TASK_UPDATED  = gql`
 `;
 
 export const TASK_DELETED  = gql`
-    subscription taskDeleted {
-        taskDeleted
+    subscription taskDeleted($keyword: String, $filters: [String]) {
+        taskDeleted(keyword: $keyword, filters: $filters)
     }
 `;
