@@ -1,5 +1,4 @@
 import { Task } from "../model/task";
-import dayjs from "dayjs";
 
 export const createTaskObjectFromServer = (task: Task) => {
     return {
@@ -9,10 +8,10 @@ export const createTaskObjectFromServer = (task: Task) => {
         title: task.title,
         estimatedTime: task.estimatedTime,
         priority: task.priority,
-        timeSpent: task.status === 'Closed' ? task.timeSpent : 0,
+        timeSpent: task.status === 'Closed' ? task.timeSpent : null,
         untilDate: task.status === 'Urgent' || task.status === 'Closed' ?
             task.untilDate :
-            '',
-        review: task.status === 'Closed' ? task.review : ''
+            null,
+        review: task.status === 'Closed' ? task.review : null
     }
 }
