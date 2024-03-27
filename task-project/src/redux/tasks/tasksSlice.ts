@@ -32,18 +32,6 @@ export const tasksSlice = createSlice({
     addTask: (state: tasksState, action: PayloadAction<Task>) => {
 
       const fetchedTask = createTaskObjectFromServer(action.payload)
-
-      // const newTask: Task = {
-      //   _id: action.payload._id,
-      //   title: action.payload.title,
-      //   description: action.payload.description,
-      //   estimatedTime: action.payload.estimatedTime,
-      //   status: action.payload.status,
-      //   priority: action.payload.priority
-      // }
-
-      console.log('NEW TASK OBJECT REDUX: ', fetchedTask)
-
       let temporaryTasksList = [...state.tasks];
       let removeIndex = temporaryTasksList.findIndex(task => task._id === fetchedTask._id);
       removeIndex !== -1 ? 
@@ -65,11 +53,8 @@ export const tasksSlice = createSlice({
 
     setTasksLoading: (state: tasksState, action: PayloadAction<boolean>) => {
       state.loading = action.payload
-  },
+  }}
 
-  triggerRefetch: () => {},
-
-  },
 });
 
 export const {
@@ -77,7 +62,6 @@ export const {
   removeTask,
   addTask,
   setTasks,
-  triggerRefetch,
   setTasksError,
   setTasksLoading,
 

@@ -25,8 +25,6 @@ export const useSendTask = ({formTask, task ,setFormTask, setFormError, setIsOpe
   const sendTask = async () => {
     try {
       (formTask?._id) ? (
-        // console.log('FORM TASK: ', formTask),
-        console.log('OLD TASK: ', task),
         await updateTaskMutation(),
         dispatch(updateSuccessAlertMessage("Task Updated Succesfuly"))) 
         : (

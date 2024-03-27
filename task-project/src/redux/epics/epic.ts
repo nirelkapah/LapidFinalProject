@@ -5,7 +5,6 @@ import { switchMap, catchError, map, filter, mergeMap, startWith } from 'rxjs/op
 import { GraphQLClient } from 'graphql-request';
 import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS, QUERY_TASK_BY_ID } from '../../graphql/queries';
 import { updateSearchByKeyword, updateFilter} from '../filters/filtersSlice';
-import {triggerRefetch} from '../tasks/tasksSlice'
 import type { RootState} from "../store";
 import { setTasks, setTasksError, setTasksLoading } from '../tasks/tasksSlice';
 import { Action} from 'redux';
@@ -24,8 +23,7 @@ export const fetchTasksEpic = (action$: Observable<Action>, state$: StateObserva
   action$.pipe(
     ofType(
       updateSearchByKeyword.type, 
-      updateFilter.type, 
-      triggerRefetch.type ),   
+      updateFilter.type),   
     mergeMap(() => {
       const loadingAction = setTasksLoading(true);
       return concat( //combine observables 

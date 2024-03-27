@@ -13,7 +13,7 @@ import { selectFilters, selectSearchByKeyWord } from "../../redux/filters/filter
 import { Grid, Typography } from "@mui/material";
 import { Filters, keywordAndFilters } from "../../model/filters";
 import { selectTasks, selectTasksError, selectTasksLoading } from "../../redux/tasks/tasksSelectors";
-import { triggerRefetch, removeTask, addTask} from "../../redux/tasks/tasksSlice";
+import { removeTask, addTask} from "../../redux/tasks/tasksSlice";
 import {apolloClient} from '../../main'
 
 const TaskTableContainer = () => {
@@ -22,13 +22,11 @@ const TaskTableContainer = () => {
   const [isFormDialogBoxOpen, setIsFormDialogBoxOpen] = useState<boolean>(false);
   const searchKeyword: string = useSelector(selectSearchByKeyWord);
   const filters: Filters = useSelector(selectFilters);
-  
   const loading : boolean = useSelector(selectTasksLoading);
   const tasksList: Task[] = useSelector(selectTasks);
   const error : boolean = useSelector(selectTasksError);
-
   const [keywordAndFilterValues, setKeywordAndFilterValues] = useState<keywordAndFilters>({keyword: searchKeyword , filters: filters});
-  const [taskToFetchId, setTaskToFetchId] = useState<string>('');
+
   const { data: taskCreated} = useSubscription(TASK_CREATED,{variables: keywordAndFilterValues});
   const { data: taskDeleted} = useSubscription(TASK_DELETED,{variables: keywordAndFilterValues});
   const { data: taskUpdated} = useSubscription(TASK_UPDATED,{variables: keywordAndFilterValues});
@@ -37,16 +35,6 @@ const TaskTableContainer = () => {
     setKeywordAndFilterValues({keyword: searchKeyword , filters: filters});
   }, [filters, searchKeyword]);
 
-
-  // const isQuery: boolean = () => taskToFetch ? true : false
-
-  // const {data: taskFetchResult, refetch} = useQuery(QUERY_TASK_BY_ID, {fetchPolicy: 'no-cache', skip: !executeQuery});
-
-  // useEffect(() => {
-  //   taskFetchResult && dispatch(addTask(taskFetchResult.taskById))
-  // }, [taskFetchResult]);
-
-  // useEffect(() => {taskToFetch && refetch({taskId: taskToFetch})})
   const fetchTask = async (taskId: string) => {
     try {
       const { data } = await apolloClient.query({
@@ -54,7 +42,6 @@ const TaskTableContainer = () => {
         variables: {taskByIdKeywordAndFiltersId: taskId, keyword: searchKeyword, filters: filters},
         fetchPolicy: 'no-cache',
       });
-      console.log(data)
       data.taskByIdKeywordAndFilters ? 
       dispatch(addTask(data.taskByIdKeywordAndFilters)) :
       dispatch(removeTask(taskId))
@@ -64,49 +51,16 @@ const TaskTableContainer = () => {
   };
 
   useEffect(() => {
-    // setExecuteQuery(true);
-    // taskCreated && refetch({taskId: taskCreated.taskCreated})
-    // taskCreated && setTaskToFetchId(taskCreated.taskCreated)
     taskCreated && fetchTask(taskCreated.taskCreated);
-
-      
-    // refetch({taskId: taskCreated.taskCreated});
-    // taskToFetch && refetch();
   }, [taskCreated])
 
   useEffect(() => {
-    console.log(taskUpdated);
     taskUpdated && fetchTask(taskUpdated.taskUpdated)
-
-    // taskUpdated && dispatch(triggerRefetch())
   }, [taskUpdated])
 
   useEffect(() => {
     taskDeleted && dispatch(removeTask(taskDeleted.taskDeleted))
   }, [taskDeleted])
-
-
-
-  // useEffect(() => {
-  //   if (taskToFetchId) {
-  //     const fetchData = async () => {
-  //       try {
-  //         const { data } = await apolloClient.query({
-  //           query: QUERY_TASK_BY_ID_KEYWORD_AND_FILTERS,
-  //           variables: {taskByIdKeywordAndFiltersId: taskToFetchId, keyword: searchKeyword, filters: filters},
-  //           fetchPolicy: 'no-cache',
-  //         });
-  //         console.log(data)
-  //         data.taskByIdKeywordAndFilters ? 
-  //         dispatch(addTask(data.taskByIdKeywordAndFilters)) :
-  //         dispatch(removeTask(taskToFetchId))
-  //       } catch (error) {
-  //         console.error('Error fetching data:', error);
-  //       }
-  //     };
-  //     fetchData();
-  //   }
-  // }, [taskCreated, taskUpdated]); // Only execute when executeQuery changes
 
   const onClickOpenForm = () => {
     setIsFormDialogBoxOpen(true);
