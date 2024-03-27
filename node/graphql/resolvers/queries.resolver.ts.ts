@@ -4,8 +4,8 @@ import { TaskResponse } from '../../models/taskResponse';
 import {QueryTaskByIdArgs, QueryTaskByIdKeywordAndFiltersArgs, QueryTasksByKeywordAndFiltersArgs} from "../../../task-project/src/gql/graphql";
 import { ObjectId } from 'mongodb';
 
-const priority = ['Top', 'Regular', 'Minor'];
-const status = ['Open', 'Closed', 'Urgent']
+export const priorityList = ['Top', 'Regular', 'Minor'];
+export const statusList = ['Open', 'Closed', 'Urgent']
 
 export const queryResolvers = {
     Query:{
@@ -13,6 +13,7 @@ export const queryResolvers = {
           taskById: async (_: any, args: QueryTaskByIdArgs) => {
             try {
               const taskId: string = args.id;
+              console.log('ARGS: ', args)
               const result: any = await tasksCollection.findById(taskId)
               const resultId = new ObjectId(result._id)
     
@@ -25,7 +26,7 @@ export const queryResolvers = {
 
           taskByIdKeywordAndFilters: async (_: any, args: QueryTaskByIdKeywordAndFiltersArgs) => {
             try {
-              
+
               const taskId: string = args.id;
               const reg = new RegExp(args.keyword ? args.keyword : '', "i");
               const filters = args.filters ? args.filters : [];
@@ -39,8 +40,8 @@ export const queryResolvers = {
               { status: reg },
               { review: reg },
               ],})
-              .find({ "status": { "$in": filters.some(filter => status.includes(filter ? filter : '')) ? filters : status } })
-              .find({ "priority": { "$in": filters.some(filter => priority.includes(filter ? filter : '')) ? filters : priority } })
+              .find({ "status": { "$in": filters.some(filter => statusList.includes(filter ? filter : '')) ? filters : statusList } })
+              .find({ "priority": { "$in": filters.some(filter => priorityList.includes(filter ? filter : '')) ? filters : priorityList } })
               .findOne({ "_id": convertedObjectId })
 
               let resultId = undefined;
@@ -67,8 +68,8 @@ export const queryResolvers = {
               { review: reg },
               ],
           })
-          .find({ "status": { "$in": filters.some(filter => status.includes(filter ? filter : '')) ? filters : status } })
-          .find({ "priority": { "$in": filters.some(filter => priority.includes(filter ? filter : '')) ? filters : priority } })
+          .find({ "status": { "$in": filters.some(filter => statusList.includes(filter ? filter : '')) ? filters : statusList } })
+          .find({ "priority": { "$in": filters.some(filter => priorityList.includes(filter ? filter : '')) ? filters : priorityList } })
           
           return tasks.map((task: any) => {
             return { ...task._doc, _id: task.id };

@@ -5,6 +5,7 @@ import {MutationCreateTaskArgs, MutationDeleteTaskArgs, MutationUpdateTaskArgs, 
 import {pubsub} from './subscriptions.resolver.ts'
 import { TaskResponse } from '../../models/taskResponse';
 import { Maybe } from 'graphql/jsutils/Maybe';
+
 // import { Priority, Status } from '../../../task-project/src/gql/graphql';
 enum Priority {
   Top = 'Top',
@@ -17,6 +18,7 @@ enum Status {
   Closed = 'Closed',
   Urgent = 'Urgent'
 }
+
 
 export const mutationResolvers = {
 
@@ -44,7 +46,7 @@ export const mutationResolvers = {
         
               const createdTask: Task = {...result._doc, _id: task.id};
               pubsub.publish('TASK_CREATED', {
-                taskCreated: createdTask._id
+                taskCreated: result
               });
 
               return result;
@@ -59,10 +61,10 @@ export const mutationResolvers = {
 
              const result: Maybe<TaskResponse> = await tasksCollection.findOneAndRemove({ _id: args._id });
 
-             pubsub.publish('TASK_DELETED', {
-              taskDeleted: args._id
+             await pubsub.publish('TASK_DELETED', {
+              taskDeleted: result
             });
-        
+
               return result;
             } catch (err) {
               throw err;
