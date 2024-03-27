@@ -8,7 +8,6 @@ import { updateSearchByKeyword, updateFilter} from '../filters/filtersSlice';
 import type {RootState} from "../store";
 import { setTasks, setTasksError, setTasksLoading } from '../tasks/tasksSlice';
 import { Action} from 'redux';
-import { Task } from '../../model/task';
 import {TasksByKeywordAndFiltersQuery} from '../../gql/graphql'
 
 const GRAPHQL_ENDPOINT = 'http://localhost:3001/graphql';
