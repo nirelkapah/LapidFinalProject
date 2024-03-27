@@ -23,21 +23,14 @@ export const tasksSlice = createSlice({
   reducers: {
 
     removeTask: (state: tasksState, action: PayloadAction<string>) => {
-      const temporaryTasksList = [...state.tasks];
-      const removeIndex = temporaryTasksList.findIndex(task => task._id === action.payload);
-      removeIndex !== -1 && temporaryTasksList.splice(removeIndex, 1);
-      state.tasks = temporaryTasksList;
+      const index = state.tasks.findIndex(task => task._id === action.payload);
+      index !== -1 && (state.tasks.splice(index, 1));
     },
 
     addTask: (state: tasksState, action: PayloadAction<Task>) => {
-
-      const fetchedTask = createTaskObjectFromServer(action.payload)
-      let temporaryTasksList = [...state.tasks];
-      let removeIndex = temporaryTasksList.findIndex(task => task._id === fetchedTask._id);
-      removeIndex !== -1 ? 
-      (temporaryTasksList.splice(removeIndex, 1), 
-      temporaryTasksList.push(fetchedTask),
-      state.tasks = temporaryTasksList) :
+      const fetchedTask = createTaskObjectFromServer(action.payload);
+      const index = state.tasks.findIndex(task => task._id === fetchedTask._id);
+      index !== -1 ? (state.tasks.splice(index, 1), state.tasks.push(fetchedTask)) :
       state.tasks.push(fetchedTask)
     },
 

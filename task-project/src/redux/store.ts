@@ -7,12 +7,6 @@ import rootEpic from './epics/epic'; // your root epic file
 
 
 const epicMiddleware = createEpicMiddleware();
-// const middleware = [
-//   ...getDefaultMiddleware({
-//     serializableCheck: false // this is optional, if you want to disable serializableCheck
-//   }),
-//   epicMiddleware
-// ];
 
 export const store = configureStore({
   reducer: {

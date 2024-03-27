@@ -5,11 +5,10 @@ import { switchMap, catchError, map, filter, mergeMap, startWith } from 'rxjs/op
 import { GraphQLClient } from 'graphql-request';
 import { QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS, QUERY_TASK_BY_ID } from '../../graphql/queries';
 import { updateSearchByKeyword, updateFilter} from '../filters/filtersSlice';
-import type { RootState} from "../store";
+import type {RootState} from "../store";
 import { setTasks, setTasksError, setTasksLoading } from '../tasks/tasksSlice';
 import { Action} from 'redux';
-import { PayloadAction } from '@reduxjs/toolkit';
-
+import {TasksByKeywordAndFiltersQuery} from '../../gql/graphql'
 
 const GRAPHQL_ENDPOINT = 'http://localhost:3001/graphql';
 
@@ -19,7 +18,7 @@ const graphqlClient = new GraphQLClient(GRAPHQL_ENDPOINT, {
     },
   });
 
-export const fetchTasksEpic = (action$: Observable<Action>, state$: StateObservable<RootState>) =>
+export const fetchTasksEpic: Epic<Action<any>, Action<any>, RootState, any> = (action$, state$) =>
   action$.pipe(
     ofType(
       updateSearchByKeyword.type, 
@@ -30,8 +29,8 @@ export const fetchTasksEpic = (action$: Observable<Action>, state$: StateObserva
       of(loadingAction),
       from(graphqlClient.request(QUERY_TASKS_LIST_BY_KEYWORD_AND_FILTERS,
         { keyword: state$.value.filtersState.searchByKeyword , filters: state$.value.filtersState.filterBy , fetchPolicy: 'no-cache' })).pipe(
-        map((data: any) => setTasks(data.tasksByKeywordAndFilters)), 
-        catchError(() => of(setTasksError(true))),
+          map((data: any) => setTasks(data.tasksByKeywordAndFilters)), // Dispatch tasks list on success
+          catchError(() => of(setTasksError(true))) // Dispatch error boolean on failure,
       ),
       of(setTasksLoading(false))
       )
@@ -39,25 +38,8 @@ export const fetchTasksEpic = (action$: Observable<Action>, state$: StateObserva
     )
   );
 
-  // export const fetchTaskByIdEpic = (action$: any, state$: StateObservable<RootState>) =>
-  // action$.pipe(
-  //   ofType(
-  //     addTask.type, 
-  //    ),   
-  //   mergeMap(() => {
-  //     console.log(addTask)
-  //     return from(graphqlClient.request(QUERY_TASK_BY_ID,
-  //       { taskId: 'sda', fetchPolicy: 'no-cache' })).pipe(
-  //         map((data: any) => setTasks(data)),
-  //         catchError(() => of(setTasksError(true)))
-  //       );
-      
-  //   })
-  // );
+const rootEpic = combineEpics(fetchTasksEpic);
 
-const rootEpic = combineEpics(
-    fetchTasksEpic,
-    // fetchTaskByIdEpic
-);
+
 
 export default rootEpic;
