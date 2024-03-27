@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Task } from "../../model/task";
 import {createTaskObjectFromServer} from '../../utils/taskObject'
+
 export interface tasksState {
   tasks: Task[];
   error: boolean;
