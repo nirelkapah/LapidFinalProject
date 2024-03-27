@@ -1,6 +1,6 @@
-import { Task } from "../../task-project/src/gql/graphql";
+import { InputMaybe, Task } from "../../task-project/src/gql/graphql";
 
-export const isTaskMatchFilters = (task: Task, keyword: string, filters: []) => {
+export const isTaskMatchFilters = (task: Task, keyword: string, filters: InputMaybe<string>[]) => {
 
     const keywordResult: boolean = keyword === '' ? true : 
     (task.description.includes(keyword) || 

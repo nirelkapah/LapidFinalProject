@@ -52,9 +52,9 @@ type Mutation {
 }
 
 type Subscription {
-    taskCreated(keyword: String, filters: [String]): String
-    taskUpdated(keyword: String, filters: [String]): String
-    taskDeleted(keyword: String, filters: [String]): String
+    taskCreated(keyword: String!, filters: [String]!): String
+    taskUpdated(keyword: String!, filters: [String]!): String
+    taskDeleted(keyword: String!, filters: [String]!): String
 }
 
 `;

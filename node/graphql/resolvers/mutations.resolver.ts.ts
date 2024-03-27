@@ -5,19 +5,7 @@ import {MutationCreateTaskArgs, MutationDeleteTaskArgs, MutationUpdateTaskArgs, 
 import {pubsub} from './subscriptions.resolver.ts'
 import { TaskResponse } from '../../models/taskResponse';
 import { Maybe } from 'graphql/jsutils/Maybe';
-
-// import { Priority, Status } from '../../../task-project/src/gql/graphql';
-enum Priority {
-  Top = 'Top',
-  Regular = 'Regular',
-  Minor = 'Minor'
-}
-
-enum Status {
-  Open = 'Open',
-  Closed = 'Closed',
-  Urgent = 'Urgent'
-}
+import { Status } from '../../../task-project/src/gql/graphql';
 
 
 export const mutationResolvers = {
@@ -44,7 +32,6 @@ export const mutationResolvers = {
               (args.taskInput.status === Status.Closed || args.taskInput.status === Status.Urgent) && (task.untilDate = args.taskInput.untilDate);
               const result: any = await task.save();
         
-              const createdTask: Task = {...result._doc, _id: task.id};
               pubsub.publish('TASK_CREATED', {
                 taskCreated: result
               });

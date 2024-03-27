@@ -3,9 +3,7 @@ import {tasksCollection} from '../../models/task';
 import { TaskResponse } from '../../models/taskResponse';
 import {QueryTaskByIdArgs, QueryTaskByIdKeywordAndFiltersArgs, QueryTasksByKeywordAndFiltersArgs} from "../../../task-project/src/gql/graphql";
 import { ObjectId } from 'mongodb';
-
-export const priorityList = ['Top', 'Regular', 'Minor'];
-export const statusList = ['Open', 'Closed', 'Urgent']
+import {priorityList, statusList} from '../../../task-project/src/model/filters'
 
 export const queryResolvers = {
     Query:{
