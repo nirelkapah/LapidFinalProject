@@ -7,12 +7,13 @@ import { CREATE_TASK, UPDATE_TASK } from "../graphql/mutations";
 
 interface useSendTaskProps{
     formTask: Task, 
+    task?: Task,
     setFormTask: Dispatch<SetStateAction<Task>>, 
     setFormError: Dispatch<SetStateAction<string>>,
     setIsOpenForm: Dispatch<SetStateAction<boolean>>
 }
 
-export const useSendTask = ({formTask ,setFormTask, setFormError, setIsOpenForm}: useSendTaskProps) => {
+export const useSendTask = ({formTask, task ,setFormTask, setFormError, setIsOpenForm}: useSendTaskProps) => {
 
   const dispatch = useDispatch();
   const [isSendTask, setIsSendTask] = useState<boolean>(false);
@@ -24,6 +25,8 @@ export const useSendTask = ({formTask ,setFormTask, setFormError, setIsOpenForm}
   const sendTask = async () => {
     try {
       (formTask?._id) ? (
+        // console.log('FORM TASK: ', formTask),
+        console.log('OLD TASK: ', task),
         await updateTaskMutation(),
         dispatch(updateSuccessAlertMessage("Task Updated Succesfuly"))) 
         : (
@@ -45,7 +48,7 @@ export const useSendTask = ({formTask ,setFormTask, setFormError, setIsOpenForm}
     sentSuccesfuly && setFormTask({status:'', description:'', title:'', estimatedTime:0, priority:''});
   }
   
-  const [updateTaskMutation] = useMutation(UPDATE_TASK, {variables: {taskInput: formTask}});
+  const [updateTaskMutation] = useMutation(UPDATE_TASK, {variables: {taskInput: formTask, oldTaskInput: task}});
   const [createTaskMutation] = useMutation(CREATE_TASK, {variables: {taskInput: formTask},});
 
   return {setIsSendTask}

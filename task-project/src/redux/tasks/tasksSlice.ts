@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Task } from "../../model/task";
+import {createTaskObjectFromServer} from '../../utils/taskObject'
 export interface tasksState {
   tasks: Task[];
   error: boolean;
@@ -29,7 +30,27 @@ export const tasksSlice = createSlice({
     },
 
     addTask: (state: tasksState, action: PayloadAction<Task>) => {
-      state.tasks.push(action.payload)
+
+      const fetchedTask = createTaskObjectFromServer(action.payload)
+
+      // const newTask: Task = {
+      //   _id: action.payload._id,
+      //   title: action.payload.title,
+      //   description: action.payload.description,
+      //   estimatedTime: action.payload.estimatedTime,
+      //   status: action.payload.status,
+      //   priority: action.payload.priority
+      // }
+
+      console.log('NEW TASK OBJECT REDUX: ', fetchedTask)
+
+      let temporaryTasksList = [...state.tasks];
+      let removeIndex = temporaryTasksList.findIndex(task => task._id === fetchedTask._id);
+      removeIndex !== -1 ? 
+      (temporaryTasksList.splice(removeIndex, 1), 
+      temporaryTasksList.push(fetchedTask),
+      state.tasks = temporaryTasksList) :
+      state.tasks.push(fetchedTask)
     },
 
     setTasks: (state: tasksState, action: PayloadAction<Task[]>) => {

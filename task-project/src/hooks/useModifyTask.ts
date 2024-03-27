@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { createTaskObjectFromServer } from "../utils/taskObject";
 import { Task } from "../model/task";
 import utc from "dayjs/plugin/utc";
 import dayjs from "dayjs";
@@ -38,7 +39,7 @@ export const useModifyTask = (task?: Task) => {
     }, [formTask.status]);
 
     dayjs.extend(utc);
-    
+
     return {formTask, setFormTask, FormError, setFormError}
 
 }

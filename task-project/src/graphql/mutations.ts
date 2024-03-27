@@ -17,8 +17,8 @@ export const CREATE_TASK = gql`
 `;
 
 export const UPDATE_TASK = gql`
-mutation UpdateTask($taskInput: TaskInput!) {
-  updateTask(taskInput: $taskInput) {
+mutation UpdateTask($taskInput: TaskInput!, $oldTaskInput: TaskInput!) {
+  updateTask(taskInput: $taskInput, oldTaskInput: $oldTaskInput) {
     _id
     description
     estimatedTime

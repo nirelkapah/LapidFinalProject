@@ -28,7 +28,7 @@ interface formDialogBoxProps {
 const FormDialogBox = ({isOpenForm, setIsOpenForm, task }: formDialogBoxProps) => {
 
   const {formTask, setFormTask, FormError, setFormError} = useModifyTask(task);
-  const {setIsSendTask} = useSendTask({formTask, setFormTask, setFormError, setIsOpenForm})
+  const {setIsSendTask} = useSendTask({formTask, task, setFormTask, setFormError, setIsOpenForm})
 
   const onClickSendTask = () => setIsSendTask(true);
 

@@ -7,8 +7,8 @@ export const TASK_CREATED  = gql`
 `;
 
 export const TASK_UPDATED  = gql`
-    subscription taskUpdated {
-        taskUpdated
+    subscription taskUpdated($keyword: String, $filters: [String]) {
+        taskUpdated(keyword: $keyword, filters: $filters)
     }
 `;
 
