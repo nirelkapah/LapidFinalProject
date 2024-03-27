@@ -13,7 +13,6 @@ export const queryResolvers = {
           taskById: async (_: any, args: QueryTaskByIdArgs) => {
             try {
               const taskId: string = args.id;
-              console.log('ARGS: ', args)
               const result: any = await tasksCollection.findById(taskId)
               const resultId = new ObjectId(result._id)
     
@@ -46,7 +45,7 @@ export const queryResolvers = {
 
               let resultId = undefined;
               result &&  (resultId = new ObjectId(result._id).toString());
-              return {...result._doc,_id: resultId};
+              return result ? {...result._doc,_id: resultId}: null;
   
             } catch (err) {
               throw err;

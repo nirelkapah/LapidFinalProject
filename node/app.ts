@@ -14,6 +14,7 @@ const {ApolloServer} = require('apollo-server-express')
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 import { execute, subscribe } from 'graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import { EventEmitter } from 'events'
 // import { ApolloServer } from 'apollo-server'
 //===============================ON SERVER START =============================
 
@@ -71,6 +72,9 @@ const corsOptions = {
 
   await apolloServer.start();
   apolloServer.applyMiddleware({ app });
+
+  const emitter = new EventEmitter()
+  emitter.setMaxListeners(0)
 
   const connectToDatabase = async (): Promise<void> => {
     try {

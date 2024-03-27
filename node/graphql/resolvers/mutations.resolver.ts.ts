@@ -72,9 +72,8 @@ export const mutationResolvers = {
           },
         
           //Update Existing Task
-          updateTask: async (_: any, args: MutationUpdateTaskArgs) => {
+          updateTask: async (_: any, args: any) => {
             try {
-
               args.taskInput.status === Status.Open ? await openTaskAuthSchema.validateAsync(args.taskInput) :
               args.taskInput.status === Status.Urgent ? await UrgentTaskAuthSchema.validateAsync(args.taskInput) :
               args.taskInput.status === Status.Closed && await closedTaskAuthSchema.validateAsync(args.taskInput)
@@ -109,8 +108,8 @@ export const mutationResolvers = {
               );
 
               pubsub.publish('TASK_UPDATED', {
-                taskUpdated: args.taskInput._id,
-                filterCondition: true
+                taskUpdated: args.taskInput,
+                oldTask: args.oldTaskInput
               });
 
               return result;

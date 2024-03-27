@@ -47,13 +47,13 @@ type Query {
 type Mutation {
     createTask(taskInput: TaskInput!): Task
     deleteTask(_id: String!): Task
-    updateTask(taskInput: TaskInput!): Task
+    updateTask(taskInput: TaskInput!, oldTaskInput: TaskInput!): Task
 
 }
 
 type Subscription {
     taskCreated(keyword: String, filters: [String]): String
-    taskUpdated: String
+    taskUpdated(keyword: String, filters: [String]): String
     taskDeleted(keyword: String, filters: [String]): String
 }
 

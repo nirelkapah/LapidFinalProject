@@ -7,7 +7,7 @@ import { statusList , priorityList} from './queries.resolver.ts';
 export const pubsub = new PubSub();
 
 const isTaskMatchFilters = (task: Task, keyword: string, filters: []) => {
-    
+
     const keywordResult: boolean = keyword === '' ? true : 
     (task.description.includes(keyword) || 
     task.review?.includes(keyword) || 
@@ -25,28 +25,21 @@ export const subscriptionResolvers = {
     Subscription: {
         taskCreated: {
             subscribe: withFilter(() => pubsub.asyncIterator('TASK_CREATED'), async (payload, variables: any) => {
-                    // const taskById = await queryResolvers.Query.taskByIdKeywordAndFilters('', {id: payload.taskCreated, keyword: variables.keyword, filters: variables.filters})
-                    // return taskById._id === payload.taskCreated;
-                    // console.log('PAYLOAD: ', payload)
-                    const result = isTaskMatchFilters(payload.taskCreated, variables.keyword, variables.filters)
-                    return result;
+                    return isTaskMatchFilters(payload.taskCreated, variables.keyword, variables.filters);
             }),
             resolve: (payload: any) => {
-                console.log(payload)
                 return payload.taskCreated._id;
             },
         }
         ,
         taskDeleted: {
             subscribe: withFilter(() => pubsub.asyncIterator('TASK_DELETED'), async (payload, variables: any) => {
-                const result = isTaskMatchFilters(payload.taskDeleted, variables.keyword, variables.filters)
-                return result;
+                return isTaskMatchFilters(payload.taskDeleted, variables.keyword, variables.filters);
 
-
-        }),
-        resolve: (payload: any) => {
-          return payload.taskDeleted._id;
-        },
+            }),
+            resolve: (payload: any) => {
+            return payload.taskDeleted._id;
+            },
         },
 
         taskUpdated: {
@@ -59,7 +52,20 @@ export const subscriptionResolvers = {
             //     console.log(payload.filterCondition)
             //     return payload.filterCondition ? 'ADD ' + payload.taskUpdated : 'REMOVE ' + payload.taskUpdated
             // }
-            subscribe: () => pubsub.asyncIterator(['TASK_UPDATED']),
+            subscribe: withFilter(() => pubsub.asyncIterator('TASK_UPDATED'), async (payload, variables: any) => {
+                // console.log('PAYLOAD: ', payload);
+                // console.log('VARIABLES: ', variables)
+                    const updatedTaskMatch = isTaskMatchFilters(payload.taskUpdated, variables.keyword, variables.filters);
+                    const oldTaskMatch = isTaskMatchFilters(payload.oldTask, variables.keyword, variables.filters);
+
+                    // console.log('updatedTaskResult: ', updatedTaskMatch);
+                    // console.log('oldTaskResult: ', oldTaskMatch);
+
+                    return (updatedTaskMatch || oldTaskMatch);
+            }),
+            resolve: (payload: any) => {
+                return payload.taskUpdated._id;
+            },
 
         }
     } 
